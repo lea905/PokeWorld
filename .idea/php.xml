@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="MessDetectorOptionsConfiguration">
+    <option name="transferred" value="true" />
+  </component>
+  <component name="PHPCSFixerOptionsConfiguration">
+    <option name="transferred" value="true" />
+  </component>
+  <component name="PHPCodeSnifferOptionsConfiguration">
+    <option name="highlightLevel" value="WARNING" />
+    <option name="transferred" value="true" />
+  </component>
+  <component name="PhpIncludePathManager">
+    <include_path>
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/theseer/tokenizer" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/phpunit/php-code-coverage" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/phpunit/php-file-iterator" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/monolog/monolog" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/phpunit/php-invoker" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/phpunit/php-text-template" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/phpunit/phpunit" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/phpunit/php-timer" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/sebastian/type" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/sebastian/diff" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/sebastian/lines-of-code" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/sebastian/object-enumerator" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/sebastian/comparator" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/sebastian/exporter" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/sebastian/cli-parser" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/myclabs/deep-copy" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/sebastian/version" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/sebastian/complexity" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/sebastian/recursion-context" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/sebastian/global-state" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/sebastian/environment" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/sebastian/object-reflector" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/composer" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/phpdocumentor/reflection-docblock" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/phpdocumentor/type-resolver" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/phpdocumentor/reflection-common" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/psr/clock" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/psr/link" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/psr/event-dispatcher" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/psr/cache" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/psr/log" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/psr/container" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/phpstan/phpdoc-parser" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/doctrine/lexer" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/doctrine/deprecations" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/staabm/side-effects-detector" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/doctrine/event-manager" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/doctrine/instantiator" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/doctrine/dbal" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/doctrine/cache" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/symfony/cache-contracts" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/doctrine/orm" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/symfony/clock" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/doctrine/doctrine-bundle" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/symfony/deprecation-contracts" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/doctrine/collections" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/symfony/runtime" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/doctrine/persistence" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/symfony/asset-mapper" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/doctrine/sql-formatter" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/symfony/form" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/doctrine/inflector" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/symfony/cache" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/doctrine/migrations" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/symfony/monolog-bundle" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/doctrine/doctrine-migrations-bundle" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/symfony/polyfill-intl-grapheme" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/symfony/css-selector" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/symfony/var-exporter" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/webmozart/assert" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/symfony/security-core" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/symfony/property-info" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/symfony/property-access" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/symfony/event-dispatcher-contracts" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/symfony/password-hasher" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/symfony/security-csrf" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/symfony/stopwatch" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/symfony/flex" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/egulias/email-validator" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/symfony/options-resolver" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/symfony/event-dispatcher" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/symfony/var-dumper" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/symfony/http-foundation" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/symfony/framework-bundle" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/symfony/translation-contracts" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/symfony/dom-crawler" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/symfony/validator" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/symfony/service-contracts" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/twig/twig" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/symfony/security-bundle" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/twig/extra-bundle" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/symfony/translation" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/symfony/type-info" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/symfony/web-link" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/symfony/stimulus-bundle" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/symfony/finder" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/symfony/http-client-contracts" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/symfony/intl" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/symfony/routing" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/symfony/http-client" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/symfony/polyfill-php84" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/symfony/polyfill-php83" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/symfony/monolog-bridge" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/symfony/doctrine-bridge" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/phar-io/version" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/symfony/polyfill-intl-normalizer" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/phar-io/manifest" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/symfony/dependency-injection" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/symfony/config" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/symfony/mime" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/symfony/mailer" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/symfony/security-http" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/symfony/debug-bundle" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/symfony/error-handler" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/symfony/filesystem" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/symfony/twig-bundle" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/symfony/polyfill-intl-idn" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/symfony/web-profiler-bundle" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/nikic/php-parser" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/symfony/doctrine-messenger" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/symfony/maker-bundle" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/symfony/console" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/symfony/http-kernel" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/symfony/browser-kit" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/symfony/messenger" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/symfony/notifier" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/symfony/ux-turbo" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/symfony/polyfill-intl-icu" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/symfony/string" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/symfony/serializer" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/symfony/twig-bridge" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/symfony/yaml" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/symfony/polyfill-mbstring" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/symfony/process" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/symfony/asset" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/symfony/dotenv" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/symfony/expression-language" />
+      <path value="$PROJECT_DIR$/PokeWorld/vendor/masterminds/html5" />
+    </include_path>
+  </component>
+  <component name="PhpProjectSharedConfiguration" php_language_level="8.4">
+    <option name="suggestChangeDefaultLanguageLevel" value="false" />
+  </component>
+  <component name="PhpStanOptionsConfiguration">
+    <option name="transferred" value="true" />
+  </component>
+  <component name="PhpUnit">
+    <phpunit_settings>
+      <PhpUnitSettings custom_loader_path="$PROJECT_DIR$/PokeWorld/vendor/autoload.php" />
+    </phpunit_settings>
+  </component>
+  <component name="PsalmOptionsConfiguration">
+    <option name="transferred" value="true" />
+  </component>
+</project>
