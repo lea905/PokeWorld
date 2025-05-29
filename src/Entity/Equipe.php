@@ -21,7 +21,7 @@ class Equipe
     private ?Dresseur $dresseur = null;
 
     #[ORM\ManyToOne(targetEntity: Pokemon::class, inversedBy: 'equipes')]
-    #[ORM\JoinColumn(name: "idPokemon", referencedColumnName: "idPokemon", nullable: false)]
+    #[ORM\JoinColumn(name: "idPokemon", referencedColumnName: "id_pokemon", nullable: false)]
     private ?Pokemon $pokemon = null;
 
 

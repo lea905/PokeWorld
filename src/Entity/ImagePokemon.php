@@ -27,7 +27,7 @@ class ImagePokemon
     }
 
     #[ORM\ManyToOne(targetEntity: Pokemon::class, inversedBy: 'images')]
-    #[ORM\JoinColumn(name: "idPokemon", referencedColumnName: "idPokemon", nullable: false)]
+    #[ORM\JoinColumn(name: "idPokemon", referencedColumnName: "id_pokemon", nullable: false)]
     private ?Pokemon $pokemon = null;
 
     #[ORM\Column(length: 255)]
