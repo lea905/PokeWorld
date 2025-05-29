@@ -37,9 +37,10 @@ class Arene
         return $this->champion;
     }
 
-    public function setChampion(?Dresseur $champion): void
+    public function setChampion(?Dresseur $champion): Arene
     {
         $this->champion = $champion;
+        return $this;
     }
 
 

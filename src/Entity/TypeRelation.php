@@ -43,11 +43,11 @@ class TypeRelation
     }
 
     #[ORM\ManyToOne(targetEntity: Type::class, inversedBy: 'relationsEnAttaque')]
-    #[ORM\JoinColumn(name: "idTypeAttaquant", referencedColumnName: "idType", nullable: false)]
+    #[ORM\JoinColumn(name: "idTypeAttaquant", referencedColumnName: "id", nullable: false)]
     private ?Type $typeAttaquant = null;
 
     #[ORM\ManyToOne(targetEntity: Type::class, inversedBy: 'relationsEnDefense')]
-    #[ORM\JoinColumn(name: "idTypeDefenseur", referencedColumnName: "idType", nullable: false)]
+    #[ORM\JoinColumn(name: "idTypeDefenseur", referencedColumnName: "id", nullable: false)]
     private ?Type $typeDefenseur = null;
 
     public function getId(): ?int

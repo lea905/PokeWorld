@@ -15,7 +15,7 @@ class Pokemon
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[ORM\Column(name: "id_pokemon")]
     private ?int $idPokemon = null;
 
     #[ORM\Column(length: 255)]
@@ -31,12 +31,12 @@ class Pokemon
     private ?int $generation = null;
 
     #[ORM\ManyToOne(targetEntity: Type::class)]
-    #[ORM\JoinColumn(name: "type1", referencedColumnName: "idType", nullable: false)]
+    #[ORM\JoinColumn(name: "type1", referencedColumnName: "id", nullable: false)]
     private ?Type $type1 = null;
 
 
     #[ORM\ManyToOne(targetEntity: Type::class)]
-    #[ORM\JoinColumn(name: "type2", referencedColumnName: "idType", nullable: true)]
+    #[ORM\JoinColumn(name: "type2", referencedColumnName: "id", nullable: true)]
     private ?Type $type2 = null;
 
     #[ORM\Column(type: Types::TEXT)]
@@ -55,7 +55,7 @@ class Pokemon
     private ?bool $dynamaxPossible = null;
 
     #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'evolutionsSuivantes')]
-    #[ORM\JoinColumn(name: "idEvolutionPrecedente", referencedColumnName: "idPokemon", nullable: true)]
+    #[ORM\JoinColumn(name: "idEvolutionPrecedente", referencedColumnName: "id_pokemon", nullable: true)]
     private ?Pokemon $evolutionPrecedente = null;
 
     #[ORM\OneToMany(mappedBy: 'evolutionPrecedente', targetEntity: self::class)]
@@ -63,6 +63,27 @@ class Pokemon
 
     #[ORM\OneToMany(mappedBy: 'pokemon', targetEntity: Equipe::class)]
     private Collection $equipes;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $crySoundUrl = null;
+
+    #[ORM\Column]
+    private ?int $pv = null;
+
+    #[ORM\Column]
+    private ?int $attaque = null;
+
+    #[ORM\Column]
+    private ?int $defense = null;
+
+    #[ORM\Column]
+    private ?int $attaqueSpe = null;
+
+    #[ORM\Column]
+    private ?int $defenceSpe = null;
+
+    #[ORM\Column]
+    private ?int $vitesse = null;
 
 
     public function __construct()
@@ -112,27 +133,6 @@ class Pokemon
     {
         $this->equipes = $equipes;
     }
-
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $crySoundUrl = null;
-
-    #[ORM\Column]
-    private ?int $pv = null;
-
-    #[ORM\Column]
-    private ?int $attaque = null;
-
-    #[ORM\Column]
-    private ?int $defense = null;
-
-    #[ORM\Column]
-    private ?int $attaqueSpe = null;
-
-    #[ORM\Column]
-    private ?int $defenceSpe = null;
-
-    #[ORM\Column]
-    private ?int $vitesse = null;
 
     public function getIdPokemon(): ?int
     {
