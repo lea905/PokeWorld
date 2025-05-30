@@ -1,3 +1,13 @@
-body {
-    background-color: white;
+.custom-btn {
+    background-color: rgba(200, 190, 210, 0.8);
+    border: none;
+    border-radius: 25px;
+    padding: 20px 40px;
+    font-size: 1.2rem;
+    color: white;
+    transition: 0.3s;
+}
+
+.custom-btn:hover {
+    background-color: rgba(180, 170, 190, 1);
 }
