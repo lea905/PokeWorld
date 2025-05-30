@@ -1,54 +1,57 @@
-<nav class="navbar navbar-expand-lg bg-black shadow-sm pb-0" aria-label="Offcanvas navbar large">
-    <div class="dropdown">
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-            Pokédex
-        </button>
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Autre action</a></li>
-            <li><a class="dropdown-item" href="#">Quelque chose d'autre</a></li>
-        </ul>
-    </div>
-    <div class="dropdown">
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-            Dresseure
-        </button>
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Autre action</a></li>
-            <li><a class="dropdown-item" href="#">Quelque chose d'autre</a></li>
-        </ul>
-    </div>
-    <div class="dropdown">
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-            Arène
-        </button>
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Autre action</a></li>
-            <li><a class="dropdown-item" href="#">Quelque chose d'autre</a></li>
-        </ul>
-    </div>
-    <div class="dropdown">
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-            Lieu
-        </button>
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Autre action</a></li>
-            <li><a class="dropdown-item" href="#">Quelque chose d'autre</a></li>
-        </ul>
-    </div>
-    <div class="dropdown">
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-            Table des types
-        </button>
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Autre action</a></li>
-            <li><a class="dropdown-item" href="#">Quelque chose d'autre</a></li>
-        </ul>
-    </div>
+<nav class="navbar navbar-expand-lg bg-primary-subtle border-bottom py-4">
+    <div class="container-fluid">
 
+        <!-- Logo -->
+        <a class="navbar-brand" href="{{ path('app_home_index') }}">
+            <img src="{{ asset('images/logo.png') }}" alt="Logo Pokédex" class="img-fluid" style="max-width: 150px;">
+        </a>
 
+        <!-- Toggler -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Menu -->
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto gap-3">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        Pokédex
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="{{ path('app_pokedex_index') }}" >Tous les Pokémon</a></li>
+                        <li><a class="dropdown-item">1ère génération</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        Dresseur
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" >Tous les dresseurs</a></li>
+                        <li><a class="dropdown-item">Dresseurs</a></li>
+                        <li><a class="dropdown-item" >Champions</a></li>
+                        <li><a class="dropdown-item" >Méchants</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" >Arène</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link">Lieu</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link">Tableau des types</a>
+                </li>
+            </ul>
+        </div>
+    </div>
 </nav>

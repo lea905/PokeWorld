@@ -1,10 +1,25 @@
 {% extends 'base.html.twig' %}
-
-{% block title %}Test Menu déroulant{% endblock %}
-
 {% block body %}
-    <div class="container mt-5">
-        <h1 class="mb-4">Teste</h1>
+    <div class="justify-content-center align-items-center text-center">
+        <h1 class="fw-bold text-black m-5">Bienvenue</h1>
 
+        <div class="container">
+            <div class="row justify-content-center mb-4">
+                <div class="col-6 col-md-3 d-flex justify-content-center mb-3">
+                    <a href="{{ path('app_pokedex_index') }}" class="btn custom-btn w-100">Pokédex</a>
+                </div>
+                <div class="col-6 col-md-3 d-flex justify-content-center mb-3">
+                    <a href="#" class="btn custom-btn w-100">Dresseure</a>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-6 col-md-3 d-flex justify-content-center mb-3">
+                    <a href="#" class="btn custom-btn w-100">Arène</a>
+                </div>
+                <div class="col-6 col-md-3 d-flex justify-content-center mb-3">
+                    <a href="#" class="btn custom-btn w-100">Lieu</a>
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}
