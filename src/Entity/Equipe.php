@@ -24,7 +24,6 @@ class Equipe
     #[ORM\JoinColumn(name: "idPokemon", referencedColumnName: "id_pokemon", nullable: false)]
     private ?Pokemon $pokemon = null;
 
-
     public function getDresseur(): ?Dresseur
     {
         return $this->dresseur;
@@ -33,6 +32,10 @@ class Equipe
     public function setDresseur(?Dresseur $dresseur): void
     {
         $this->dresseur = $dresseur;
+
+        if ($dresseur !== null && !$dresseur->getEquipe()->contains($this)) {
+            $dresseur->addEquipe($this);
+        }
     }
 
     public function getPokemon(): ?Pokemon
@@ -49,7 +52,6 @@ class Equipe
     {
         return $this->id;
     }
-
 
     public function getNiveau(): ?int
     {

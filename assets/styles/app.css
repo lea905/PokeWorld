@@ -11,3 +11,18 @@
 .custom-btn:hover {
     background-color: rgba(180, 170, 190, 1);
 }
+
+.truncate-2-lines {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Nombre de lignes max */
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+}
+
+.img-fixe {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 8px;
+}

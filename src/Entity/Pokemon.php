@@ -44,10 +44,6 @@ class Pokemon
 
     #[ORM\Column(length: 255)]
     private ?string $imagePrincipale = null;
-
-    #[ORM\OneToMany(mappedBy: 'pokemon', targetEntity: ImagePokemon::class)]
-    private Collection $images;
-
     #[ORM\Column]
     private ?bool $megaEvolutionPossible = null;
 
@@ -102,16 +98,6 @@ class Pokemon
     public function setEvolutionPrecedente(?Pokemon $evolutionPrecedente): void
     {
         $this->evolutionPrecedente = $evolutionPrecedente;
-    }
-
-    public function getImages(): Collection
-    {
-        return $this->images;
-    }
-
-    public function setImages(Collection $images): void
-    {
-        $this->images = $images;
     }
 
     public function getEvolutionsSuivantes(): Collection

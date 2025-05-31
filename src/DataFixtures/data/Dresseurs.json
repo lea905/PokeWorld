@@ -1,0 +1,74 @@
+[
+  {
+    "nom": "Ketchum",
+    "prenom": "Sacha",
+    "lieuOrigine": "Bourg Palette",
+    "ambition": "Devenir Maître Pokémon",
+    "description": "Le héros de la série, un jeune dresseur déterminé à capturer tous les Pokémon.",
+    "image": "dresseurs/sacha.png"
+  },
+  {
+    "nom": "",
+    "prenom": "Pierre",
+    "lieuOrigine": "Argenta",
+    "ambition": "Champion d’arène spécialiste des Pokémon Roche",
+    "description": "Champion d’arène reconnu pour ses Pokémon Roche solides.",
+    "image": "dresseurs/pierre.png"
+  },
+  {
+    "nom": "",
+    "prenom": "Ondine",
+    "lieuOrigine": "Azuria",
+    "ambition": "Championne d’arène spécialiste des Pokémon Eau",
+    "description": "Championne d’arène experte dans les Pokémon Eau, passionnée et compétitive.",
+    "image": "dresseurs/ondine.png"
+  },
+  {
+    "nom": "",
+    "prenom": "Erika",
+    "lieuOrigine": "Safrania",
+    "ambition": "Championne d’arène spécialiste des Pokémon Plante",
+    "description": "Championne d’arène et grande amoureuse des plantes.",
+    "image": "dresseurs/erika.png"
+  },
+  {
+    "nom": "",
+    "prenom": "Major Bob",
+    "lieuOrigine": "Cramois'Île",
+    "ambition": "Champion d’arène spécialiste des Pokémon Combat",
+    "description": "Un champion d’arène très sérieux et fort dans les combats.",
+    "image": "dresseurs/major_bob.png"
+  },
+  {
+    "nom": "",
+    "prenom": "Koga",
+    "lieuOrigine": "Jadielle",
+    "ambition": "Champion d’arène spécialiste des Pokémon Poison",
+    "description": "Ancien maître de la Team Rocket, expert en stratégies toxiques.",
+    "image": "dresseurs/koga.png"
+  },
+  {
+    "nom": "",
+    "prenom": "Giovanni",
+    "lieuOrigine": "Viridian",
+    "ambition": "Leader de la Team Rocket et Champion d’arène",
+    "description": "Chef de la Team Rocket, il utilise des Pokémon puissants et stratégiques.",
+    "image": "dresseurs/"
+  },
+  {
+    "nom": "",
+    "prenom": "Red",
+    "lieuOrigine": "Palet",
+    "ambition": "Devenir le meilleur dresseur",
+    "description": "Le protagoniste des jeux Pokémon Rouge et Bleu, reconnu comme un maître.",
+    "image": "dresseurs/"
+  },
+  {
+    "nom": "",
+    "prenom": "Blue",
+    "lieuOrigine": "Palet",
+    "ambition": "Devenir le meilleur dresseur",
+    "description": "Rival de Red, il est compétitif et cherche toujours à surpasser son adversaire.",
+    "image": "dresseurs"
+  }
+]

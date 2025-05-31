@@ -1,0 +1,23 @@
+[
+  {
+    "nom": "Ketchum",
+    "prenom": "Sacha",
+    "lieuOrigine": "Bourg Palette",
+    "ambition": "Devenir Maître Pokémon",
+    "description": "Dresseur courageux et persévérant, héros principal de la série animée."
+  },
+  {
+    "nom": "Ondine",
+    "prenom": "Misty",
+    "lieuOrigine": "Azuria",
+    "ambition": "Devenir la meilleure dresseuse d'eau",
+    "description": "Championne d'arène spécialisée dans les Pokémon de type Eau."
+  },
+  {
+    "nom": "Pierre",
+    "prenom": "Brock",
+    "lieuOrigine": "Argenta",
+    "ambition": "Devenir docteur Pokémon",
+    "description": "Ancien champion d’arène passionné par les Pokémon et la médecine."
+  }
+]
