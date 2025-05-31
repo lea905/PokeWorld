@@ -1,0 +1,18 @@
+[
+  {
+    "nom": "Arène d'Azuria",
+    "region": "Kanto",
+    "lieu": "Azuria",
+    "badge": "Cascade Badge",
+    "imageBadge": "https://archives.bulbagarden.net/media/upload/thumb/7/7e/Cascade_Badge.png/120px-Cascade_Badge.png",
+    "champion": "Ondine"
+  },
+  {
+    "nom": "Arène d'Argenta",
+    "region": "Kanto",
+    "lieu": "Argenta",
+    "badge": "Roche Badge",
+    "imageBadge": "https://archives.bulbagarden.net/media/upload/thumb/0/05/Rock_Badge.png/120px-Rock_Badge.png",
+    "champion": "Pierre"
+  }
+]

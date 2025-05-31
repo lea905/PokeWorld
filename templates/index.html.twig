@@ -1,25 +1,15 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-    <div class="justify-content-center align-items-center text-center">
-        <h1 class="fw-bold text-black m-5">Bienvenue</h1>
-
-        <div class="container">
-            <div class="row justify-content-center mb-4">
-                <div class="col-6 col-md-3 d-flex justify-content-center mb-3">
-                    <a href="{{ path('app_pokedex_index') }}" class="btn custom-btn w-100">Pokédex</a>
-                </div>
-                <div class="col-6 col-md-3 d-flex justify-content-center mb-3">
-                    <a href="#" class="btn custom-btn w-100">Dresseure</a>
-                </div>
-            </div>
-            <div class="row justify-content-center">
-                <div class="col-6 col-md-3 d-flex justify-content-center mb-3">
-                    <a href="#" class="btn custom-btn w-100">Arène</a>
-                </div>
-                <div class="col-6 col-md-3 d-flex justify-content-center mb-3">
-                    <a href="#" class="btn custom-btn w-100">Lieu</a>
-                </div>
-            </div>
+    <div class="container-fluid">
+        <h1 class="fw-bold text-black m-5 justify-content-center align-items-center text-center">Bienvenue</h1>
+        <!--Pokédex start-->
+        <div class="row justify-content-start mb-4">
+            <h2>Pokédex</h2>
+            {% include 'include/_pokedex.html.twig' with { pokemons: pokemons } %}
+        </div>
+        <div class="row justify-content-start mb-4">
+            <h2>Dresseur</h2>
+            {% include 'include/_dresseur.html.twig' with { dresseurs: dresseurs } %}
         </div>
     </div>
 {% endblock %}

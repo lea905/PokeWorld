@@ -19,15 +19,16 @@ class PokemonFixtures extends Fixture implements DependentFixtureInterface
 
     public function load(ObjectManager $manager): void
     {
-
         for ($i = 1; $i <= 151; $i++) {
             // Récupérer les données du Pokémon
             $response = $this->client->request('GET', "https://pokeapi.co/api/v2/pokemon/$i");
             $data = $response->toArray();
 
-            // Récupérer le nom japonais depuis l'endpoint pokemon-species
+            // Récupérer les données species (nom japonais + description)
             $speciesResponse = $this->client->request('GET', "https://pokeapi.co/api/v2/pokemon-species/$i");
             $speciesData = $speciesResponse->toArray();
+
+            // Nom japonais
             $nomJaponais = null;
             foreach ($speciesData['names'] as $name) {
                 if ($name['language']['name'] === 'ja') {
@@ -36,14 +37,35 @@ class PokemonFixtures extends Fixture implements DependentFixtureInterface
                 }
             }
 
+            // Description en français
+            $description = '';
+            foreach ($speciesData['flavor_text_entries'] as $entry) {
+                if ($entry['language']['name'] === 'fr') {
+                    // Nettoyage du texte (retire \n, \f, etc.)
+                    $description = str_replace(["\n", "\f"], ' ', $entry['flavor_text']);
+                    break;
+                }
+            }
+
+            $nomFrancais = $data['name']; // par défaut, en anglais
+
+            foreach ($speciesData['names'] as $nameEntry) {
+                if ($nameEntry['language']['name'] === 'fr') {
+                    $nomFrancais = $nameEntry['name'];
+                    break;
+                }
+            }
+
             $pokemon = new Pokemon();
-            $pokemon->setNom($data['name']);
+            $pokemon->setNom($nomFrancais);
             $pokemon->setNumeroPokedex($data['id']);
             $pokemon->setGeneration(1);
-
-            // Définir le nom japonais
             $pokemon->setNomJaponais($nomJaponais ?? $data['name']);
+            $pokemon->setDescription($description);
+            $pokemon->setMegaEvolutionPossible(false);
+            $pokemon->setDynamaxPossible(false);
 
+            // Types
             $type1 = $this->getReference('type_' . $data['types'][0]['type']['name'], Type::class);
             $pokemon->setType1($type1);
 
@@ -52,12 +74,10 @@ class PokemonFixtures extends Fixture implements DependentFixtureInterface
                 $pokemon->setType2($type2);
             }
 
+            // Image
             $pokemon->setImagePrincipale($data['sprites']['front_default'] ?? null);
-            $pokemon->setDescription('');
-            $pokemon->setMegaEvolutionPossible(false);
-            $pokemon->setDynamaxPossible(false);
 
-            // Statistiques simples
+            // Statistiques
             foreach ($data['stats'] as $stat) {
                 switch ($stat['stat']['name']) {
                     case 'hp': $pokemon->setPv($stat['base_stat']); break;
