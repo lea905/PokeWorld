@@ -1,0 +1,12 @@
+{% for arene in arenes %}
+    <div class="col-12 col-md-6 col-lg-2">
+        <div class="card">
+            <img src="{{ asset('images/' ~ arene.imageBadge) }}" class="card-img-top img-fixe w-auto d-block mx-auto mt-2" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">{{ arene.nom }}</h5>
+                <p class="card-text truncate-2-lines">{{ arene.badge }}</p>
+                <a href="#" class="btn btn-primary">Voir tout</a>
+            </div>
+        </div>
+    </div>
+{% endfor %}
