@@ -8,8 +8,12 @@
             {% include 'include/_pokedex.html.twig' with { pokemons: pokemons } %}
         </div>
         <div class="row justify-content-start mb-4">
-            <h2>Dresseur</h2>
+            <h2>Dresseurs</h2>
             {% include 'include/_dresseur.html.twig' with { dresseurs: dresseurs } %}
+        </div>
+        <div class="row justify-content-start mb-4">
+            <h2>Arènes</h2>
+            {% include 'include/_arene.html.twig' with { arenes: arenes } %}
         </div>
     </div>
 {% endblock %}

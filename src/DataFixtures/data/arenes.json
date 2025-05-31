@@ -1,0 +1,19 @@
+[
+  {
+    "nom": "Arène d'Argenta",
+    "region": "Kanto",
+    "lieu": "Argenta",
+    "badge": "Badge Roche ",
+    "imageBadge": "Badges/roche.png",
+    "champion": "Pierre"
+  },
+  {
+    "nom": "Arène d'Azuria",
+    "region": "Kanto",
+    "lieu": "Azuria",
+    "badge": "Badge Cascade",
+    "imageBadge": "Badges/cascade.png",
+    "champion": "Ondine"
+  }
+
+]
