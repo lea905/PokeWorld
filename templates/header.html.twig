@@ -1,6 +1,5 @@
 <nav class="navbar navbar-expand-lg bg-primary-subtle border-bottom py-4">
     <div class="container-fluid">
-
         <!-- Logo -->
         <a class="navbar-brand" href="{{ path('app_home_index') }}">
             <img src="{{ asset('images/logo.png') }}" alt="Logo Pokédex" class="img-fluid" style="max-width: 150px;">
@@ -17,39 +16,39 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ms-auto gap-3">
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button"
-                       data-bs-toggle="dropdown" aria-expanded="false">
+                    <button class="nav-link dropdown-toggle" type="button" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">
                         Pokédex
-                    </a>
+                    </button>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="{{ path('app_pokedex_index') }}" >Tous les Pokémon</a></li>
-                        <li><a class="dropdown-item">1ère génération</a></li>
+                        <li><a class="dropdown-item" href="{{ path('app_pokedex_index') }}">Tous les Pokémon</a></li>
+                        <li><a class="dropdown-item" href="">1ère génération</a></li>
                     </ul>
                 </li>
 
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button"
-                       data-bs-toggle="dropdown" aria-expanded="false">
+                    <button class="nav-link dropdown-toggle" type="button" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">
                         Dresseur
-                    </a>
+                    </button>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" >Tous les dresseurs</a></li>
-                        <li><a class="dropdown-item">Dresseurs</a></li>
-                        <li><a class="dropdown-item" >Champions</a></li>
-                        <li><a class="dropdown-item" >Méchants</a></li>
+                        <li><a class="dropdown-item" href="">Tous les dresseurs</a></li>
+                        <li><a class="dropdown-item" href="">Dresseurs</a></li>
+                        <li><a class="dropdown-item" href="">Champions</a></li>
+                        <li><a class="dropdown-item" href="">Méchants</a></li>
                     </ul>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" >Arène</a>
+                    <a class="nav-link" href="...">Arène</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link">Lieu</a>
+                    <a class="nav-link" href="...">Lieu</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link">Tableau des types</a>
+                    <a class="nav-link" href="...">Tableau des types</a>
                 </li>
             </ul>
         </div>

@@ -16,6 +16,32 @@ class PokemonRepository extends ServiceEntityRepository
         parent::__construct($registry, Pokemon::class);
     }
 
+    public function findByFilters(array $filters): array
+    {
+        $qb = $this->createQueryBuilder('p');
+
+        if (!empty($filters['name'])) {
+            $qb->andWhere('p.nom LIKE :name')
+                ->setParameter('name', '%' . $filters['name'] . '%');
+        }
+
+        if (!empty($filters['generation'])) {
+            $qb->andWhere('p.generation = :generation')
+                ->setParameter('generation', $filters['generation']);
+        }
+
+        if (!empty($filters['type'])) {
+            // jointure sur les deux types
+            $qb->leftJoin('p.type1', 't1')
+                ->leftJoin('p.type2', 't2')
+                ->andWhere('t1.nom LIKE :type OR t2.nom LIKE :type')
+                ->setParameter('type', '%' . $filters['type'] . '%');
+        }
+
+        return $qb->getQuery()->getResult();
+    }
+
+
     //    /**
     //     * @return Pokemon[] Returns an array of Pokemon objects
     //     */
