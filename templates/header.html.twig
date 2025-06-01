@@ -22,8 +22,9 @@
                     </button>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="{{ path('app_pokedex_index') }}">Tous les Pokémon</a></li>
-                        <li><a class="dropdown-item" href="">1ère génération</a></li>
-                    </ul>
+                        {% for i in 1..9 %}
+                            <li><a class="dropdown-item" href="{{ path('app_pokedex_index', {'generation': i}) }}">Génération {{ i }}</a></li>
+                        {% endfor %} </ul>
                 </li>
 
                 <li class="nav-item dropdown">

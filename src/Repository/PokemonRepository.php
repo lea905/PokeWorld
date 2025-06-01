@@ -30,6 +30,7 @@ class PokemonRepository extends ServiceEntityRepository
                 ->setParameter('generation', $filters['generation']);
         }
 
+
         if (!empty($filters['type'])) {
             // jointure sur les deux types
             $qb->leftJoin('p.type1', 't1')
