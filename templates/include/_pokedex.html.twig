@@ -5,7 +5,7 @@
             <div class="card-body">
                 <h5 class="card-title">{{ pokemon.nom }}</h5>
                 <p class="card-text truncate-2-lines">{{ pokemon.description }}</p>
-                <a href="#" class="btn btn-primary">Voir tout</a>
+                <a href="{{ path('app_pokedex_show', { name: pokemon.nom }) }}" class="btn btn-primary">Voir tout</a>
             </div>
         </div>
     </div>

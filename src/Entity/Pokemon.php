@@ -81,6 +81,34 @@ class Pokemon
     #[ORM\Column]
     private ?int $vitesse = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $taille = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $poids = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $couleur = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $habitat = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $captureRate = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $baseExperience = null;
+
+    #[ORM\Column]
+    private ?bool $isLegendary = null;
+
+    #[ORM\Column]
+    private ?bool $isMythical = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $genderRate = null;
+
+
 
     public function __construct()
     {
@@ -90,14 +118,15 @@ class Pokemon
     }
 
 
-    public function getEvolutionPrecedente(): ?Pokemon
+    public function getEvolutionPrecedente(): ?self
     {
         return $this->evolutionPrecedente;
     }
 
-    public function setEvolutionPrecedente(?Pokemon $evolutionPrecedente): void
+    public function setEvolutionPrecedente(?self $evolutionPrecedente): self
     {
         $this->evolutionPrecedente = $evolutionPrecedente;
+        return $this;
     }
 
     public function getEvolutionsSuivantes(): Collection
@@ -335,6 +364,115 @@ class Pokemon
     {
         $this->vitesse = $vitesse;
 
+        return $this;
+    }
+
+    public function getTaille(): ?int
+    {
+        return $this->taille;
+    }
+
+    public function setTaille(?int $taille): void
+    {
+        $this->taille = $taille;
+    }
+
+    public function getPoids(): ?int
+    {
+        return $this->poids;
+    }
+
+    public function setPoids(?int $poids): void
+    {
+        $this->poids = $poids;
+    }
+
+    public function getCouleur(): ?string
+    {
+        return $this->couleur;
+    }
+
+    public function setCouleur(?string $couleur): void
+    {
+        $this->couleur = $couleur;
+    }
+
+    public function getHabitat(): ?string
+    {
+        return $this->habitat;
+    }
+
+    public function setHabitat(?string $habitat): void
+    {
+        $this->habitat = $habitat;
+    }
+
+    public function getCaptureRate(): ?int
+    {
+        return $this->captureRate;
+    }
+
+    public function setCaptureRate(?int $captureRate): void
+    {
+        $this->captureRate = $captureRate;
+    }
+
+    public function getBaseExperience(): ?int
+    {
+        return $this->baseExperience;
+    }
+
+    public function setBaseExperience(?int $baseExperience): void
+    {
+        $this->baseExperience = $baseExperience;
+    }
+
+    public function getIsLegendary(): ?bool
+    {
+        return $this->isLegendary;
+    }
+
+    public function setIsLegendary(?bool $isLegendary): void
+    {
+        $this->isLegendary = $isLegendary;
+    }
+
+    public function getIsMythical(): ?bool
+    {
+        return $this->isMythical;
+    }
+
+    public function setIsMythical(?bool $isMythical): void
+    {
+        $this->isMythical = $isMythical;
+    }
+
+    public function getGenderRate(): ?int
+    {
+        return $this->genderRate;
+    }
+
+    public function setGenderRate(?int $genderRate): void
+    {
+        $this->genderRate = $genderRate;
+    }
+
+    public function addEvolutionSuivante(self $evolutionSuivante): self
+    {
+        if (!$this->evolutionsSuivantes->contains($evolutionSuivante)) {
+            $this->evolutionsSuivantes[] = $evolutionSuivante;
+            $evolutionSuivante->setEvolutionPrecedente($this);
+        }
+        return $this;
+    }
+
+    public function removeEvolutionSuivante(self $evolutionSuivante): self
+    {
+        if ($this->evolutionsSuivantes->removeElement($evolutionSuivante)) {
+            if ($evolutionSuivante->getEvolutionPrecedente() === $this) {
+                $evolutionSuivante->setEvolutionPrecedente(null);
+            }
+        }
         return $this;
     }
 }
