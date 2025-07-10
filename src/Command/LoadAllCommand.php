@@ -10,6 +10,7 @@ use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\HttpKernel\KernelInterface;
+use Doctrine\DBAL\Connection;
 
 #[AsCommand(
     name: 'app:load:all',
@@ -29,6 +30,15 @@ class LoadAllCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
+
+        // 0. Réinitialisation de la table pokemon
+        $io->section('Réinitialisation de la table pokemon');
+        /** @var Connection $conn */
+        $conn = $this->getApplication()->getKernel()->getContainer()->get('doctrine')->getConnection();
+        $conn->executeStatement("SET FOREIGN_KEY_CHECKS = 0");
+        $conn->executeStatement("UPDATE pokemon SET idEvolutionPrecedente = NULL");
+        $conn->executeStatement("TRUNCATE TABLE pokemon");
+        $conn->executeStatement("SET FOREIGN_KEY_CHECKS = 1");
 
         // 1. Charger les fixtures
         $io->title('Chargement des fixtures Doctrine');

@@ -13,14 +13,21 @@ class TypeRelation
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private ?int $idTypeAttaquant = null;
+    #[ORM\ManyToOne(targetEntity: Type::class, inversedBy: 'relationsEnAttaque')]
+    #[ORM\JoinColumn(name: "idTypeAttaquant", referencedColumnName: "id", nullable: false)]
+    private ?Type $typeAttaquant = null;
 
-    #[ORM\Column]
-    private ?int $idTypeDefenseur = null;
+    #[ORM\ManyToOne(targetEntity: Type::class, inversedBy: 'relationsEnDefense')]
+    #[ORM\JoinColumn(name: "idTypeDefenseur", referencedColumnName: "id", nullable: false)]
+    private ?Type $typeDefenseur = null;
 
     #[ORM\Column]
     private ?float $efficacite = null;
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
 
     public function getTypeAttaquant(): ?Type
     {
@@ -40,43 +47,6 @@ class TypeRelation
     public function setTypeDefenseur(?Type $typeDefenseur): void
     {
         $this->typeDefenseur = $typeDefenseur;
-    }
-
-    #[ORM\ManyToOne(targetEntity: Type::class, inversedBy: 'relationsEnAttaque')]
-    #[ORM\JoinColumn(name: "idTypeAttaquant", referencedColumnName: "id", nullable: false)]
-    private ?Type $typeAttaquant = null;
-
-    #[ORM\ManyToOne(targetEntity: Type::class, inversedBy: 'relationsEnDefense')]
-    #[ORM\JoinColumn(name: "idTypeDefenseur", referencedColumnName: "id", nullable: false)]
-    private ?Type $typeDefenseur = null;
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
-    public function getIdTypeAttaquant(): ?int
-    {
-        return $this->idTypeAttaquant;
-    }
-
-    public function setIdTypeAttaquant(int $idTypeAttaquant): static
-    {
-        $this->idTypeAttaquant = $idTypeAttaquant;
-
-        return $this;
-    }
-
-    public function getIdTypeDefenseur(): ?int
-    {
-        return $this->idTypeDefenseur;
-    }
-
-    public function setIdTypeDefenseur(int $idTypeDefenseur): static
-    {
-        $this->idTypeDefenseur = $idTypeDefenseur;
-
-        return $this;
     }
 
     public function getEfficacite(): ?float

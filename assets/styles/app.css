@@ -26,3 +26,20 @@
     object-fit: cover;
     border-radius: 8px;
 }
+
+.w-types{
+    height: 50px;
+    width: auto;
+}
+
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: center;
+    padding: 8px;
+}
