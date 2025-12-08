@@ -1,0 +1,106 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ dresseur.nom }} - PokeWorld{% endblock %}
+
+{% block body %}
+<div class="container my-5">
+    <div class="row">
+        <!-- Profil Dresseur -->
+        <div class="col-lg-4 mb-4">
+            <div class="card shadow border-0">
+                <div class="card-body text-center">
+                    {% if dresseur.image %}
+                        <img src="{{ dresseur.image }}" class="rounded-circle img-thumbnail mb-3 shadow-sm" alt="{{ dresseur.nom }}" style="width: 200px; height: 200px; object-fit: cover;">
+                    {% else %}
+                        <div class="rounded-circle bg-light d-flex align-items-center justify-content-center mx-auto mb-3 shadow-sm" style="width: 200px; height: 200px;">
+                             <i class="fas fa-user fa-4x text-muted"></i>
+                        </div>
+                    {% endif %}
+                    
+                    <h2 class="fw-bold mb-1">{{ dresseur.nom }} {{ dresseur.prenom }}</h2>
+                    <p class="text-muted mb-3"><i class="fas fa-map-marker-alt text-danger me-1"></i> {{ dresseur.lieuOrigine }}</p>
+                    
+                    <div class="d-flex justify-content-center gap-2 mb-4">
+                        {% if dresseur.arene %}
+                            <span class="badge bg-warning text-dark"><i class="fas fa-trophy me-1"></i> Champion d'Arène</span>
+                        {% endif %}
+                         <span class="badge bg-secondary"><i class="fas fa-paw me-1"></i> {{ dresseur.equipe|length }} Pokémon</span>
+                    </div>
+
+                    <h5 class="text-start border-bottom pb-2 mb-3">À propos</h5>
+                    <p class="text-start text-secondary">{{ dresseur.description }}</p>
+                    
+                     <h5 class="text-start border-bottom pb-2 mb-3 mt-4">Ambition</h5>
+                    <p class="text-start text-secondary fst-italic">"{{ dresseur.ambition }}"</p>
+                    
+                     <div class="mt-4">
+                        <a href="{{ path('app_dresseur_index') }}" class="btn btn-outline-secondary btn-sm"><i class="fas fa-arrow-left me-1"></i> Retour aux dresseurs</a>
+                    </div>
+                </div>
+            </div>
+             {% if dresseur.arene %}
+                <div class="card shadow border-0 mt-4">
+                    <div class="card-body">
+                         <h5 class="card-title fw-bold mb-3"><i class="fas fa-building text-primary me-2"></i> Champion de l'Arène</h5>
+                         <div class="d-flex align-items-center">
+                             {% if dresseur.arene.imageBadge %}
+                                <img src="{{ dresseur.arene.imageBadge }}" alt="Badge" class="me-3" style="width: 50px;">
+                             {% endif %}
+                             <div>
+                                 <h6 class="mb-0">{{ dresseur.arene.nom }}</h6>
+                                 <small class="text-muted">{{ dresseur.arene.region }} - {{ dresseur.arene.lieu }}</small>
+                                 <br>
+                                 <a href="{{ path('app_arene_show', {id: dresseur.arene.id}) }}" class="small text-decoration-none">Voir l'arène &rarr;</a>
+                             </div>
+                         </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+        
+        <!-- Équipe Pokémon -->
+        <div class="col-lg-8">
+            <h3 class="fw-bold mb-4 border-start border-4 border-primary ps-3">Son Équipe</h3>
+            <div class="row g-4">
+                {% for membre in dresseur.equipe %}
+                    {% set pokemon = membre.pokemon %}
+                    <div class="col-md-6">
+                        <div class="card border-0 shadow-sm h-100 pokemon-card">
+                            <div class="row g-0 align-items-center h-100">
+                                <div class="col-4 text-center p-2">
+                                    {% if pokemon.image %}
+                                        <img src="{{ pokemon.image }}" class="img-fluid rounded-start" alt="{{ pokemon.nom }}" style="max-height: 100px;">
+                                    {% else %}
+                                        <i class="fas fa-question-circle fa-3x text-muted"></i>
+                                    {% endif %}
+                                </div>
+                                <div class="col-8">
+                                    <div class="card-body py-2">
+                                        <h5 class="card-title fw-bold text-dark mb-1">{{ pokemon.nom }}</h5>
+                                        <div class="mb-2">
+                                            {% for type in pokemon.types %}
+                                                <span class="badge rounded-pill bg-{{ type.nom|lower }} me-1" style="background-color: var(--type-{{ type.nom|lower }}, #777);">{{ type.nom }}</span>
+                                            {% endfor %}
+                                        </div>
+                                        <p class="card-text small text-muted mb-0">Niveau {{ membre.niveau }}</p>
+                                        <!-- Barre de progression PV (simulée) -->
+                                         <div class="progress mt-2" style="height: 5px;">
+                                              <div class="progress-bar bg-success" role="progressbar" style="width: {{ random(40, 100) }}%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="col-12">
+                        <div class="alert alert-info py-2">
+                            <i class="fas fa-info-circle me-2"></i> Ce dresseur n'a pas encore de Pokémon dans son équipe.
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

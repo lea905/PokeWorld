@@ -47,17 +47,7 @@ class LoadAllCommand extends Command
             '--no-interaction' => true
         ]), $output);
 
-        // 2. Import des dresseurs
-        $io->section('Import des dresseurs');
-        $this->application->run(new ArrayInput([
-            'command' => 'app:import:dresseurs',
-        ]), $output);
 
-        // 3. Import des arènes
-        $io->section('Import des arènes');
-        $this->application->run(new ArrayInput([
-            'command' => 'app:import:arenes',
-        ]), $output);
 
         $io->success('Tous les imports ont été exécutés avec succès.');
 

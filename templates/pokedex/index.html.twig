@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Pokedex{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <h1 class="text-center mb-5">Pokedex</h1>
+        <div class="row">
+            {% for pokemon in pokemons %}
+                <div class="col-12 col-md-6 col-lg-3 mb-4">
+                    <div class="card h-100 shadow-sm hover-shadow transition">
+                        <div class="card-body text-center">
+                            <img src="{{ pokemon.imagePrincipale }}" class="img-fluid mb-3" style="max-height: 150px; object-fit: contain;" alt="{{ pokemon.nom }}">
+                            <h5 class="card-title fw-bold">{{ pokemon.nom }}</h5>
+                            <div class="d-flex justify-content-center gap-2 mb-3">
+                                <span class="badge rounded-pill text-bg-{{ pokemon.type1.nom|lower }}">{{ pokemon.type1.nom }}</span>
+                                {% if pokemon.type2 %}
+                                    <span class="badge rounded-pill text-bg-{{ pokemon.type2.nom|lower }}">{{ pokemon.type2.nom }}</span>
+                                {% endif %}
+                            </div>
+                            <a href="{{ path('app_pokedex_show', {nom: pokemon.nom}) }}" class="btn btn-primary w-100 stretched-link">Détails</a>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="col-12">
+                    <div class="alert alert-info text-center">Aucun Pokémon trouvé.</div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

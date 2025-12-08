@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dresseurs - PokeWorld{% endblock %}
+
+{% block body %}
+<div class="container my-5">
+    <h1 class="text-center mb-5 text-primary fw-bold">Les Dresseurs</h1>
+    
+    <div class="row g-4">
+        {% for dresseur in dresseurs %}
+            <div class="col-12 col-md-6 col-lg-3">
+                <div class="card h-100 shadow-sm border-0 hover-scale transition-all">
+                    {% if dresseur.image %}
+                        <img src="{{ dresseur.image }}" class="card-img-top object-fit-cover" alt="{{ dresseur.nom }}" style="height: 250px;">
+                    {% else %}
+                         <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 250px;">
+                            <span class="text-muted"><i class="fas fa-user fa-3x"></i></span>
+                        </div>
+                    {% endif %}
+                    
+                    <div class="card-body text-center">
+                        <h5 class="card-title fw-bold text-dark">{{ dresseur.nom }} {{ dresseur.prenom }}</h5>
+                        <p class="card-text text-muted small mb-2"><i class="fas fa-map-marker-alt me-1"></i> {{ dresseur.lieuOrigine }}</p>
+                        <p class="card-text text-truncate">{{ dresseur.description }}</p>
+                    </div>
+                    <div class="card-footer bg-transparent border-0 pb-3 text-center">
+                         <a href="{{ path('app_dresseur_show', {'id': dresseur.id}) }}" class="btn btn-outline-primary rounded-pill px-4">Voir le profil</a>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div class="col-12 text-center">
+                <p class="text-muted">Aucun dresseur trouvé.</p>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+    .hover-scale {
+        transition: transform 0.3s ease;
+    }
+    .hover-scale:hover {
+        transform: translateY(-5px);
+    }
+</style>
+{% endblock %}
