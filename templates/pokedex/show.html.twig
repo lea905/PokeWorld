@@ -1,0 +1,83 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ pokemon.nom }}{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <a href="{{ path('app_pokedex_index') }}" class="btn btn-outline-secondary mb-4">&larr; Retour au Pokedex</a>
+
+        <div class="row">
+            <div class="col-md-5 mb-4">
+                <div class="card shadow border-0">
+                    <div class="card-body text-center bg-light rounded">
+                        <img src="{{ pokemon.imagePrincipale }}" class="img-fluid w-75 animate__animated animate__fadeIn" alt="{{ pokemon.nom }}">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-7">
+                <div class="d-flex align-items-center mb-3">
+                    <h1 class="display-4 fw-bold me-3">{{ pokemon.nom }}</h1>
+                    <span class="text-muted fs-4">#{{ pokemon.numeroPokedex }}</span>
+                </div>
+                 <h4 class="text-muted mb-4">{{ pokemon.nomJaponais }}</h4>
+
+                <div class="mb-4">
+                     <span class="badge rounded-pill fs-6 px-3 py-2 text-bg-{{ pokemon.type1.nom|lower }} me-2">{{ pokemon.type1.nom }}</span>
+                    {% if pokemon.type2 %}
+                        <span class="badge rounded-pill fs-6 px-3 py-2 text-bg-{{ pokemon.type2.nom|lower }}">{{ pokemon.type2.nom }}</span>
+                    {% endif %}
+                </div>
+
+                <div class="mb-5">
+                    <h3 class="h5 border-bottom pb-2 mb-3">Description</h3>
+                    <p class="lead fs-6">{{ pokemon.description }}</p>
+                </div>
+
+                <div class="row">
+                    <div class="col-12 mb-4">
+                        <h3 class="h5 border-bottom pb-2 mb-3">Statistiques de base</h3>
+                         <div class="row g-3">
+                            <div class="col-6 col-md-4">
+                                <div class="p-3 border rounded text-center bg-light">
+                                    <div class="text-muted small">PV</div>
+                                    <div class="fw-bold fs-5">{{ pokemon.pv }}</div>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-4">
+                                <div class="p-3 border rounded text-center bg-light">
+                                    <div class="text-muted small">Attaque</div>
+                                    <div class="fw-bold fs-5">{{ pokemon.attaque }}</div>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-4">
+                                <div class="p-3 border rounded text-center bg-light">
+                                    <div class="text-muted small">Défense</div>
+                                    <div class="fw-bold fs-5">{{ pokemon.defense }}</div>
+                                </div>
+                            </div>
+                             <div class="col-6 col-md-4">
+                                <div class="p-3 border rounded text-center bg-light">
+                                    <div class="text-muted small">Attaque Spé.</div>
+                                    <div class="fw-bold fs-5">{{ pokemon.attaqueSpe }}</div>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-4">
+                                <div class="p-3 border rounded text-center bg-light">
+                                    <div class="text-muted small">Défense Spé.</div>
+                                    <div class="fw-bold fs-5">{{ pokemon.defenceSpe }}</div>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-4">
+                                <div class="p-3 border rounded text-center bg-light">
+                                    <div class="text-muted small">Vitesse</div>
+                                    <div class="fw-bold fs-5">{{ pokemon.vitesse }}</div>
+                                </div>
+                            </div>
+                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
