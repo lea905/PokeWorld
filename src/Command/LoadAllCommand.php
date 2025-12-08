@@ -47,8 +47,6 @@ class LoadAllCommand extends Command
             '--no-interaction' => true
         ]), $output);
 
-
-
         $io->success('Tous les imports ont été exécutés avec succès.');
 
         return Command::SUCCESS;

@@ -19,7 +19,7 @@
                     <div class="card-body position-relative text-center p-4">
                         {% if arene.imageBadge %}
                             <div class="mb-3 d-inline-block p-3 rounded-circle bg-white shadow-sm">
-                                <img src="{{ arene.imageBadge }}" alt="Badge {{ arene.badge }}" class="img-fluid" style="width: 80px; height: 80px; object-fit: contain;">
+                                <img src="{{ asset(arene.imageBadge) }}" alt="Badge {{ arene.badge }}" class="img-fluid" style="width: 80px; height: 80px; object-fit: contain;">
                             </div>
                         {% else %}
                              <div class="mb-3 d-inline-block p-3 rounded-circle bg-white shadow-sm">
@@ -38,7 +38,7 @@
                         {% if arene.champion %}
                             <div class="d-flex align-items-center justify-content-center bg-white rounded p-2 shadow-sm mb-3">
                                 {% if arene.champion.image %}
-                                    <img src="{{ arene.champion.image }}" class="rounded-circle me-2" alt="{{ arene.champion.nom }}" style="width: 40px; height: 40px; object-fit: cover;">
+                                    <img src="{{ asset(arene.champion.image) }}" class="rounded-circle me-2" alt="{{ arene.champion.nom }}" style="width: 40px; height: 40px; object-fit: cover;">
                                 {% else %}
                                     <div class="rounded-circle bg-secondary me-2 d-flex align-items-center justify-content-center text-white" style="width: 40px; height: 40px;">
                                         <i class="fas fa-user-ninja"></i>
