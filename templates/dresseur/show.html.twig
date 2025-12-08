@@ -10,7 +10,7 @@
             <div class="card shadow border-0">
                 <div class="card-body text-center">
                     {% if dresseur.image %}
-                        <img src="{{ dresseur.image }}" class="rounded-circle img-thumbnail mb-3 shadow-sm" alt="{{ dresseur.nom }}" style="width: 200px; height: 200px; object-fit: cover;">
+                        <img src="{{ asset(dresseur.image) }}" class="rounded-circle img-thumbnail mb-3 shadow-sm" alt="{{ dresseur.nom }}" style="width: 200px; height: 200px; object-fit: cover;">
                     {% else %}
                         <div class="rounded-circle bg-light d-flex align-items-center justify-content-center mx-auto mb-3 shadow-sm" style="width: 200px; height: 200px;">
                              <i class="fas fa-user fa-4x text-muted"></i>

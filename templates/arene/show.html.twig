@@ -11,7 +11,7 @@
                 <div class="position-absolute start-0 top-0 w-100 h-100 bg-gradient text-white" style="opacity: 0.1;"></div>
                 <div class="position-relative z-1">
                     {% if arene.imageBadge %}
-                        <img src="{{ arene.imageBadge }}" alt="Badge {{ arene.badge }}" class="img-fluid drop-shadow mb-3" style="max-height: 180px;">
+                        <img src="{{ asset(arene.imageBadge) }}" alt="Badge {{ arene.badge }}" class="img-fluid drop-shadow mb-3" style="max-height: 180px;">
                     {% else %}
                         <i class="fas fa-certificate fa-8x text-white-50"></i>
                     {% endif %}
@@ -35,7 +35,7 @@
                          {% if arene.champion %}
                             <div class="d-flex align-items-center bg-light p-3 rounded-3 shadow-sm">
                                 {% if arene.champion.image %}
-                                    <img src="{{ arene.champion.image }}" class="rounded-circle border border-3 border-white shadow-sm me-3" alt="{{ arene.champion.nom }}" style="width: 80px; height: 80px; object-fit: cover;">
+                                    <img src="{{ asset(arene.champion.image) }}" class="rounded-circle border border-3 border-white shadow-sm me-3" alt="{{ arene.champion.nom }}" style="width: 80px; height: 80px; object-fit: cover;">
                                 {% else %}
                                     <div class="rounded-circle bg-secondary me-3 d-flex align-items-center justify-content-center text-white border border-3 border-white shadow-sm" style="width: 80px; height: 80px;">
                                         <i class="fas fa-user-ninja fa-2x"></i>

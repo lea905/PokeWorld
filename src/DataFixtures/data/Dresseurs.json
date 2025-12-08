@@ -5,7 +5,7 @@
     "lieuOrigine": "Bourg Palette",
     "ambition": "Devenir Maître Pokémon",
     "description": "Le héros de la série, un jeune dresseur déterminé à capturer tous les Pokémon.",
-    "image": "dresseurs/sacha.png"
+    "image": "Dresseurs/sacha.png"
   },
   {
     "nom": "",
@@ -13,7 +13,7 @@
     "lieuOrigine": "Argenta",
     "ambition": "Champion d’arène spécialiste des Pokémon Roche",
     "description": "Champion d’arène reconnu pour ses Pokémon Roche solides.",
-    "image": "dresseurs/pierre.png"
+    "image": "Dresseurs/pierre.png"
   },
   {
     "nom": "",
@@ -21,7 +21,7 @@
     "lieuOrigine": "Azuria",
     "ambition": "Championne d’arène spécialiste des Pokémon Eau",
     "description": "Championne d’arène experte dans les Pokémon Eau, passionnée et compétitive.",
-    "image": "dresseurs/ondine.png"
+    "image": "Dresseurs/ondine.png"
   },
   {
     "nom": "",
@@ -29,7 +29,7 @@
     "lieuOrigine": "Safrania",
     "ambition": "Championne d’arène spécialiste des Pokémon Plante",
     "description": "Championne d’arène et grande amoureuse des plantes.",
-    "image": "dresseurs/erika.png"
+    "image": "Dresseurs/erika.png"
   },
   {
     "nom": "",
@@ -37,7 +37,7 @@
     "lieuOrigine": "Cramois'Île",
     "ambition": "Champion d’arène spécialiste des Pokémon Combat",
     "description": "Un champion d’arène très sérieux et fort dans les combats.",
-    "image": "dresseurs/major_bob.png"
+    "image": "Dresseurs/major_bob.png"
   },
   {
     "nom": "",
@@ -45,7 +45,7 @@
     "lieuOrigine": "Jadielle",
     "ambition": "Champion d’arène spécialiste des Pokémon Poison",
     "description": "Ancien maître de la Team Rocket, expert en stratégies toxiques.",
-    "image": "dresseurs/koga.png"
+    "image": "Dresseurs/koga.png"
   },
   {
     "nom": "",
@@ -53,7 +53,7 @@
     "lieuOrigine": "Viridian",
     "ambition": "Leader de la Team Rocket et Champion d’arène",
     "description": "Chef de la Team Rocket, il utilise des Pokémon puissants et stratégiques.",
-    "image": "dresseurs/"
+    "image": "Dresseurs/giovanni.png"
   },
   {
     "nom": "",
@@ -61,7 +61,7 @@
     "lieuOrigine": "Palet",
     "ambition": "Devenir le meilleur dresseur",
     "description": "Le protagoniste des jeux Pokémon Rouge et Bleu, reconnu comme un maître.",
-    "image": "dresseurs/"
+    "image": "Dresseurs/red.png"
   },
   {
     "nom": "",
@@ -69,6 +69,6 @@
     "lieuOrigine": "Palet",
     "ambition": "Devenir le meilleur dresseur",
     "description": "Rival de Red, il est compétitif et cherche toujours à surpasser son adversaire.",
-    "image": "dresseurs"
+    "image": "Dresseurs/blue.png"
   }
 ]
