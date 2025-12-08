@@ -11,15 +11,21 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/pokedex')]
 final class PokedexController extends AbstractController
 {
-    #[Route(name: 'app_pokedex_index', methods: ['GET'])]
-    public function index(PokemonRepository $pokemonRepository): Response
+    #[Route('/{generation?}',name: 'app_pokedex_index', methods: ['GET'])]
+    public function index(PokemonRepository $pokemonRepository, ?int $generation = null): Response
     {
+        if ($generation) {
+            $pokemons = $pokemonRepository->findBy(['generation' => $generation]);
+        } else {
+            $pokemons = $pokemonRepository->findAll();
+        }
+
         return $this->render('pokedex/index.html.twig', [
-            'pokemons' => $pokemonRepository->findAll(),
+            'pokemons' => $pokemons,
         ]);
     }
 
-    #[Route('/{nom}', name: 'app_pokedex_show', methods: ['GET'])]
+    #[Route('/show/{nom}', name: 'app_pokedex_show', methods: ['GET'])]
     public function show(string $nom, PokemonRepository $pokemonRepository): Response
     {
         $pokemon = $pokemonRepository->findOneBy(['nom' => $nom]);
