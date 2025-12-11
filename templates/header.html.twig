@@ -1,10 +1,10 @@
-<nav class="navbar navbar-expand-lg bg-primary-subtle border-bottom py-4">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="{{ path('app_home_index') }}">
-            <img src="{{ asset('images/logo.png') }}" alt="Logo Pokédex" class="img-fluid" style="max-width: 150px;">
+<nav class="navbar navbar-expand-lg navbar-custom sticky-top">
+    <div class="container-fluid px-4">
+        <a class="navbar-brand fw-bold text-uppercase tracking-widest" href="{{ path('app_home_index') }}" style="letter-spacing: 0.15em; font-size: 1.1rem;">
+            <img src="{{ asset('images/logo.png') }}" alt="VICTORY ROAD FR" class="img-fluid" style="max-height: 40px; width: auto;">
         </a>
 
-        <button class="navbar-toggler" type="button"
+        <button class="navbar-toggler border-0" type="button"
                 data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent"
@@ -13,33 +13,45 @@
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav ms-auto gap-3">
-                <div class="dropdown">
-                    <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
+            <ul class="navbar-nav gap-1">
+                <li class="nav-item">
+                    <a class="nav-link nav-link-custom" href="{{ path('app_home_index') }}">Accueil</a>
+                </li>
+                
+                <li class="nav-item dropdown">
+                    <a class="nav-link nav-link-custom dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Pokédex
-                    </button>
-                    <ul class="dropdown-menu">
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-custom border-0 shadow-sm mt-2">
                         <li><a class="dropdown-item" href="{{ path('app_pokedex_index') }}">Tous les Pokémon</a></li>
+                        <li><hr class="dropdown-divider"></li>
                         {% for i in 1..9 %}
                             <li><a class="dropdown-item" href="{{ path('app_pokedex_index', {'generation': i}) }}">Génération {{ i }}</a></li>
                         {% endfor %}
                     </ul>
-                </div>
+                </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ path('app_dresseur_index') }}">Dresseurs</a>
+                    <a class="nav-link nav-link-custom" href="{{ path('app_dresseur_index') }}">Dresseurs</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ path('app_arene_index') }}">Arènes</a>
+                    <a class="nav-link nav-link-custom" href="{{ path('app_arene_index') }}">Arènes</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Lieu</a>
+                    <a class="nav-link nav-link-custom" href="#">Passifs</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Tableau des types</a>
+                    <a class="nav-link nav-link-custom" href="#">Astuce</a>
+                </li>
+                 <li class="nav-item">
+                    <a class="nav-link nav-link-custom" href="#">Doc Technique</a>
                 </li>
             </ul>
+        </div>
+        
+        <div class="d-none d-lg-flex" style="width: 150px; justify-content: flex-end;">
+            <!-- Placeholder for right-aligned items like Dark Mode toggle or Search to balance the center alignment -->
         </div>
     </div>
 </nav>
