@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\DresseurRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: DresseurRepository::class)]
@@ -15,19 +16,22 @@ class Dresseur
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $nom = null;
 
     #[ORM\Column(length: 255)]
     private ?string $prenom = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $lieuOrigine = null;
+    private ?string $villeNatale = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $region = null;
 
     #[ORM\Column(length: 255)]
     private ?string $ambition = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::TEXT)]
     private ?string $description = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -35,15 +39,15 @@ class Dresseur
 
 
 
-    #[ORM\OneToMany(mappedBy: 'dresseur', targetEntity: Equipe::class, cascade: ['remove'], orphanRemoval: true)]
-    private Collection $equipe;
+    #[ORM\OneToMany(mappedBy: 'dresseur', targetEntity: Team::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    private Collection $teams;
 
     #[ORM\OneToOne(mappedBy: 'champion', targetEntity: Arene::class)]
     private ?Arene $arene = null;
 
     public function __construct()
     {
-        $this->equipe = new ArrayCollection();
+        $this->teams = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -56,7 +60,7 @@ class Dresseur
         return $this->nom;
     }
 
-    public function setNom(string $nom): static
+    public function setNom(?string $nom): static
     {
         $this->nom = $nom;
         return $this;
@@ -73,14 +77,25 @@ class Dresseur
         return $this;
     }
 
-    public function getLieuOrigine(): ?string
+    public function getVilleNatale(): ?string
     {
-        return $this->lieuOrigine;
+        return $this->villeNatale;
     }
 
-    public function setLieuOrigine(string $lieuOrigine): static
+    public function setVilleNatale(string $villeNatale): static
     {
-        $this->lieuOrigine = $lieuOrigine;
+        $this->villeNatale = $villeNatale;
+        return $this;
+    }
+
+    public function getRegion(): ?string
+    {
+        return $this->region;
+    }
+
+    public function setRegion(string $region): static
+    {
+        $this->region = $region;
         return $this;
     }
 
@@ -107,28 +122,28 @@ class Dresseur
     }
 
     /**
-     * @return Collection<int, Equipe>
+     * @return Collection<int, Team>
      */
-    public function getEquipe(): Collection
+    public function getTeams(): Collection
     {
-        return $this->equipe;
+        return $this->teams;
     }
 
-    public function addEquipe(Equipe $equipe): static
+    public function addTeam(Team $team): static
     {
-        if (!$this->equipe->contains($equipe)) {
-            $this->equipe->add($equipe);
-            $equipe->setDresseur($this);
+        if (!$this->teams->contains($team)) {
+            $this->teams->add($team);
+            $team->setDresseur($this);
         }
         return $this;
     }
 
-    public function removeEquipe(Equipe $equipe): static
+    public function removeTeam(Team $team): static
     {
-        if ($this->equipe->removeElement($equipe)) {
+        if ($this->teams->removeElement($team)) {
             // set the owning side to null (unless already changed)
-            if ($equipe->getDresseur() === $this) {
-                $equipe->setDresseur(null);
+            if ($team->getDresseur() === $this) {
+                $team->setDresseur(null);
             }
         }
         return $this;
