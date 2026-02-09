@@ -38,20 +38,18 @@
                 <li class="nav-item">
                     <a class="nav-link nav-link-custom" href="{{ path('app_arene_index') }}">Arènes</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link nav-link-custom" href="#">Passifs</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link nav-link-custom" href="#">Astuce</a>
-                </li>
                  <li class="nav-item">
-                    <a class="nav-link nav-link-custom" href="#">Doc Technique</a>
+                    <button class="btn btn-link nav-link-custom p-2" 
+                            data-controller="theme"
+                            data-action="click->theme#toggle"
+                            title="Mode jour/nuit" 
+                            style="color: var(--text-navbar);">
+                        <i class="bi bi-moon-stars-fill" data-theme-target="iconDark"></i>
+                        <i class="bi bi-sun-fill d-none" data-theme-target="iconLight"></i>
+                    </button>
                 </li>
             </ul>
         </div>
         
-        <div class="d-none d-lg-flex" style="width: 150px; justify-content: flex-end;">
-            <!-- Placeholder for right-aligned items like Dark Mode toggle or Search to balance the center alignment -->
-        </div>
     </div>
 </nav>

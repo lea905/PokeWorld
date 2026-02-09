@@ -57,8 +57,8 @@ class Pokemon
     #[ORM\OneToMany(mappedBy: 'evolutionPrecedente', targetEntity: self::class)]
     private Collection $evolutionsSuivantes;
 
-    #[ORM\OneToMany(mappedBy: 'pokemon', targetEntity: Equipe::class)]
-    private Collection $equipes;
+    #[ORM\ManyToMany(targetEntity: Team::class, mappedBy: 'pokemons')]
+    private Collection $teams;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $crySoundUrl = null;
@@ -114,7 +114,7 @@ class Pokemon
     {
         $this->images = new ArrayCollection();
         $this->evolutionsSuivantes = new ArrayCollection();
-        $this->equipes = new ArrayCollection();
+        $this->teams = new ArrayCollection();
     }
 
 
@@ -139,14 +139,31 @@ class Pokemon
         $this->evolutionsSuivantes = $evolutionsSuivantes;
     }
 
-    public function getEquipes(): Collection
+    /**
+     * @return Collection<int, Team>
+     */
+    public function getTeams(): Collection
     {
-        return $this->equipes;
+        return $this->teams;
     }
 
-    public function setEquipes(Collection $equipes): void
+    public function addTeam(Team $team): static
     {
-        $this->equipes = $equipes;
+        if (!$this->teams->contains($team)) {
+            $this->teams->add($team);
+            $team->addPokemon($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTeam(Team $team): static
+    {
+        if ($this->teams->removeElement($team)) {
+            $team->removePokemon($this);
+        }
+
+        return $this;
     }
 
     public function getIdPokemon(): ?int
@@ -474,5 +491,19 @@ class Pokemon
             }
         }
         return $this;
+    }
+
+    public function getEvolutionRoot(): self
+    {
+        $root = $this;
+        while ($root->getEvolutionPrecedente() !== null) {
+            $root = $root->getEvolutionPrecedente();
+        }
+        return $root;
+    }
+
+    public function __toString(): string
+    {
+        return $this->nom . ' (#' . $this->numeroPokedex . ')';
     }
 }

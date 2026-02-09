@@ -46,7 +46,7 @@ class PokemonFixtures extends Fixture implements DependentFixtureInterface
         $processedChains = [];
 
         // 1ère boucle : créer les Pokémon
-        for ($i = 1; $i <= 250; $i++) {
+        for ($i = 1; $i <= 1025; $i++) {
             try {
                 $response = $this->client->request('GET', "https://pokeapi.co/api/v2/pokemon/$i");
                 $data = $response->toArray();

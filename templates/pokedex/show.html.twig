@@ -77,7 +77,67 @@
                          </div>
                     </div>
                 </div>
+        </div>
+
+                {# Evolution Chain Section #}
+        {% if pokemon.evolutionRoot.evolutionsSuivantes|length > 0 or pokemon.evolutionRoot.evolutionPrecedente %}
+        <div class="row mt-5">
+            <div class="col-12">
+                <h3 class="h4 border-bottom pb-2 mb-4">Famille d'évolution</h3>
+                <div class="row justify-content-center text-center align-items-center">
+                    {% import _self as macros %}
+                    
+                    {# Define the recursive macro #}
+                    {% macro render_evolution(p, current_pokemon) %}
+                        {% import _self as macros %}
+                        
+                        {# Display current node #}
+                        <div class="col-6 col-md-3 mb-3">
+                            <div class="card {{ p.idPokemon == current_pokemon.idPokemon ? 'border-primary border-2 shadow' : 'border-0 shadow-sm' }} h-100">
+                                <div class="card-body">
+                                    <h6 class="{{ p.idPokemon == current_pokemon.idPokemon ? 'text-primary' : 'text-muted' }} text-uppercase small mb-2">
+                                        {{ p.idPokemon == current_pokemon.idPokemon ? 'Actuel' : (p.evolutionPrecedente ? 'Évolution' : 'Base') }}
+                                    </h6>
+                                    <a href="{{ path('app_pokedex_show', {'nom': p.nom}) }}" class="text-decoration-none text-dark">
+                                        <img src="{{ p.imagePrincipale }}" 
+                                             alt="{{ p.nom }}" 
+                                             class="img-fluid mb-2" 
+                                             style="max-height: {{ p.idPokemon == current_pokemon.idPokemon ? '120px' : '100px' }};">
+                                        <div class="fw-bold">{{ p.nom }}</div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        {# If there are next evolutions, display arrow and recurse #}
+                        {% if p.evolutionsSuivantes|length > 0 %}
+                            <div class="col-1 d-none d-md-flex justify-content-center">
+                                <i class="bi bi-arrow-right fs-3 text-muted"></i>
+                            </div>
+                            
+                            {# If multiple evolutions (branching), wrap them #}
+                            {% if p.evolutionsSuivantes|length > 1 %}
+                                <div class="col-md-auto">
+                                    <div class="row flex-nowrap overflow-auto">
+                                        {% for next_evo in p.evolutionsSuivantes %}
+                                            {{ macros.render_evolution(next_evo, current_pokemon) }}
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% else %}
+                                {% for next_evo in p.evolutionsSuivantes %}
+                                    {{ macros.render_evolution(next_evo, current_pokemon) }}
+                                {% endfor %}
+                            {% endif %}
+                        {% endif %}
+                    {% endmacro %}
+
+                    {# Start rendering from root #}
+                    {{ macros.render_evolution(pokemon.evolutionRoot, pokemon) }}
+                </div>
             </div>
         </div>
+        {% endif %}
+
     </div>
 {% endblock %}

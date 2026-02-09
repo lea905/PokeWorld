@@ -68,8 +68,8 @@
                         <div class="card border-0 shadow-sm h-100 pokemon-card">
                             <div class="row g-0 align-items-center h-100">
                                 <div class="col-4 text-center p-2">
-                                    {% if pokemon.image %}
-                                        <img src="{{ pokemon.image }}" class="img-fluid rounded-start" alt="{{ pokemon.nom }}" style="max-height: 100px;">
+                                    {% if pokemon.imagePrincipale %}
+                                        <img src="{{ pokemon.imagePrincipale }}" class="img-fluid rounded-start" alt="{{ pokemon.nom }}" style="max-height: 100px;">
                                     {% else %}
                                         <i class="fas fa-question-circle fa-3x text-muted"></i>
                                     {% endif %}
@@ -78,9 +78,10 @@
                                     <div class="card-body py-2">
                                         <h5 class="card-title fw-bold text-dark mb-1">{{ pokemon.nom }}</h5>
                                         <div class="mb-2">
-                                            {% for type in pokemon.types %}
-                                                <span class="badge rounded-pill bg-{{ type.nom|lower }} me-1" style="background-color: var(--type-{{ type.nom|lower }}, #777);">{{ type.nom }}</span>
-                                            {% endfor %}
+                                            <span class="badge rounded-pill text-bg-{{ pokemon.type1.nom|lower }} me-1">{{ pokemon.type1.nom }}</span>
+                                            {% if pokemon.type2 %}
+                                                <span class="badge rounded-pill text-bg-{{ pokemon.type2.nom|lower }} me-1">{{ pokemon.type2.nom }}</span>
+                                            {% endif %}
                                         </div>
                                         <p class="card-text small text-muted mb-0">Niveau {{ membre.niveau }}</p>
                                         <!-- Barre de progression PV (simulée) -->
