@@ -4,14 +4,19 @@ namespace App\Entity;
 
 use App\Repository\AreneRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\String\Slugger\AsciiSlugger;
 
 #[ORM\Entity(repositoryClass: AreneRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Arene
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
+
+    #[ORM\Column(length: 255, unique: true, nullable: true)]
+    private ?string $slug = null;
 
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
@@ -22,10 +27,10 @@ class Arene
     #[ORM\Column(length: 255)]
     private ?string $lieu = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $badge = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $imageBadge = null;
 
     #[ORM\OneToOne(targetEntity: Dresseur::class, inversedBy: 'arene')]
@@ -47,6 +52,17 @@ class Arene
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(?string $slug): static
+    {
+        $this->slug = $slug;
+        return $this;
     }
 
     public function getNom(): ?string
@@ -90,7 +106,7 @@ class Arene
         return $this->badge;
     }
 
-    public function setBadge(string $badge): static
+    public function setBadge(?string $badge): static
     {
         $this->badge = $badge;
 
@@ -102,10 +118,21 @@ class Arene
         return $this->imageBadge;
     }
 
-    public function setImageBadge(string $imageBadge): static
+    public function setImageBadge(?string $imageBadge): static
     {
         $this->imageBadge = $imageBadge;
 
         return $this;
+    }
+
+    #[ORM\PrePersist]
+    #[ORM\PreUpdate]
+    public function computeSlug(): void
+    {
+        if (empty($this->slug)) {
+            $slugger = new AsciiSlugger('fr');
+            // Arene names should be unique enough, e.g. "Argenta", "Azuria"
+            $this->slug = strtolower($slugger->slug(trim($this->nom))->toString());
+        }
     }
 }

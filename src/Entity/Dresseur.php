@@ -7,14 +7,19 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\String\Slugger\AsciiSlugger;
 
 #[ORM\Entity(repositoryClass: DresseurRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Dresseur
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
+
+    #[ORM\Column(length: 255, unique: true, nullable: true)]
+    private ?string $slug = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $nom = null;
@@ -28,7 +33,7 @@ class Dresseur
     #[ORM\Column(length: 255)]
     private ?string $region = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(type: \Doctrine\DBAL\Types\Types::TEXT)]
     private ?string $ambition = null;
 
     #[ORM\Column(type: \Doctrine\DBAL\Types\Types::TEXT)]
@@ -45,6 +50,12 @@ class Dresseur
     #[ORM\OneToOne(mappedBy: 'champion', targetEntity: Arene::class)]
     private ?Arene $arene = null;
 
+    #[ORM\Column]
+    private ?bool $estMechant = null;
+
+    #[ORM\ManyToOne(inversedBy: 'dresseurs')]
+    private ?Organisation $organisation = null;
+
     public function __construct()
     {
         $this->teams = new ArrayCollection();
@@ -53,6 +64,17 @@ class Dresseur
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(?string $slug): static
+    {
+        $this->slug = $slug;
+        return $this;
     }
 
     public function getNom(): ?string
@@ -168,5 +190,45 @@ class Dresseur
     public function setImage(?string $image): void
     {
         $this->image = $image;
+    }
+
+    public function __toString(): string
+    {
+        return trim(($this->prenom ?? '') . ' ' . ($this->nom ?? ''));
+    }
+
+    #[ORM\PrePersist]
+    #[ORM\PreUpdate]
+    public function computeSlug(): void
+    {
+        if (empty($this->slug)) {
+            $slugger = new AsciiSlugger('fr');
+            $fullName = $this->prenom . ' ' . $this->nom;
+            $this->slug = strtolower($slugger->slug(trim($fullName))->toString());
+        }
+    }
+
+    public function isEstMechant(): ?bool
+    {
+        return $this->estMechant;
+    }
+
+    public function setEstMechant(bool $estMechant): static
+    {
+        $this->estMechant = $estMechant;
+
+        return $this;
+    }
+
+    public function getOrganisation(): ?Organisation
+    {
+        return $this->organisation;
+    }
+
+    public function setOrganisation(?Organisation $organisation): static
+    {
+        $this->organisation = $organisation;
+
+        return $this;
     }
 }

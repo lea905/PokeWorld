@@ -16,28 +16,16 @@ class DresseurRepository extends ServiceEntityRepository
         parent::__construct($registry, Dresseur::class);
     }
 
-    //    /**
-    //     * @return Dresseur[] Returns an array of Dresseur objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('d')
-    //            ->andWhere('d.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('d.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
-
-    //    public function findOneBySomeField($value): ?Dresseur
-    //    {
-    //        return $this->createQueryBuilder('d')
-    //            ->andWhere('d.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+    /**
+     * @return Dresseur[] Returns an array of Dresseur objects
+     */
+    public function findBySearchQuery(string $query): array
+    {
+        return $this->createQueryBuilder('d')
+            ->andWhere('d.nom LIKE :query OR d.prenom LIKE :query OR d.villeNatale LIKE :query OR d.region LIKE :query')
+            ->setParameter('query', '%' . $query . '%')
+            ->orderBy('d.nom', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
 }

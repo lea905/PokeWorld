@@ -1,73 +1,137 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ arene.nom }} - PokeWorld{% endblock %}
+{% block title %}{{ arene.nom }} - Pokédex{% endblock %}
 
 {% block body %}
-<div class="container my-5">
-    <!-- En-tête de l'Arène -->
-    <div class="card border-0 shadow-lg overflow-hidden mb-5 rounded-4">
-        <div class="row g-0">
-            <div class="col-md-4 bg-primary text-white d-flex align-items-center justify-content-center p-5 text-center position-relative">
-                <div class="position-absolute start-0 top-0 w-100 h-100 bg-gradient text-white" style="opacity: 0.1;"></div>
-                <div class="position-relative z-1">
-                    {% if arene.imageBadge %}
-                        <img src="{{ asset(arene.imageBadge) }}" alt="Badge {{ arene.badge }}" class="img-fluid drop-shadow mb-3" style="max-height: 180px;">
-                    {% else %}
-                        <i class="fas fa-certificate fa-8x text-white-50"></i>
-                    {% endif %}
-                    <h2 class="fw-bold mt-2">Badge {{ arene.badge }}</h2>
-                </div>
-            </div>
-            <div class="col-md-8 p-5">
-                <div class="d-flex justify-content-between align-items-start">
-                    <div>
-                        <h1 class="display-4 fw-bold text-primary mb-0">{{ arene.nom }}</h1>
-                        <p class="h4 text-muted fw-light">{{ arene.region }}</p>
+    <!-- Hero Section -->
+    <div class="hero-pokemon" style="background: linear-gradient(135deg, #b45309 0%, #f59e0b 100%); min-height: 280px; padding: 2rem; border-radius: 0 0 2rem 2rem; margin-top: -1.5rem;">
+        <div class="container position-relative z-1">
+            <a href="{{ path('app_arene_index') }}" class="btn btn-light rounded-pill px-4 mb-4 shadow-sm text-decoration-none fw-bold" style="opacity: 0.9;">
+                &larr; Retour aux Arènes
+            </a>
+        </div>
+    </div>
+
+    <div class="container mb-5" style="margin-top: -140px; position: relative; z-index: 10;">
+        
+        <!-- Carte Principale Arène -->
+        <div class="glass-panel p-0 bg-white shadow-lg border-0 mb-5 overflow-hidden">
+            <div class="row g-0 align-items-center">
+                
+                <!-- Colonne Gauche (Badge) -->
+                <div class="col-md-5 col-lg-4 text-center p-5 position-relative" style="background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);">
+                    <div class="position-relative z-1">
+                        {% if arene.badge and ('.webp' in arene.badge or '.png' in arene.badge or '.jpg' in arene.badge) %}
+                            <img src="{{ asset('images/Badges/' ~ arene.badge) }}" alt="Badge" class="img-fluid drop-shadow mb-3" style="max-height: 180px; filter: drop-shadow(0 15px 15px rgba(0,0,0,0.15));">
+                        {% elseif arene.imageBadge %}
+                            <img src="{{ asset(arene.imageBadge) }}" alt="Badge" class="img-fluid drop-shadow mb-3" style="max-height: 180px; filter: drop-shadow(0 15px 15px rgba(0,0,0,0.15));">
+                        {% else %}
+                            <div class="position-relative d-flex align-items-center justify-content-center shadow-lg mx-auto mb-4" 
+                                 style="width: 140px; height: 140px; background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%); border-radius: 30px; transform: rotate(45deg); border: 8px solid #fef3c7;">
+                                <div style="transform: rotate(-45deg); color: #fff; font-weight: 900; font-size: 4.5rem; text-shadow: 0 4px 8px rgba(0,0,0,0.3);">
+                                    {% if arene.badge %}{{ arene.badge|first|upper }}{% else %}?{% endif %}
+                                </div>
+                            </div>
+                        {% endif %}
+                        <h2 class="fw-bold mt-3 text-dark mb-0">{% if arene.badge %}Badge {{ arene.badge|split('.')|first|capitalize }}{% endif %}</h2>
                     </div>
-                     <span class="badge bg-warning text-dark fs-5 align-self-center"><i class="fas fa-map-marker-alt me-2"></i>{{ arene.lieu }}</span>
                 </div>
-                
-                <hr class="my-4">
-                
-                <div class="row">
-                     <div class="col-12">
-                         <h4 class="fw-bold mb-3"><i class="fas fa-crown text-warning me-2"></i>Le Champion</h4>
-                         {% if arene.champion %}
-                            <div class="d-flex align-items-center bg-light p-3 rounded-3 shadow-sm">
+
+                <!-- Colonne Droite (Infos & Champion) -->
+                <div class="col-md-7 col-lg-8 p-4 p-md-5">
+                    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4">
+                        <div>
+                            <p class="text-uppercase text-secondary small fw-bold tracking-wide mb-1" style="letter-spacing: 2px;"><i class="fas fa-map-marker-alt text-danger me-1"></i> {{ arene.region }} - {{ arene.lieu }}</p>
+                            <h1 class="display-5 fw-bold text-dark mb-0">{{ arene.nom }}</h1>
+                        </div>
+                    </div>
+                    
+                    <hr class="my-4" style="opacity: 0.1;">
+                    
+                    <h4 class="fw-bold mb-4 text-dark opacity-75 d-flex align-items-center">
+                        <i class="fas fa-crown text-warning me-2 fs-3"></i> Le Champion d'Arène
+                    </h4>
+                    
+                    {% if arene.champion %}
+                        <div class="d-flex flex-column flex-sm-row align-items-sm-center bg-light p-4 rounded-4 shadow-sm border" style="border-color: rgba(0,0,0,0.05) !important;">
+                            <div class="position-relative mb-3 mb-sm-0 me-sm-4 text-center">
                                 {% if arene.champion.image %}
-                                    <img src="{{ asset(arene.champion.image) }}" class="rounded-circle border border-3 border-white shadow-sm me-3" alt="{{ arene.champion.nom }}" style="width: 80px; height: 80px; object-fit: cover;">
+                                    <img src="{{ asset('images/' ~ arene.champion.image) }}" class="rounded-circle shadow-md" alt="{{ arene.champion.nom }}" style="width: 100px; height: 100px; object-fit: cover; border: 4px solid white;">
                                 {% else %}
-                                    <div class="rounded-circle bg-secondary me-3 d-flex align-items-center justify-content-center text-white border border-3 border-white shadow-sm" style="width: 80px; height: 80px;">
+                                    <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center text-white shadow-md mx-auto" style="width: 100px; height: 100px; border: 4px solid white;">
                                         <i class="fas fa-user-ninja fa-2x"></i>
                                     </div>
                                 {% endif %}
-                                
-                                <div class="flex-grow-1">
-                                    <h3 class="mb-1 text-dark fw-bold">{{ arene.champion.nom }} {{ arene.champion.prenom }}</h3>
-                                    <p class="text-muted mb-0 small">{{ arene.champion.description|slice(0, 100) }}...</p>
+                                <span class="position-absolute bottom-0 end-0 badge rounded-pill bg-warning text-dark border border-2 border-white"><i class="fas fa-star"></i></span>
+                            </div>
+                            
+                            <div class="flex-grow-1 text-center text-sm-start">
+                                <h3 class="mb-2 text-dark fw-bold">{{ arene.champion.nom }} {{ arene.champion.prenom }}</h3>
+                                <div class="text-secondary small mb-3" style="line-height: 1.6; max-height: 4.8em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;">
+                                    {{ arene.champion.description|raw }}
                                 </div>
-                                <a href="{{ path('app_dresseur_show', {id: arene.champion.id}) }}" class="btn btn-outline-primary rounded-pill">Voir le profil</a>
+                                <a href="{{ path('app_dresseur_show', {'slug': arene.champion.slug}) }}" class="btn btn-outline-primary rounded-pill px-4 fw-bold">Défier le champion <i class="fas fa-arrow-right ms-2"></i></a>
                             </div>
-                         {% else %}
-                            <div class="alert alert-warning">
-                                <i class="fas fa-exclamation-triangle me-2"></i> Cette arène n'a pas encore de champion officialisé.
+                        </div>
+                    {% else %}
+                        <div class="alert alert-light bg-light border-0 shadow-sm rounded-4 p-4 d-flex align-items-center text-muted">
+                            <i class="fas fa-info-circle fa-2x me-3 opacity-50"></i>
+                            <div>
+                                <h6 class="fw-bold mb-1">Arène vacante</h6>
+                                <p class="mb-0 small">Cette arène n'a pas encore de champion officialisé par la Ligue.</p>
                             </div>
-                         {% endif %}
-                     </div>
+                        </div>
+                    {% endif %}
                 </div>
+
             </div>
         </div>
-    </div>
-    
-    <div class="text-center">
-        <a href="{{ path('app_arene_index') }}" class="btn btn-secondary rounded-pill px-4"><i class="fas fa-arrow-left me-2"></i>Retour aux arènes</a>
-    </div>
+        
+        <!-- Équipes du Champion -->
+        {% if arene.champion and arene.champion.teams|length > 0 %}
+            <div class="glass-panel p-4 p-md-5 bg-white shadow-sm border-0 mb-5">
+                <h3 class="fw-bold mb-4 text-dark opacity-75 d-flex align-items-center border-bottom pb-3">
+                    <i class="fas fa-th-large me-2 text-primary"></i> Les Équipes du Champion
+                </h3>
+                
+                {% for team in arene.champion.teams %}
+                    <div class="mb-5">
+                        <h4 class="h5 fw-bold mb-4 text-primary d-inline-block border-2 border-bottom border-primary pb-1"><i class="fas fa-bookmark me-2"></i> {{ team.nom }}</h4>
+                        <div class="row g-3">
+                            {% for pokemon in team.pokemons %}
+                                <div class="col-6 col-md-4 col-lg-3">
+                                    <a href="{{ path('app_pokedex_show', {'nom': pokemon.nom}) }}" class="text-decoration-none">
+                                        <div class="card border-1 border-light shadow-sm rounded-4 h-100 overflow-hidden bg-white" 
+                                             style="transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.2s ease;" 
+                                             onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 12px 24px rgba(0,0,0,0.1)';" 
+                                             onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 6px rgba(0,0,0,0.05)';">
+                                            <div class="card-body text-center p-3 position-relative">
+                                                
+                                                <img src="{{ pokemon.imagePrincipale }}" alt="{{ pokemon.nom }}" class="img-fluid mb-2" style="max-height: 100px; filter: drop-shadow(0 6px 8px rgba(0,0,0,0.15)); z-index: 2; position: relative;">
+                                                <h6 class="fw-bold text-dark mb-1">{{ pokemon.nom }}</h6>
+                                                
+                                                {% if pokemon.type1 is defined and pokemon.type1 %}
+                                                    <div class="mt-2 text-center d-flex justify-content-center">
+                                                        <span style="width:12px; height:12px; display:inline-block; border-radius:50%; box-shadow: 0 2px 4px rgba(0,0,0,0.2);" class="text-bg-{{ pokemon.type1.nom|lower|replace({'é': 'e', 'è': 'e'}) }}"></span>
+                                                        {% if pokemon.type2 is defined and pokemon.type2 %}
+                                                            <span style="width:12px; height:12px; display:inline-block; border-radius:50%; margin-left:4px; box-shadow: 0 2px 4px rgba(0,0,0,0.2);" class="text-bg-{{ pokemon.type2.nom|lower|replace({'é': 'e', 'è': 'e'}) }}"></span>
+                                                        {% endif %}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            {% else %}
+                                <div class="col-12">
+                                    <p class="text-muted fst-italic">Cette équipe est vide pour le moment.</p>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
 
-</div>
-
-<style>
-    .drop-shadow {
-        filter: drop-shadow(0 10px 8px rgba(0,0,0,0.3));
-    }
-</style>
+    </div>
 {% endblock %}

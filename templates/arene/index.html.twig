@@ -1,79 +1,90 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Les Arènes - PokeWorld{% endblock %}
+{% block title %}Les Arènes - Pokédex{% endblock %}
 
 {% block body %}
-<div class="container my-5">
-    <div class="text-center mb-5">
-        <h1 class="text-primary fw-bold display-5">Ligue Pokémon</h1>
-        <p class="lead text-secondary">Défiez les champions et collectez tous les badges !</p>
+    <!-- Hero Header -->
+    <div class="hero-pokemon" style="background: linear-gradient(135deg, #b45309 0%, #f59e0b 100%); min-height: 250px; padding: 3rem 0; border-radius: 0 0 2rem 2rem; margin-top: -1.5rem;">
+        <div class="container position-relative z-1 hero-content text-center">
+            <h1 class="display-4 fw-bold text-white mb-2" style="text-shadow: 0 2px 10px rgba(0,0,0,0.3);"><i class="fas fa-landmark me-2"></i> La Ligue Pokémon</h1>
+            <p class="lead text-white opacity-75">Défiez les champions d'arène et collectez tous les badges !</p>
+        </div>
     </div>
 
-    <div class="row g-4">
-        {% for arene in arenes %}
-            <div class="col-md-6 col-lg-4">
-                <div class="card h-100 border-0 shadow-lg overflow-hidden position-relative arene-card">
-                     <!-- Background décoratif -->
-                     <div class="position-absolute top-0 start-0 w-100 h-100 bg-light opacity-25"></div>
-                    
-                    <div class="card-body position-relative text-center p-4">
-                        {% if arene.imageBadge %}
-                            <div class="mb-3 d-inline-block p-3 rounded-circle bg-white shadow-sm">
-                                <img src="{{ asset(arene.imageBadge) }}" alt="Badge {{ arene.badge }}" class="img-fluid" style="width: 80px; height: 80px; object-fit: contain;">
-                            </div>
-                        {% else %}
-                             <div class="mb-3 d-inline-block p-3 rounded-circle bg-white shadow-sm">
-                                <i class="fas fa-certificate fa-3x text-warning"></i>
-                            </div>
-                        {% endif %}
-
-                        <h3 class="card-title fw-bold text-dark mb-1">{{ arene.nom }}</h3>
-                        <p class="text-uppercase text-muted small fw-bold tracking-wide">{{ arene.region }}</p>
+    <div class="container my-5">
+        <div class="row g-4 justify-content-center">
+            {% for arene in arenes %}
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden position-relative bg-white arene-card"
+                         style="transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;" 
+                         onmouseover="this.style.transform='translateY(-10px)'; this.style.boxShadow='0 20px 40px rgba(0,0,0,0.1)';" 
+                         onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 6px rgba(0,0,0,0.05)';">
                         
-                        <div class="d-flex justify-content-center align-items-center gap-2 mb-4">
-                            <span class="badge bg-danger rounded-pill"><i class="fas fa-map-marker-alt me-1"></i> {{ arene.lieu }}</span>
-                            <span class="badge bg-gold text-dark border border-warning rounded-pill"><i class="fas fa-award me-1"></i> Badge {{ arene.badge }}</span>
-                        </div>
+                         <!-- Background décoratif abstrait -->
+                         <div class="position-absolute top-0 start-0 w-100 h-100 opacity-25" style="background: linear-gradient(to bottom right, #fef3c7, transparent); z-index: 0;"></div>
                         
-                        {% if arene.champion %}
-                            <div class="d-flex align-items-center justify-content-center bg-white rounded p-2 shadow-sm mb-3">
-                                {% if arene.champion.image %}
-                                    <img src="{{ asset(arene.champion.image) }}" class="rounded-circle me-2" alt="{{ arene.champion.nom }}" style="width: 40px; height: 40px; object-fit: cover;">
+                        <div class="card-body position-relative z-1 text-center p-4 d-flex flex-column">
+                            
+                            <!-- Badge Image or Custom Design -->
+                            <div class="mb-4 mt-2 mx-auto d-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
+                                {% if arene.badge and ('.webp' in arene.badge or '.png' in arene.badge or '.jpg' in arene.badge) %}
+                                    <img src="{{ asset('images/Badges/' ~ arene.badge) }}" alt="Badge" class="img-fluid" style="width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 6px 12px rgba(0,0,0,0.2));">
+                                {% elseif arene.imageBadge %}
+                                    <img src="{{ asset(arene.imageBadge) }}" alt="Badge" class="img-fluid" style="width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 6px 12px rgba(0,0,0,0.2));">
                                 {% else %}
-                                    <div class="rounded-circle bg-secondary me-2 d-flex align-items-center justify-content-center text-white" style="width: 40px; height: 40px;">
-                                        <i class="fas fa-user-ninja"></i>
+                                    <div class="position-relative d-flex align-items-center justify-content-center shadow-lg" 
+                                         style="width: 65px; height: 65px; background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%); border-radius: 16px; transform: rotate(45deg); border: 4px solid #fef3c7;">
+                                        <div style="transform: rotate(-45deg); color: #fff; font-weight: 900; font-size: 1.8rem; text-shadow: 0 2px 4px rgba(0,0,0,0.3);">
+                                            {% if arene.badge %}{{ arene.badge|first|upper }}{% else %}?{% endif %}
+                                        </div>
                                     </div>
                                 {% endif %}
-                                <div class="text-start">
-                                    <small class="d-block text-muted" style="line-height:1;">Champion</small>
-                                    <span class="fw-bold text-dark">{{ arene.champion.nom }}</span>
-                                </div>
                             </div>
-                        {% endif %}
 
-                        <a href="{{ path('app_arene_show', {'id': arene.id}) }}" class="btn btn-primary w-100 rounded-pill fw-bold">Défier l'Arène</a>
+                            <h3 class="card-title fw-bold text-dark mb-1">{{ arene.nom }}</h3>
+                            <p class="text-uppercase text-secondary small fw-bold tracking-wide mb-3" style="letter-spacing: 2px;">{{ arene.region }}</p>
+                            
+                            <div class="d-flex justify-content-center align-items-center gap-2 mb-4">
+                                <span class="badge bg-light text-dark border rounded-pill px-3 py-2 shadow-sm"><i class="fas fa-map-marker-alt text-danger me-1"></i> {{ arene.lieu }}</span>
+                                <span class="badge rounded-pill px-3 py-2 shadow-sm text-dark fw-bold" style="background: linear-gradient(135deg, #fcd34d 0%, #f59e0b 100%);"><i class="fas fa-award me-1"></i> {% if arene.badge %}Badge {{ arene.badge|split('.')|first|capitalize }}{% else %}Arène{% endif %}</span>
+                            </div>
+                            
+                            <!-- Section Champion -->
+                            <div class="flex-grow-1 d-flex flex-column justify-content-center mb-4">
+                                {% if arene.champion %}
+                                    <div class="d-flex align-items-center justify-content-center bg-light rounded-pill p-2 shadow-sm mx-3 border" style="border-color: rgba(0,0,0,0.05) !important;">
+                                        {% if arene.champion.image %}
+                                            <img src="{{ asset('images/' ~ arene.champion.image) }}" class="rounded-circle me-2 shadow-sm" alt="{{ arene.champion.nom }}" style="width: 45px; height: 45px; object-fit: cover;">
+                                        {% else %}
+                                            <div class="rounded-circle bg-secondary me-2 d-flex align-items-center justify-content-center text-white shadow-sm" style="width: 45px; height: 45px;">
+                                                <i class="fas fa-user"></i>
+                                            </div>
+                                        {% endif %}
+                                        <div class="text-start pe-3">
+                                            <small class="d-block text-muted text-uppercase fw-bold" style="font-size: 0.65rem;">Champion</small>
+                                            <span class="fw-bold text-dark" style="font-size: 0.95rem;">{{ arene.champion.nom }}</span>
+                                        </div>
+                                    </div>
+                                {% else %}
+                                    <div class="text-muted small fst-italic">
+                                        Aucun champion assigné
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <a href="{{ path('app_arene_show', {'slug': arene.slug}) }}" class="btn rounded-pill fw-bold text-white shadow-sm mt-auto w-100" style="background: linear-gradient(135deg, #d97706 0%, #b45309 100%); border: none;">Défier l'arène <i class="fas fa-arrow-right ms-2 fs-6"></i></a>
+                        </div>
                     </div>
                 </div>
-            </div>
-        {% else %}
-            <div class="col-12 text-center py-5">
-                <i class="fas fa-dungeon fa-4x text-muted mb-3"></i>
-                <p class="h4 text-muted">Aucune arène n'a été construite pour le moment.</p>
-            </div>
-        {% endfor %}
+            {% else %}
+                <div class="col-12 text-center my-5">
+                    <div class="p-5 bg-white shadow-sm rounded-4 d-inline-block">
+                        <i class="fas fa-dungeon text-muted mb-3" style="font-size: 4rem; opacity: 0.3;"></i>
+                        <h4 class="text-muted fw-bold">Aucune arène n'a été construite pour le moment.</h4>
+                        <p class="text-muted mb-0">Revenez plus tard !</p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
     </div>
-</div>
-
-<style>
-    .bg-gold {
-        background-color: #ffd700;
-    }
-    .tracking-wide {
-        letter-spacing: 0.1em;
-    }
-    .arene-card:hover {
-        transform: translateY(-5px);
-        transition: transform 0.3s ease;
-    }
-</style>
 {% endblock %}

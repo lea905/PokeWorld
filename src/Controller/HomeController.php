@@ -11,17 +11,23 @@ use Symfony\Component\Routing\Annotation\Route;
 class HomeController extends AbstractController
 {
     #[Route('/', name: 'app_home_index', methods: ['GET'])]
-    public function home(PokemonRepository $pokemonRepository, DresseurRepository $dresseurRepository,
-    AreneRepository $areneRepository): Response
-    {
-        $pokemons = array_slice($pokemonRepository->findAll(), 0, 6);
-        $dresseurs = array_slice($dresseurRepository->findAll(), 0, 6);
-        $arenes = $areneRepository->findAll();
+    public function home(
+        PokemonRepository $pokemonRepository,
+        DresseurRepository $dresseurRepository,
+        AreneRepository $areneRepository
+    ): Response {
+        $allPokemons = $pokemonRepository->findAll();
+        $allDresseurs = $dresseurRepository->findAll();
+        $allArenes = $areneRepository->findAll();
 
-        return $this->render('index.html.twig',[
-            'pokemons' => $pokemons,
-            'dresseurs' => $dresseurs,
-            'arenes' => $arenes,
+        $pokemonDuJour = !empty($allPokemons) ? $allPokemons[array_rand($allPokemons)] : null;
+        $areneDuJour = !empty($allArenes) ? $allArenes[array_rand($allArenes)] : null;
+
+        return $this->render('index.html.twig', [
+            'pokemonDuJour' => $pokemonDuJour,
+            'areneDuJour' => $areneDuJour,
+            'pokemons' => array_reverse(array_slice($allPokemons, -3)),
+            'dresseurs' => array_reverse(array_slice($allDresseurs, -3)),
         ]);
     }
 }

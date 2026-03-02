@@ -21,13 +21,11 @@ class AreneCrudController extends AbstractCrudController
             TextField::new('nom'),
             TextField::new('region'),
             TextField::new('lieu'),
-            TextField::new('badge'),
-            ImageField::new('imageBadge')
-                ->setBasePath('images/')
-                ->setUploadDir('public/images/')
-                ->setUploadedFileNamePattern('[randomhash].[extension]')
-                ->setRequired(false),
             AssociationField::new('champion'),
+            ImageField::new('badge')
+                ->setBasePath('images/Badges/')
+                ->setUploadDir('public/images/Badges/')
+                ->setRequired(false),
         ];
     }
 }

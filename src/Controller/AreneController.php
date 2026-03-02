@@ -18,9 +18,15 @@ class AreneController extends AbstractController
         ]);
     }
 
-    #[Route('/arene/{id}', name: 'app_arene_show')]
-    public function show(Arene $arene): Response
+    #[Route('/arene/{slug}', name: 'app_arene_show')]
+    public function show(string $slug, AreneRepository $areneRepository): Response
     {
+        $arene = $areneRepository->findOneBy(['slug' => $slug]);
+
+        if (!$arene) {
+            throw $this->createNotFoundException('Arène non trouvée');
+        }
+
         return $this->render('arene/show.html.twig', [
             'arene' => $arene,
         ]);
