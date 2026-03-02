@@ -39,32 +39,38 @@ class PokemonRepository extends ServiceEntityRepository
                 ->setParameter('type', '%' . $filters['type'] . '%');
         }
 
+        if (isset($filters['is_legendary']) && $filters['is_legendary'] === true) {
+            $qb->andWhere('p.isLegendary = :is_legendary')
+                ->setParameter('is_legendary', true);
+        }
+
+        if (isset($filters['is_mythical']) && $filters['is_mythical'] === true) {
+            $qb->andWhere('p.isMythical = :is_mythical')
+                ->setParameter('is_mythical', true);
+        }
+
+        if (!empty($filters['evolution_stage'])) {
+            if ($filters['evolution_stage'] === 'base') {
+                $qb->andWhere('p.evolutionPrecedente IS NULL');
+            } elseif ($filters['evolution_stage'] === 'evolution') {
+                $qb->andWhere('p.evolutionPrecedente IS NOT NULL');
+            }
+        }
+
         return $qb->getQuery()->getResult();
     }
 
 
-    //    /**
-    //     * @return Pokemon[] Returns an array of Pokemon objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('p')
-    //            ->andWhere('p.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('p.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
-
-    //    public function findOneBySomeField($value): ?Pokemon
-    //    {
-    //        return $this->createQueryBuilder('p')
-    //            ->andWhere('p.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+    /**
+     * @return Pokemon[] Returns an array of Pokemon objects corresponding to the search
+     */
+    public function findBySearchQuery(string $query): array
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.nom LIKE :query OR p.description LIKE :query')
+            ->setParameter('query', '%' . $query . '%')
+            ->orderBy('p.numeroPokedex', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
 }

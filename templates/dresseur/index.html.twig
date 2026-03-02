@@ -1,47 +1,65 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Dresseurs - PokeWorld{% endblock %}
+{% block title %}Dresseurs - Pokédex{% endblock %}
 
 {% block body %}
-<div class="container my-5">
-    <h1 class="text-center mb-5 text-primary fw-bold">Les Dresseurs</h1>
-    
-    <div class="row g-4">
-        {% for dresseur in dresseurs %}
-            <div class="col-12 col-md-6 col-lg-3">
-                <div class="card h-100 shadow-sm border-0 hover-scale transition-all">
-                    {% if dresseur.image %}
-                        <img src="{{ asset(dresseur.image) }}" class="card-img-top object-fit-cover" alt="{{ dresseur.nom }}" style="height: 250px;">
-                    {% else %}
-                         <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 250px;">
-                            <span class="text-muted"><i class="fas fa-user fa-3x"></i></span>
+    <!-- Hero Header -->
+    <div class="hero-pokemon" style="background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%); min-height: 250px; padding: 3rem 0; border-radius: 0 0 2rem 2rem; margin-top: -1.5rem;">
+        <div class="container position-relative z-1 hero-content text-center">
+            <h1 class="display-4 fw-bold text-white mb-2" style="text-shadow: 0 2px 10px rgba(0,0,0,0.3);">Les Dresseurs</h1>
+            <p class="lead text-white opacity-75">Découvrez les dresseurs, champions et maîtres de région !</p>
+        </div>
+    </div>
+
+    <div class="container my-5">
+        <div class="row g-4 justify-content-center">
+            {% for dresseur in dresseurs %}
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <a href="{{ path('app_dresseur_show', {'slug': dresseur.slug}) }}" class="text-decoration-none h-100 d-block">
+                        <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden bg-white" 
+                             style="transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;" 
+                             onmouseover="this.style.transform='translateY(-10px)'; this.style.boxShadow='0 20px 40px rgba(0,0,0,0.1)';" 
+                             onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 6px rgba(0,0,0,0.05)';">
+                            <div class="position-relative">
+                                {% if dresseur.image %}
+                                    <img src="{{ asset('images/' ~ dresseur.image) }}" class="card-img-top object-fit-cover" alt="{{ dresseur.nom }}" style="height: 220px; border-bottom: 1px solid rgba(0,0,0,0.05);">
+                                {% else %}
+                                    <div class="card-img-top d-flex align-items-center justify-content-center" style="height: 220px; background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);">
+                                        <i class="fas fa-user text-secondary opacity-25" style="font-size: 5rem;"></i>
+                                    </div>
+                                {% endif %}
+                                
+                                {% if dresseur.arene %}
+                                    <span class="position-absolute top-0 end-0 m-3 badge rounded-pill bg-warning text-dark shadow-sm px-3 py-2 fw-bold" style="backdrop-filter: blur(5px); background: rgba(255, 193, 7, 0.9) !important;">
+                                        <i class="fas fa-trophy me-1"></i> Champion
+                                    </span>
+                                {% endif %}
+                                {% if dresseur.estMechant %}
+                                    <span class="position-absolute top-0 start-0 m-3 badge rounded-pill bg-danger text-white shadow-sm px-3 py-2 fw-bold" style="backdrop-filter: blur(5px); background: rgba(220, 53, 69, 0.9) !important;">
+                                        <i class="fas fa-skull me-1"></i> Antagoniste
+                                    </span>
+                                {% endif %}
+                            </div>
+
+                            <div class="card-body text-center p-4">
+                                <h5 class="card-title fw-bold {% if dresseur.estMechant %}text-danger{% else %}text-dark{% endif %} mb-1">{{ dresseur.nom }} {{ dresseur.prenom }}</h5>
+                                <p class="text-danger small mb-3 fw-bold">
+                                    <i class="fas fa-map-marker-alt"></i> {{ dresseur.villeNatale }}
+                                </p>
+                                <p class="card-text text-secondary small text-truncate">{{ dresseur.description }}</p>
+                            </div>
                         </div>
-                    {% endif %}
-                    
-                    <div class="card-body text-center">
-                        <h5 class="card-title fw-bold text-dark">{{ dresseur.nom }} {{ dresseur.prenom }}</h5>
-                        <p class="card-text text-muted small mb-2"><i class="fas fa-map-marker-alt me-1"></i> {{ dresseur.lieuOrigine }}</p>
-                        <p class="card-text text-truncate">{{ dresseur.description }}</p>
-                    </div>
-                    <div class="card-footer bg-transparent border-0 pb-3 text-center">
-                         <a href="{{ path('app_dresseur_show', {'id': dresseur.id}) }}" class="btn btn-outline-primary rounded-pill px-4">Voir le profil</a>
+                    </a>
+                </div>
+            {% else %}
+                <div class="col-12 text-center my-5">
+                    <div class="p-5 bg-white shadow-sm rounded-4 d-inline-block">
+                        <i class="fas fa-user-slash text-muted mb-3" style="font-size: 4rem; opacity: 0.5;"></i>
+                        <h4 class="text-muted fw-bold">Aucun dresseur trouvé.</h4>
+                        <p class="text-muted mb-0">Revenez plus tard !</p>
                     </div>
                 </div>
-            </div>
-        {% else %}
-            <div class="col-12 text-center">
-                <p class="text-muted">Aucun dresseur trouvé.</p>
-            </div>
-        {% endfor %}
+            {% endfor %}
+        </div>
     </div>
-</div>
-
-<style>
-    .hover-scale {
-        transition: transform 0.3s ease;
-    }
-    .hover-scale:hover {
-        transform: translateY(-5px);
-    }
-</style>
 {% endblock %}

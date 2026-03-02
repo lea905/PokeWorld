@@ -1,0 +1,92 @@
+﻿
+ [WARNING] You have 3  
+           previously  
+           executed    
+           migrations  
+           in the      
+           database    
+           that are not
+           registered  
+           migrations. 
+
+ >> 2026-02-09 15:51:58 (DoctrineMigrations\\Version20260209134546)
+ >> 2026-02-09 15:37:09 (DoctrineMigrations\\Version20260209140429)
+ >> 2026-02-09 15:52:05 (DoctrineMigrations\\Version20260209141819)
+[notice] Migrating up to DoctrineMigrations\Version20260227094649
+php : [error] 
+Migration DoctrineMigra
+tions\Version2026022709
+4649 failed during 
+Execution. Error: "An 
+exception occurred 
+while executing a 
+query: 
+SQLSTATE[42S21]: 
+Column already exists: 
+1060 Duplicate column 
+name 'slug'"
+Au caractère Ligne:1 : 
+1
++ php bin/console doctr
+ine:migrations:migrate 
+-n > output4.txt 2>&1 
+; G ...
++ ~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo     
+         : NotSpecifi  
+  ed: ([error] Migra   
+ ti...mn name 'slug    
+'":String) [], Rem    
+oteException
+    + FullyQualifiedEr 
+   rorId : NativeComm  
+  andError
+ 
+
+In 
+ExceptionConverter.php 
+line 72:
+                       
+  An exception occurr  
+  ed while executing   
+  a query: SQLSTATE[4  
+  2S21]: Column alrea  
+  dy exists: 1060 Dup  
+  licate column name   
+  'slug'               
+                       
+
+In Exception.php line 
+24:
+                       
+  SQLSTATE[42S21]: Co  
+  lumn already exists  
+  : 1060 Duplicate co  
+  lumn name 'slug'     
+                       
+
+In Connection.php line 
+71:
+                       
+  SQLSTATE[42S21]: Co  
+  lumn already exists  
+  : 1060 Duplicate co  
+  lumn name 'slug'     
+                       
+
+doctrine:migrations:mig
+rate [--write-sql 
+[WRITE-SQL]] 
+[--dry-run] 
+[--query-time] 
+[--allow-no-migration] 
+[--all-or-nothing 
+[ALL-OR-NOTHING]] 
+[--no-all-or-nothing] 
+[--configuration 
+CONFIGURATION] [--em 
+EM] [--conn CONN] [--] 
+[<version>]
+

@@ -18,9 +18,15 @@ class DresseurController extends AbstractController
         ]);
     }
 
-    #[Route('/dresseur/{id}', name: 'app_dresseur_show')]
-    public function show(Dresseur $dresseur): Response
+    #[Route('/dresseur/{slug}', name: 'app_dresseur_show')]
+    public function show(string $slug, DresseurRepository $dresseurRepository): Response
     {
+        $dresseur = $dresseurRepository->findOneBy(['slug' => $slug]);
+
+        if (!$dresseur) {
+            throw $this->createNotFoundException('Dresseur non trouvé');
+        }
+
         return $this->render('dresseur/show.html.twig', [
             'dresseur' => $dresseur,
         ]);

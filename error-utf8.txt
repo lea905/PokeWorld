@@ -1,0 +1,64 @@
+﻿ParseError {#441
+  #message: "syntax error, unexpected token ";""
+  #code: 0
+  #file: "C:\Users\lexaw\Documents\PokeWorld\src\Controller\Admin\CrudController.php"
+  #line: 5
+  trace: {
+    C:\Users\lexaw\Documents\PokeWorld\src\Controller\Admin\CrudController.php:5 {
+      Symfony\Component\ErrorHandler\DebugClassLoader->loadClass(string $class): void
+      ÔÇ║ \r
+      ÔÇ║ use ;\r
+      ÔÇ║ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;\r
+    }
+    Symfony\Component\ErrorHandler\DebugClassLoader->loadClass() {}
+    C:\Users\lexaw\Documents\PokeWorld\vendor\symfony\config\Resource\ClassExistenceResource.php:76 { ÔÇª}
+    C:\Users\lexaw\Documents\PokeWorld\vendor\symfony\dependency-injection\ContainerBuilder.php:403 { ÔÇª}
+    C:\Users\lexaw\Documents\PokeWorld\vendor\symfony\dependency-injection\Loader\FileLoader.php:349 { ÔÇª}
+    C:\Users\lexaw\Documents\PokeWorld\vendor\symfony\dependency-injection\Loader\FileLoader.php:129 { ÔÇª}
+    C:\Users\lexaw\Documents\PokeWorld\vendor\symfony\dependency-injection\Loader\YamlFileLoader.php:711 { ÔÇª}
+    C:\Users\lexaw\Documents\PokeWorld\vendor\symfony\dependency-injection\Loader\YamlFileLoader.php:259 { ÔÇª}
+    C:\Users\lexaw\Documents\PokeWorld\vendor\symfony\dependency-injection\Loader\YamlFileLoader.php:182 { ÔÇª}
+    C:\Users\lexaw\Documents\PokeWorld\vendor\symfony\dependency-injection\Loader\YamlFileLoader.php:134 { ÔÇª}
+    C:\Users\lexaw\Documents\PokeWorld\vendor\symfony\config\Loader\FileLoader.php:162 { ÔÇª}
+    C:\Users\lexaw\Documents\PokeWorld\vendor\symfony\config\Loader\FileLoader.php:82 { ÔÇª}
+    C:\Users\lexaw\Documents\PokeWorld\vendor\symfony\dependency-injection\Loader\FileLoader.php:78 { ÔÇª}
+    C:\Users\lexaw\Documents\PokeWorld\vendor\symfony\dependency-injection\Loader\Configurator\ContainerConfigurator.php:67 { ÔÇª}
+    C:\Users\lexaw\Documents\PokeWorld\vendor\symfony\framework-bundle\Kernel\MicroKernelTrait.php:58 { ÔÇª}
+    C:\Users\lexaw\Documents\PokeWorld\vendor\symfony\framework-bundle\Kernel\MicroKernelTrait.php:194 { ÔÇª}
+    C:\Users\lexaw\Documents\PokeWorld\vendor\symfony\dependency-injection\Loader\ClosureLoader.php:35 { ÔÇª}
+    C:\Users\lexaw\Documents\PokeWorld\vendor\symfony\config\Loader\DelegatingLoader.php:37 { ÔÇª}
+    C:\Users\lexaw\Documents\PokeWorld\vendor\symfony\framework-bundle\Kernel\MicroKernelTrait.php:150 { ÔÇª}
+    C:\Users\lexaw\Documents\PokeWorld\vendor\symfony\http-kernel\Kernel.php:611 { ÔÇª}
+    C:\Users\lexaw\Documents\PokeWorld\vendor\symfony\http-kernel\Kernel.php:498 { ÔÇª}
+    C:\Users\lexaw\Documents\PokeWorld\vendor\symfony\http-kernel\Kernel.php:744 { ÔÇª}
+    C:\Users\lexaw\Documents\PokeWorld\vendor\symfony\http-kernel\Kernel.php:120 { ÔÇª}
+    C:\Users\lexaw\Documents\PokeWorld\vendor\symfony\framework-bundle\Console\Application.php:177 { ÔÇª}
+    C:\Users\lexaw\Documents\PokeWorld\vendor\symfony\framework-bundle\Console\Application.php:69 { ÔÇª}
+    C:\Users\lexaw\Documents\PokeWorld\vendor\symfony\console\Application.php:193 { ÔÇª}
+    C:\Users\lexaw\Documents\PokeWorld\vendor\symfony\runtime\Runner\Symfony\ConsoleApplicationRunner.php:49 { ÔÇª}
+    C:\Users\lexaw\Documents\PokeWorld\vendor\autoload_runtime.php:29 { ÔÇª}
+    C:\Users\lexaw\Documents\PokeWorld\bin\console:15 { ÔÇª}
+  }
+}
+php : 2026-02-27T10:53:
+12+00:00 [critical] 
+Uncaught Error: syntax 
+error, unexpected 
+token ";"
+Au caractère Ligne:1 : 
+1
++ php bin/console list 
+> error.txt 2>&1 ; 
+Get-Content error.txt
++ ~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~
+    + CategoryInfo     
+         : NotSpecifi  
+  ed: (2026-02-27T10   
+ :5...ected token "    
+;":String) [], Rem    
+oteException
+    + FullyQualifiedEr 
+   rorId : NativeComm  
+  andError
+ 

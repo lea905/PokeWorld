@@ -16,28 +16,16 @@ class AreneRepository extends ServiceEntityRepository
         parent::__construct($registry, Arene::class);
     }
 
-    //    /**
-    //     * @return Arene[] Returns an array of Arene objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('a')
-    //            ->andWhere('a.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('a.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
-
-    //    public function findOneBySomeField($value): ?Arene
-    //    {
-    //        return $this->createQueryBuilder('a')
-    //            ->andWhere('a.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+    /**
+     * @return Arene[] Returns an array of Arene objects
+     */
+    public function findBySearchQuery(string $query): array
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.nom LIKE :query OR a.region LIKE :query OR a.lieu LIKE :query')
+            ->setParameter('query', '%' . $query . '%')
+            ->orderBy('a.nom', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
 }

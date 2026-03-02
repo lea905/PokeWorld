@@ -1,143 +1,148 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ pokemon.nom }}{% endblock %}
+{% block title %}{{ pokemon.nom }} - Pokédex{% endblock %}
 
 {% block body %}
-    <div class="container mt-5">
-        <a href="{{ path('app_pokedex_index') }}" class="btn btn-outline-secondary mb-4">&larr; Retour au Pokedex</a>
-
-        <div class="row">
-            <div class="col-md-5 mb-4">
-                <div class="card shadow border-0">
-                    <div class="card-body text-center bg-light rounded">
-                        <img src="{{ pokemon.imagePrincipale }}" class="img-fluid w-75 animate__animated animate__fadeIn" alt="{{ pokemon.nom }}">
+    <!-- Hero Section with Type Background -->
+    <div class="hero-pokemon bg-type-{{ pokemon.type1.nom|lower|replace({'é': 'e', 'è': 'e'}) }}">
+        <div class="container position-relative z-1">
+            <div class="row align-items-center">
+                <div class="col-lg-5 text-center text-lg-start mb-5 mb-lg-0">
+                    <a href="{{ path('app_pokedex_index') }}" class="btn btn-light rounded-pill px-4 mb-4 shadow-sm text-decoration-none fw-bold" style="opacity: 0.9;">
+                        &larr; Retour au Pokédex
+                    </a>
+                    <div class="d-flex align-items-center justify-content-center justify-content-lg-start mb-2">
+                        <span class="fs-4 text-dark opacity-50 fw-bold me-3">#{{ pokemon.numeroPokedex }}</span>
                     </div>
+                    <h1 class="display-3 fw-bold text-dark text-uppercase mb-1" style="letter-spacing: -1px;">{{ pokemon.nom }}</h1>
+                    <h4 class="text-dark opacity-50 mb-4 ms-1">{{ pokemon.nomJaponais }}</h4>
+                    
+                    <div class="d-flex justify-content-center justify-content-lg-start gap-2">
+                        <span class="badge rounded-pill fs-6 px-4 py-2 glass-badge text-bg-{{ pokemon.type1.nom|lower|replace({'é': 'e', 'è': 'e'}) }}">{{ pokemon.type1.nom }}</span>
+                        {% if pokemon.type2 %}
+                            <span class="badge rounded-pill fs-6 px-4 py-2 glass-badge text-bg-{{ pokemon.type2.nom|lower|replace({'é': 'e', 'è': 'e'}) }}">{{ pokemon.type2.nom }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="col-lg-7 text-center">
+                    <img src="{{ pokemon.imagePrincipale }}" class="hero-pokemon-img img-fluid animate__animated animate__fadeIn" alt="{{ pokemon.nom }}">
                 </div>
             </div>
-            
-            <div class="col-md-7">
-                <div class="d-flex align-items-center mb-3">
-                    <h1 class="display-4 fw-bold me-3">{{ pokemon.nom }}</h1>
-                    <span class="text-muted fs-4">#{{ pokemon.numeroPokedex }}</span>
-                </div>
-                 <h4 class="text-muted mb-4">{{ pokemon.nomJaponais }}</h4>
-
-                <div class="mb-4">
-                     <span class="badge rounded-pill fs-6 px-3 py-2 text-bg-{{ pokemon.type1.nom|lower }} me-2">{{ pokemon.type1.nom }}</span>
-                    {% if pokemon.type2 %}
-                        <span class="badge rounded-pill fs-6 px-3 py-2 text-bg-{{ pokemon.type2.nom|lower }}">{{ pokemon.type2.nom }}</span>
-                    {% endif %}
-                </div>
-
-                <div class="mb-5">
-                    <h3 class="h5 border-bottom pb-2 mb-3">Description</h3>
-                    <p class="lead fs-6">{{ pokemon.description }}</p>
-                </div>
-
-                <div class="row">
-                    <div class="col-12 mb-4">
-                        <h3 class="h5 border-bottom pb-2 mb-3">Statistiques de base</h3>
-                         <div class="row g-3">
-                            <div class="col-6 col-md-4">
-                                <div class="p-3 border rounded text-center bg-light">
-                                    <div class="text-muted small">PV</div>
-                                    <div class="fw-bold fs-5">{{ pokemon.pv }}</div>
-                                </div>
-                            </div>
-                            <div class="col-6 col-md-4">
-                                <div class="p-3 border rounded text-center bg-light">
-                                    <div class="text-muted small">Attaque</div>
-                                    <div class="fw-bold fs-5">{{ pokemon.attaque }}</div>
-                                </div>
-                            </div>
-                            <div class="col-6 col-md-4">
-                                <div class="p-3 border rounded text-center bg-light">
-                                    <div class="text-muted small">Défense</div>
-                                    <div class="fw-bold fs-5">{{ pokemon.defense }}</div>
-                                </div>
-                            </div>
-                             <div class="col-6 col-md-4">
-                                <div class="p-3 border rounded text-center bg-light">
-                                    <div class="text-muted small">Attaque Spé.</div>
-                                    <div class="fw-bold fs-5">{{ pokemon.attaqueSpe }}</div>
-                                </div>
-                            </div>
-                            <div class="col-6 col-md-4">
-                                <div class="p-3 border rounded text-center bg-light">
-                                    <div class="text-muted small">Défense Spé.</div>
-                                    <div class="fw-bold fs-5">{{ pokemon.defenceSpe }}</div>
-                                </div>
-                            </div>
-                            <div class="col-6 col-md-4">
-                                <div class="p-3 border rounded text-center bg-light">
-                                    <div class="text-muted small">Vitesse</div>
-                                    <div class="fw-bold fs-5">{{ pokemon.vitesse }}</div>
-                                </div>
-                            </div>
-                         </div>
-                    </div>
-                </div>
         </div>
+    </div>
 
-                {# Evolution Chain Section #}
-        {% if pokemon.evolutionRoot.evolutionsSuivantes|length > 0 or pokemon.evolutionRoot.evolutionPrecedente %}
-        <div class="row mt-5">
+    <div class="container mt-5 mb-5">
+        <div class="row g-4">
+            
+            <!-- Description -->
             <div class="col-12">
-                <h3 class="h4 border-bottom pb-2 mb-4">Famille d'évolution</h3>
-                <div class="row justify-content-center text-center align-items-center">
-                    {% import _self as macros %}
-                    
-                    {# Define the recursive macro #}
-                    {% macro render_evolution(p, current_pokemon) %}
-                        {% import _self as macros %}
-                        
-                        {# Display current node #}
-                        <div class="col-6 col-md-3 mb-3">
-                            <div class="card {{ p.idPokemon == current_pokemon.idPokemon ? 'border-primary border-2 shadow' : 'border-0 shadow-sm' }} h-100">
-                                <div class="card-body">
-                                    <h6 class="{{ p.idPokemon == current_pokemon.idPokemon ? 'text-primary' : 'text-muted' }} text-uppercase small mb-2">
-                                        {{ p.idPokemon == current_pokemon.idPokemon ? 'Actuel' : (p.evolutionPrecedente ? 'Évolution' : 'Base') }}
-                                    </h6>
-                                    <a href="{{ path('app_pokedex_show', {'nom': p.nom}) }}" class="text-decoration-none text-dark">
-                                        <img src="{{ p.imagePrincipale }}" 
-                                             alt="{{ p.nom }}" 
-                                             class="img-fluid mb-2" 
-                                             style="max-height: {{ p.idPokemon == current_pokemon.idPokemon ? '120px' : '100px' }};">
-                                        <div class="fw-bold">{{ p.nom }}</div>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
+                <div class="glass-panel p-4 p-md-5 bg-white shadow-sm border-0">
+                    <h3 class="h4 fw-bold mb-4 opacity-75">Description</h3>
+                    <p class="lead fs-5 text-secondary" style="line-height: 1.8;">{{ pokemon.description }}</p>
+                </div>
+            </div>
 
-                        {# If there are next evolutions, display arrow and recurse #}
-                        {% if p.evolutionsSuivantes|length > 0 %}
-                            <div class="col-1 d-none d-md-flex justify-content-center">
-                                <i class="bi bi-arrow-right fs-3 text-muted"></i>
-                            </div>
+            <!-- Stats -->
+            <div class="col-12">
+                <div class="glass-panel p-4 p-md-5 bg-white shadow-sm border-0">
+                    <h3 class="h4 fw-bold mb-4 opacity-75">Statistiques de base</h3>
+                    <div class="row g-4">
+                        {% set stats = [
+                            {'label': 'PV', 'value': pokemon.pv},
+                            {'label': 'Attaque', 'value': pokemon.attaque},
+                            {'label': 'Défense', 'value': pokemon.defense},
+                            {'label': 'Atq Spé', 'value': pokemon.attaqueSpe},
+                            {'label': 'Déf Spé', 'value': pokemon.defenceSpe},
+                            {'label': 'Vitesse', 'value': pokemon.vitesse}
+                        ] %}
+                        
+                        {% for stat in stats %}
+                            {# Calculate percentage relative to max possible stat roughly #}
+                            {% set percentage = (stat.value / 255 * 100)|round %}
+                            {% set barClass = 'stat-bar-low' %}
+                            {% if stat.value >= 65 %}{% set barClass = 'stat-bar-mid' %}{% endif %}
+                            {% if stat.value >= 90 %}{% set barClass = 'stat-bar-high' %}{% endif %}
+                            {% if stat.value >= 130 %}{% set barClass = 'stat-bar-ultra' %}{% endif %}
                             
-                            {# If multiple evolutions (branching), wrap them #}
-                            {% if p.evolutionsSuivantes|length > 1 %}
-                                <div class="col-md-auto">
-                                    <div class="row flex-nowrap overflow-auto">
-                                        {% for next_evo in p.evolutionsSuivantes %}
-                                            {{ macros.render_evolution(next_evo, current_pokemon) }}
-                                        {% endfor %}
+                            <div class="col-md-6">
+                                <div class="stat-row">
+                                    <div class="stat-label">{{ stat.label }}</div>
+                                    <div class="stat-value">{{ stat.value }}</div>
+                                    <div class="stat-bar-container">
+                                        <div class="stat-bar {{ barClass }}" style="width: {{ percentage }}%"></div>
                                     </div>
                                 </div>
-                            {% else %}
-                                {% for next_evo in p.evolutionsSuivantes %}
-                                    {{ macros.render_evolution(next_evo, current_pokemon) }}
-                                {% endfor %}
-                            {% endif %}
-                        {% endif %}
-                    {% endmacro %}
-
-                    {# Start rendering from root #}
-                    {{ macros.render_evolution(pokemon.evolutionRoot, pokemon) }}
+                            </div>
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
-        </div>
-        {% endif %}
 
+            <!-- Evolutions -->
+            {% if pokemon.evolutionRoot.evolutionsSuivantes|length > 0 or pokemon.evolutionRoot.evolutionPrecedente %}
+            <div class="col-12 mt-4">
+                <div class="glass-panel p-4 p-md-5 bg-white shadow-sm border-0">
+                    <h3 class="h4 fw-bold mb-4 opacity-75">Famille d'évolution</h3>
+                    <div class="row justify-content-center text-center align-items-center">
+                        {% import _self as macros %}
+                        
+                        {% macro render_evolution(p, current_pokemon) %}
+                            {% import _self as macros %}
+                            
+                            <div class="col-12 col-sm-6 col-md-3 mb-3">
+                                <div class="evolution-card card border-{{ p.idPokemon == current_pokemon.idPokemon ? 'primary' : 'light' }} {{ p.idPokemon == current_pokemon.idPokemon ? 'border-2 shadow' : 'border-1 shadow-sm' }} h-100">
+                                    <div class="card-body">
+                                        <h6 class="{{ p.idPokemon == current_pokemon.idPokemon ? 'text-primary fw-bold' : 'text-muted' }} text-uppercase small mb-3">
+                                            {{ p.idPokemon == current_pokemon.idPokemon ? 'Actuel' : (p.evolutionPrecedente ? 'Évolution' : 'Base') }}
+                                        </h6>
+                                        <a href="{{ path('app_pokedex_show', {'nom': p.nom}) }}" class="text-decoration-none text-dark d-block">
+                                            <img src="{{ p.imagePrincipale }}" 
+                                                 alt="{{ p.nom }}" 
+                                                 class="img-fluid mb-3" 
+                                                 style="max-height: {{ p.idPokemon == current_pokemon.idPokemon ? '130px' : '110px' }}; object-fit: contain;">
+                                            <div class="fw-bold fs-5">{{ p.nom }}</div>
+                                            {% if p.type1 is defined and p.type1 %}
+                                                <div class="mt-2 text-center d-flex justify-content-center">
+                                                    <span style="width:12px; height:12px; display:inline-block; border-radius:50%;" class="text-bg-{{ p.type1.nom|lower|replace({'é': 'e', 'è': 'e'}) }}"></span>
+                                                    {% if p.type2 is defined and p.type2 %}
+                                                        <span style="width:12px; height:12px; display:inline-block; border-radius:50%; margin-left:4px;" class="text-bg-{{ p.type2.nom|lower|replace({'é': 'e', 'è': 'e'}) }}"></span>
+                                                    {% endif %}
+                                                </div>
+                                            {% endif %}
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {% if p.evolutionsSuivantes|length > 0 %}
+                                <div class="col-1 d-none d-md-flex justify-content-center">
+                                    <i class="bi bi-arrow-right fs-4 text-muted opacity-50"></i>
+                                </div>
+                                
+                                {% if p.evolutionsSuivantes|length > 1 %}
+                                    <div class="col-md-auto">
+                                        <div class="row flex-nowrap overflow-auto pb-2">
+                                            {% for next_evo in p.evolutionsSuivantes %}
+                                                {{ macros.render_evolution(next_evo, current_pokemon) }}
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                {% else %}
+                                    {% for next_evo in p.evolutionsSuivantes %}
+                                        {{ macros.render_evolution(next_evo, current_pokemon) }}
+                                    {% endfor %}
+                                {% endif %}
+                            {% endif %}
+                        {% endmacro %}
+
+                        {{ macros.render_evolution(pokemon.evolutionRoot, pokemon) }}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+        </div>
     </div>
+
+    <!-- Stat Bars display managed by inline style -->
 {% endblock %}
