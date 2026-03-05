@@ -34,7 +34,7 @@ class Arene
     private ?string $imageBadge = null;
 
     #[ORM\OneToOne(targetEntity: Dresseur::class, inversedBy: 'arene')]
-    #[ORM\JoinColumn(name: "idChampion", referencedColumnName: "id", nullable: false)]
+    #[ORM\JoinColumn(name: "idChampion", referencedColumnName: "id", nullable: true, onDelete: "SET NULL")]
     private ?Dresseur $champion = null;
 
     public function getChampion(): ?Dresseur

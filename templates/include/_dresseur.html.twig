@@ -5,7 +5,7 @@
                 <img src="{{ asset('images/' ~ dresseur.image) }}" class="card-img-top object-fit-cover"
                      alt="{{ dresseur.nom }}" style="height: 250px;">
                 <h5 class="card-title">{{ dresseur.nom }}</h5>
-                <p class="card-text truncate-2-lines">{{ dresseur.description }}</p>
+                <p class="card-text truncate-2-lines">{{ dresseur.description|striptags }}</p>
                 <a href="#" class="btn btn-primary">Voir tout</a>
             </div>
         </div>

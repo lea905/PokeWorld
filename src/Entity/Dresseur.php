@@ -42,8 +42,6 @@ class Dresseur
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $image = null;
 
-
-
     #[ORM\OneToMany(mappedBy: 'dresseur', targetEntity: Team::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $teams;
 
