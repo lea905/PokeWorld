@@ -16,18 +16,22 @@ class HomeController extends AbstractController
         DresseurRepository $dresseurRepository,
         AreneRepository $areneRepository
     ): Response {
-        $allPokemons = $pokemonRepository->findAll();
-        $allDresseurs = $dresseurRepository->findAll();
-        $allArenes = $areneRepository->findAll();
+        $pokemonsCount = $pokemonRepository->count([]);
+        $arenesCount = $areneRepository->count([]);
 
-        $pokemonDuJour = !empty($allPokemons) ? $allPokemons[array_rand($allPokemons)] : null;
-        $areneDuJour = !empty($allArenes) ? $allArenes[array_rand($allArenes)] : null;
+        // Récupérer un seul Pokémon et une seule Arène au hasard
+        $pokemonDuJour = $pokemonsCount > 0 ? $pokemonRepository->findBy([], null, 1, rand(0, $pokemonsCount - 1))[0] : null;
+        $areneDuJour = $arenesCount > 0 ? $areneRepository->findBy([], null, 1, rand(0, $arenesCount - 1))[0] : null;
+
+        // Récupérer les 3 derniers (sans tout charger en mémoire)
+        $derniersPokemons = $pokemonRepository->findBy([], ['idPokemon' => 'DESC'], 3);
+        $derniersDresseurs = $dresseurRepository->findBy([], ['id' => 'DESC'], 3);
 
         return $this->render('index.html.twig', [
             'pokemonDuJour' => $pokemonDuJour,
             'areneDuJour' => $areneDuJour,
-            'pokemons' => array_reverse(array_slice($allPokemons, -3)),
-            'dresseurs' => array_reverse(array_slice($allDresseurs, -3)),
+            'pokemons' => $derniersPokemons,
+            'dresseurs' => $derniersDresseurs,
         ]);
     }
 }

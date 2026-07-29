@@ -30,12 +30,12 @@ class Pokemon
     #[ORM\Column]
     private ?int $generation = null;
 
-    #[ORM\ManyToOne(targetEntity: Type::class)]
+    #[ORM\ManyToOne(targetEntity: Type::class, fetch: 'EAGER')]
     #[ORM\JoinColumn(name: "type1", referencedColumnName: "id", nullable: false)]
     private ?Type $type1 = null;
 
 
-    #[ORM\ManyToOne(targetEntity: Type::class)]
+    #[ORM\ManyToOne(targetEntity: Type::class, fetch: 'EAGER')]
     #[ORM\JoinColumn(name: "type2", referencedColumnName: "id", nullable: true)]
     private ?Type $type2 = null;
 

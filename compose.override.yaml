@@ -1,9 +1,16 @@
 
 services:
+  web:
+    ports:
+      - "8000:80"
+    volumes:
+      - .:/var/www/html
+      - /var/www/html/var
+      - /var/www/html/vendor
 ###> doctrine/doctrine-bundle ###
   database:
     ports:
-      - "5432"
+      - "3306"
 ###< doctrine/doctrine-bundle ###
 
 ###> symfony/mailer ###
