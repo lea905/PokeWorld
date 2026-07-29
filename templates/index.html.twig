@@ -139,68 +139,10 @@
     </div>
 </div>
 
-<!-- Audio for interaction -->
-<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1050">
-    <button id="muteBtn" class="btn btn-dark rounded-circle shadow" title="Activer/Désactiver le son" style="width: 50px; height: 50px;">
-        <i class="bi bi-volume-up-fill" id="muteIcon" style="font-size: 1.2rem;"></i>
-    </button>
-</div>
+
 
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const muteBtn = document.getElementById('muteBtn');
-            const muteIcon = document.getElementById('muteIcon');
-            // Le son est activé par défaut, mais les navigateurs requièrent une interaction
-            let isMuted = false;
-            let audioCtx = null;
-
-            const playSound = () => {
-                if (isMuted) return;
-                try {
-                    if (!audioCtx) {
-                        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                    }
-                    if (audioCtx.state === 'suspended') {
-                        audioCtx.resume();
-                    }
-                    const osc = audioCtx.createOscillator();
-                    const gain = audioCtx.createGain();
-                    osc.connect(gain);
-                    gain.connect(audioCtx.destination);
-                    osc.type = 'sine';
-                    osc.frequency.setValueAtTime(880, audioCtx.currentTime); // A5 note
-                    osc.frequency.exponentialRampToValueAtTime(440, audioCtx.currentTime + 0.1); 
-                    gain.gain.setValueAtTime(0.05, audioCtx.currentTime); // Volume très bas
-                    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.1);
-                    osc.start();
-                    osc.stop(audioCtx.currentTime + 0.1);
-                } catch(e) {
-                    console.log('Audio disabled or not supported');
-                }
-            };
-
-            // Ajouter le son sur les éléments interactifs
-            document.querySelectorAll('.pokenav-card, .btn, .quick-tag, .dropdown-item').forEach(item => {
-                item.addEventListener('mouseenter', playSound);
-            });
-
-            // Toggle mute
-            muteBtn.addEventListener('click', function(e) {
-                e.preventDefault();
-                isMuted = !isMuted;
-                if (isMuted) {
-                    muteIcon.classList.replace('bi-volume-up-fill', 'bi-volume-mute-fill');
-                    muteBtn.classList.replace('btn-dark', 'btn-secondary');
-                } else {
-                    muteIcon.classList.replace('bi-volume-mute-fill', 'bi-volume-up-fill');
-                    muteBtn.classList.replace('btn-secondary', 'btn-dark');
-                    playSound(); // Jouer un son pour confirmer l'activation
-                }
-            });
-        });
-    </script>
 {% endblock %}
