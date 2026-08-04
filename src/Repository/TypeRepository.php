@@ -16,20 +16,18 @@ class TypeRepository extends ServiceEntityRepository
         parent::__construct($registry, Type::class);
     }
 
-    //    /**
-    //     * @return Type[] Returns an array of Type objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('t')
-    //            ->andWhere('t.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('t.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    /**
+     * @return Type[] Returns an array of Type objects excluding '???'
+     */
+    public function findValidTypes(): array
+    {
+        return $this->createQueryBuilder('t')
+            ->andWhere('t.nom != :excluded')
+            ->setParameter('excluded', '???')
+            ->orderBy('t.nom', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
 
     //    public function findOneBySomeField($value): ?Type
     //    {

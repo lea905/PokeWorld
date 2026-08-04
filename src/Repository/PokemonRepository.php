@@ -57,6 +57,9 @@ class PokemonRepository extends ServiceEntityRepository
             }
         }
 
+        $qb->orderBy('p.generation', 'ASC')
+           ->addOrderBy('p.numeroPokedex', 'ASC');
+
         return $qb->getQuery()->getResult();
     }
 

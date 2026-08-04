@@ -36,10 +36,10 @@ final class PokedexController extends AbstractController
 
             $pokemons = $pokemonRepository->findByFilters($filters);
         } else {
-            $pokemons = $pokemonRepository->findAll();
+            $pokemons = $pokemonRepository->findBy([], ['generation' => 'ASC', 'numeroPokedex' => 'ASC']);
         }
 
-        $allTypes = $typeRepository->findBy([], ['nom' => 'ASC']);
+        $allTypes = $typeRepository->findValidTypes();
 
         return $this->render('pokedex/index.html.twig', [
             'pokemons' => $pokemons,
