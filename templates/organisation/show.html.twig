@@ -1,23 +1,32 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Dresseurs - Pokédex{% endblock %}
+{% block title %}{{ organisation.nom }} - Pokédex{% endblock %}
 
 {% block body %}
     <!-- Hero Header -->
-    <div class="hero-pokemon" style="background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%); min-height: 250px; padding: 3rem 0; border-radius: 0 0 2rem 2rem; margin-top: -1.5rem;">
+    <div class="hero-pokemon" style="background: linear-gradient(135deg, #111827 0%, #991b1b 100%); min-height: 300px; padding: 4rem 0; border-radius: 0 0 2rem 2rem; margin-top: -1.5rem;">
         <div class="container position-relative z-1 hero-content text-center">
-            <h1 class="display-4 fw-bold text-white mb-2" style="text-shadow: 0 2px 10px rgba(0,0,0,0.3);">Les Dresseurs</h1>
-            <p class="lead text-white opacity-75">Découvrez les dresseurs, champions et maîtres de région !</p>
+            {% if organisation.image %}
+                <img src="{{ asset('images/' ~ organisation.image)|imagine_filter('organisation_logo') }}" alt="{{ organisation.nom }}" class="mb-4 shadow-lg rounded bg-white p-2" style="height: 120px; object-fit: contain;">
+            {% endif %}
+            <h1 class="display-3 fw-bold text-white mb-3" style="text-shadow: 0 4px 15px rgba(0,0,0,0.5);">{{ organisation.nom }}</h1>
+            <div class="lead text-white opacity-90 mx-auto" style="max-width: 800px; font-size: 1.25rem;">
+                {{ organisation.but|raw }}
+            </div>
         </div>
     </div>
 
     <div class="container my-5">
+        <h2 class="fw-bold mb-4 border-bottom pb-2 text-danger">
+            <i class="fas fa-users me-2"></i> Membres connus ({{ organisation.dresseurs|length }})
+        </h2>
+
         <div class="row g-4 justify-content-center">
-            {% for dresseur in dresseurs %}
+            {% for dresseur in organisation.dresseurs %}
                 <div class="col-12 col-sm-6 col-lg-3">
                     <a href="{{ path('app_dresseur_show', {'slug': dresseur.slug}) }}" class="text-decoration-none h-100 d-block">
                         <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden bg-white" 
-                             style="transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;" 
+                             style="transition: transform 0.3s ease, box-shadow 0.3s ease;" 
                              onmouseover="this.style.transform='translateY(-10px)'; this.style.boxShadow='0 20px 40px rgba(0,0,0,0.1)';" 
                              onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 6px rgba(0,0,0,0.05)';">
                             <div class="position-relative">
@@ -27,20 +36,15 @@
                                     <img src="{{ asset('images/placeholder.png') }}" class="card-img-top object-fit-cover" alt="Image inconnue" style="height: 220px; border-bottom: 1px solid rgba(0,0,0,0.05);">
                                 {% endif %}
                                 
-                                {% if dresseur.arene %}
-                                    <span class="position-absolute top-0 end-0 m-3 badge rounded-pill bg-warning text-dark shadow-sm px-3 py-2 fw-bold" style="backdrop-filter: blur(5px); background: rgba(255, 193, 7, 0.9) !important;">
-                                        <i class="fas fa-trophy me-1"></i> Champion
-                                    </span>
-                                {% endif %}
-                                {% if dresseur.estMechant %}
-                                    <span class="position-absolute top-0 start-0 m-3 badge rounded-pill bg-danger text-white shadow-sm px-3 py-2 fw-bold" style="backdrop-filter: blur(5px); background: rgba(220, 53, 69, 0.9) !important;">
-                                        <i class="fas fa-skull me-1"></i> Antagoniste
+                                {% if dresseur.grade %}
+                                    <span class="position-absolute top-0 end-0 m-3 badge rounded-pill bg-dark text-white shadow-sm px-3 py-2 fw-bold" style="backdrop-filter: blur(5px); background: rgba(33, 37, 41, 0.9) !important; border: 1px solid #dc3545;">
+                                        <i class="fas fa-star text-danger me-1"></i> {{ dresseur.grade }}
                                     </span>
                                 {% endif %}
                             </div>
 
                             <div class="card-body text-center p-4">
-                                <h5 class="card-title fw-bold {% if dresseur.estMechant %}text-danger{% else %}text-dark{% endif %} mb-1">{{ dresseur.nom }} {{ dresseur.prenom }}</h5>
+                                <h5 class="card-title fw-bold text-danger mb-1">{{ dresseur.nom }} {{ dresseur.prenom }}</h5>
                                 <p class="text-danger small mb-3 fw-bold">
                                     <i class="fas fa-map-marker-alt"></i> {{ dresseur.villeNatale }}
                                 </p>
@@ -50,14 +54,16 @@
                     </a>
                 </div>
             {% else %}
-                <div class="col-12 text-center my-5">
-                    <div class="p-5 bg-white shadow-sm rounded-4 d-inline-block">
-                        <i class="fas fa-user-slash text-muted mb-3" style="font-size: 4rem; opacity: 0.5;"></i>
-                        <h4 class="text-muted fw-bold">Aucun dresseur trouvé.</h4>
-                        <p class="text-muted mb-0">Revenez plus tard !</p>
-                    </div>
+                <div class="col-12 text-center my-4">
+                    <p class="text-muted">Aucun membre n'a encore été identifié dans la base de données.</p>
                 </div>
             {% endfor %}
+        </div>
+        
+        <div class="text-center mt-5">
+            <a href="{{ path('app_organisation_index') }}" class="btn btn-outline-danger px-4 py-2 rounded-pill fw-bold">
+                <i class="fas fa-arrow-left me-2"></i> Retour aux organisations
+            </a>
         </div>
     </div>
 {% endblock %}

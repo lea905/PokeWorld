@@ -5,11 +5,19 @@ RUN apt-get update && apt-get install -y \
     libicu-dev \
     libpq-dev \
     libzip-dev \
+    libpng-dev \
+    libjpeg-dev \
+    libwebp-dev \
+    libfreetype6-dev \
     unzip \
     git \
     && rm -rf /var/lib/apt/lists/*
 
-# Installer les extensions PHP requises par Symfony et la base de données
+# Configurer et installer l'extension GD (requise par LiipImagineBundle)
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp
+RUN docker-php-ext-install gd
+
+# Installer les autres extensions PHP
 RUN docker-php-ext-install intl pdo pdo_mysql zip
 
 # Activer le module de réécriture d'URL d'Apache (nécessaire pour le routage Symfony)

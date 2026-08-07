@@ -38,6 +38,7 @@ class DresseurCrudController extends AbstractCrudController
             TextEditorField::new('description')->hideOnIndex(),
             BooleanField::new('estMechant', 'Antagoniste ?'),
             AssociationField::new('organisation')->setRequired(false),
+            TextField::new('grade')->setRequired(false)->hideOnIndex(),
             CollectionField::new('teams')
                 ->useEntryCrudForm(TeamCrudController::class)
                 ->allowAdd()

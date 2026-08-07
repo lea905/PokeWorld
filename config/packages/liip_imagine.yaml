@@ -1,0 +1,30 @@
+# Documentation on how to configure the bundle can be found at: https://symfony.com/doc/current/bundles/LiipImagineBundle/basic-usage.html
+liip_imagine:
+    # valid drivers options include "gd" or "gmagick" or "imagick"
+    driver: "gd"
+    
+    # define your filter sets under this option
+    filter_sets:
+        # Configuration par défaut si l'image est manquante
+        cache: ~
+
+        # Miniature 400x400 pour les cartes de dresseurs
+        dresseur_thumb:
+            quality: 80
+            format: webp
+            filters:
+                thumbnail: { size: [400, 400], mode: outbound }
+                
+        # Logo 200x200 pour les organisations
+        organisation_logo:
+            quality: 85
+            format: webp
+            filters:
+                thumbnail: { size: [200, 200], mode: inset }
+                
+        # Petite image 100x100
+        badge_thumb:
+            quality: 80
+            format: webp
+            filters:
+                thumbnail: { size: [100, 100], mode: outbound }

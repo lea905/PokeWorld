@@ -22,7 +22,7 @@ class OrganisationController extends AbstractController
     #[Route('/organisation/{slug}', name: 'app_organisation_show')]
     public function show(string $slug, OrganisationRepository $organisationRepository): Response
     {
-        $organisation = $organisationRepository->findBy(['slug' => $slug]);
+        $organisation = $organisationRepository->findOneBy(['slug' => $slug]);
 
         if (!$organisation){
             throw $this->createNotFoundException('Organisation not found');

@@ -54,6 +54,9 @@ class Dresseur
     #[ORM\ManyToOne(inversedBy: 'dresseurs')]
     private ?Organisation $organisation = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $grade = null;
+
     public function __construct()
     {
         $this->teams = new ArrayCollection();
@@ -226,6 +229,18 @@ class Dresseur
     public function setOrganisation(?Organisation $organisation): static
     {
         $this->organisation = $organisation;
+
+        return $this;
+    }
+
+    public function getGrade(): ?string
+    {
+        return $this->grade;
+    }
+
+    public function setGrade(?string $grade): static
+    {
+        $this->grade = $grade;
 
         return $this;
     }
