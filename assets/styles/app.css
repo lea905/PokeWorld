@@ -118,7 +118,7 @@ th {
 /* --- Homepage Styles --- */
 .hero-header {
     position: relative;
-    background-image: url('../images/paysage.jpg');
+    background-image: url('/images/paysage.jpg');
     background-size: cover;
     background-position: center;
     padding: 100px 0;
