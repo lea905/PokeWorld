@@ -7,6 +7,7 @@ use App\Models\Dresseur;
 use App\Models\Organisation;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Str;
 use Tests\TestCase;
 
 class SecurityTest extends TestCase
@@ -70,13 +71,27 @@ class SecurityTest extends TestCase
      | Connexion / déconnexion
      * ---------------------------------------------------------------- */
 
+    /**
+     * Crée un admin avec un mot de passe aléatoire, généré à chaque test
+     * (aucun mot de passe écrit en dur dans le dépôt).
+     *
+     * @return array{0: User, 1: string} l'utilisateur et son mot de passe en clair
+     */
+    private function adminWithRandomPassword(): array
+    {
+        $password = Str::password(16);
+        $user = User::factory()->admin()->create(['email' => 'prof@pokeworld.test', 'password' => $password]);
+
+        return [$user, $password];
+    }
+
     public function test_admin_can_log_in_and_is_sent_to_the_page_requested(): void
     {
-        $user = User::factory()->admin()->create(['email' => 'prof@pokeworld.test']);
+        [$user, $password] = $this->adminWithRandomPassword();
 
         $this->get('/admin/arenes'); // mémorise la page demandée
 
-        $this->post('/connexion', ['email' => 'prof@pokeworld.test', 'password' => 'password'])
+        $this->post('/connexion', ['email' => $user->email, 'password' => $password])
             ->assertRedirect('/admin/arenes');
 
         $this->assertAuthenticatedAs($user);
@@ -84,9 +99,9 @@ class SecurityTest extends TestCase
 
     public function test_wrong_password_is_rejected(): void
     {
-        User::factory()->admin()->create(['email' => 'prof@pokeworld.test']);
+        [$user] = $this->adminWithRandomPassword();
 
-        $this->post('/connexion', ['email' => 'prof@pokeworld.test', 'password' => 'mauvais'])
+        $this->post('/connexion', ['email' => $user->email, 'password' => Str::password(16)])
             ->assertSessionHasErrors(['email' => 'Ces identifiants ne correspondent à aucun compte.']);
 
         $this->assertGuest();
@@ -94,14 +109,14 @@ class SecurityTest extends TestCase
 
     public function test_login_is_throttled_after_five_failed_attempts(): void
     {
-        User::factory()->admin()->create(['email' => 'prof@pokeworld.test']);
+        [$user, $password] = $this->adminWithRandomPassword();
 
         for ($i = 0; $i < 5; $i++) {
-            $this->post('/connexion', ['email' => 'prof@pokeworld.test', 'password' => 'mauvais']);
+            $this->post('/connexion', ['email' => $user->email, 'password' => Str::password(16)]);
         }
 
         // Même avec le bon mot de passe, la 6e tentative est bloquée
-        $this->post('/connexion', ['email' => 'prof@pokeworld.test', 'password' => 'password'])
+        $this->post('/connexion', ['email' => $user->email, 'password' => $password])
             ->assertSessionHasErrors('email');
 
         $this->assertGuest();
