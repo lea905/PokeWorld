@@ -25,6 +25,6 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('access-admin', fn (User $user) => $user->is_admin);
 
         // @html($texte) : affiche du HTML saisi dans l'admin, nettoyé (protection XSS).
-        Blade::directive('html', fn (string $expression) => "<?php echo \\".SafeHtml::class."::clean({$expression}); ?>");
+        Blade::directive('html', fn (string $expression) => '<?php echo \\'.SafeHtml::class."::clean({$expression}); ?>");
     }
 }

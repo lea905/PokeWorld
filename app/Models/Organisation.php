@@ -16,6 +16,7 @@ class Organisation extends Model
 
     protected $fillable = ['nom', 'but', 'image', 'slug'];
 
+    /** @return HasMany<Dresseur, $this> */
     public function dresseurs(): HasMany
     {
         return $this->hasMany(Dresseur::class, 'organisation_id');

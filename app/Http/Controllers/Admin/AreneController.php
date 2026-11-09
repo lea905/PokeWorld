@@ -23,12 +23,12 @@ class AreneController extends Controller
 
     public function create(): View
     {
-        return $this->form(new Arene());
+        return $this->form(new Arene);
     }
 
     public function store(AreneRequest $request): RedirectResponse
     {
-        $this->save($request, new Arene());
+        $this->save($request, new Arene);
 
         return redirect()->route('admin.arenes.index')->with('success', 'Arène créée.');
     }
