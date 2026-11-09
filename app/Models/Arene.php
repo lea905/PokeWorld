@@ -17,7 +17,7 @@ class Arene extends Model
 
     public $timestamps = false;
 
-    protected $fillable = ['slug', 'nom', 'region', 'lieu', 'badge', 'image_badge', 'idChampion'];
+    protected $fillable = ['slug', 'nom', 'region', 'lieu', 'badge', 'idChampion'];
 
     /** @return BelongsTo<Dresseur, $this> */
     public function champion(): BelongsTo

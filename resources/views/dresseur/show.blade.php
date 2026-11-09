@@ -57,8 +57,6 @@
                         <div class="d-flex align-items-center bg-light p-3 rounded-4 mt-3" style="border: 1px solid rgba(0,0,0,0.05);">
                             @if ($arene->badge_est_image)
                                 <img src="{{ asset('images/Badges/'.$arene->badge) }}" alt="Badge" class="me-3 drop-shadow" style="width: 65px; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));">
-                            @elseif ($arene->image_badge)
-                                <img src="{{ asset($arene->image_badge) }}" alt="Badge" class="me-3 drop-shadow" style="width: 65px; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));">
                             @endif
                             <div>
                                 <h6 class="mb-1 text-dark fw-bold">{{ $arene->nom }}</h6>

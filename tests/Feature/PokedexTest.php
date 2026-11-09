@@ -55,6 +55,19 @@ class PokedexTest extends TestCase
             ->assertSee('type=Normal&amp;page=2', false);
     }
 
+    public function test_type_filter_only_lists_types_used_by_a_pokemon(): void
+    {
+        $this->createPokemons(3); // tous de type "Normal"
+        Type::create(['nom' => '???']);
+        Type::create(['nom' => 'Stellaire']);
+
+        $this->get('/pokedex')
+            ->assertOk()
+            ->assertSee('<option value="Normal"', false)
+            ->assertDontSee('<option value="???"', false)
+            ->assertDontSee('<option value="Stellaire"', false);
+    }
+
     public function test_pokemon_page_uses_its_pokedex_number(): void
     {
         $this->createPokemons(30);
