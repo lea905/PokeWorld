@@ -75,7 +75,9 @@ class PokeWorldTest extends TestCase
         $this->get('/pokedex')->assertOk()->assertSee('Dracaufeu');
         $this->get('/pokedex/1?type=Vol')->assertOk()->assertSee('Dracaufeu')->assertDontSee('Salamèche');
         $this->get('/pokedex?evolution_stage=base')->assertOk()->assertSee('Salamèche')->assertDontSee('Dracaufeu');
-        $this->get('/pokedex/show/Dracaufeu')->assertOk()->assertSee("Famille d'évolution", false)->assertSee('text-bg-vol');
+        $this->get('/pokedex/pokemon/6')->assertOk()->assertSee("Famille d'évolution", false)->assertSee('text-bg-vol');
+        $this->get('/pokedex/pokemon/999')->assertNotFound();
+        $this->get('/pokedex/show/Dracaufeu')->assertRedirect('/pokedex/pokemon/6')->assertStatus(301);
         $this->get('/pokedex/show/Inconnu')->assertNotFound();
         $this->get('/dresseurs')->assertOk()->assertSee('Giovanni');
         $this->get('/dresseur/pierre')->assertOk()->assertSee('Équipe de Pierre');
