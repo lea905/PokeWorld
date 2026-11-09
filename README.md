@@ -1,61 +1,116 @@
 # PokeWorld 🌍⚡
 
-Bienvenue sur **PokeWorld**, une application Symfony pour gérer un univers de Pokémon, Dresseurs, Arènes et Teams via une interface d'administration complète.
+Bienvenue sur **PokeWorld**, une application **Laravel** (vues **Blade**) pour gérer un univers de Pokémon, Dresseurs, Arènes, Organisations et Teams via une interface d'administration complète.
+
+> Le projet était à l'origine écrit avec Symfony (Doctrine, Twig, EasyAdmin). Il a été migré vers Laravel 13 :
+> Doctrine → Eloquent, Twig → Blade, fixtures → seeders, EasyAdmin → back-office Blade maison.
+> Le schéma de base de données est **identique** : une base créée par l'ancienne version reste utilisable.
 
 ## 🚀 Fonctionnalités Principales
 
--   **Pokedex** : Consultation des Pokémon et de leurs statistiques.
--   **Dresseurs** : Gestion des profils de dresseurs (Nom, Région, Ville natale, Ambition, Description).
+-   **Pokédex** : Consultation des Pokémon, filtres (génération, type, stade d'évolution, légendaires, fabuleux), statistiques et famille d'évolution.
+-   **Dresseurs** : Profils de dresseurs (Nom, Région, Ville natale, Ambition, Description, Antagoniste, Grade).
 -   **Teams** : Un dresseur peut avoir plusieurs équipes. Chaque équipe peut contenir plusieurs Pokémon (max 6 recommandé).
--   **Admin Interface** : Une interface back-office (EasyAdmin) pour gérer tout le contenu sans toucher au code.
+-   **Arènes** et **Organisations** (Team Rocket…).
+-   **Recherche** globale sur les Pokémon, Dresseurs et Arènes (`/recherche?q=...`).
+-   **Admin Interface** : un back-office (`/admin`) pour gérer tout le contenu sans toucher au code.
 
 ---
 
 ## 🛠️ Installation et Configuration
 
-Assurez-vous d'avoir PHP, Composer et Symfony CLI installés.
+Prérequis : PHP ≥ 8.4 (extensions `pdo_mysql`, `intl`, `mbstring`, `fileinfo`), Composer et MySQL/MariaDB.
 
 1.  **Cloner le projet**
-2.  **Installer les dépendances**
+2.  **Installer les dépendances et créer le fichier `.env`**
     ```bash
     composer install
+    cp .env.example .env
+    php artisan key:generate
     ```
-3.  **Configurer la Base de Données**
-    Modifiez le fichier `.env` pour configurer votre connexion MySQL :
+3.  **Configurer la Base de Données** dans `.env` :
     ```env
-    DATABASE_URL="mysql://root:@127.0.0.1:3306/pokeworld?serverVersion=8.0.32&charset=utf8mb4"
+    DB_CONNECTION=mysql
+    DB_HOST=127.0.0.1
+    DB_PORT=3306
+    DB_DATABASE=pokeworld
+    DB_USERNAME=root
+    DB_PASSWORD=root
     ```
-4.  **Créer la Base de Données et les Tables**
+4.  **Créer les tables**
     ```bash
-    php bin/console doctrine:database:create
-    php bin/console doctrine:migrations:migrate
+    php artisan migrate
     ```
+    Les tables PokeWorld déjà présentes (base issue de la version Symfony) sont conservées telles quelles.
+5.  **Lancer le serveur**
+    ```bash
+    php artisan serve
+    ```
+    Puis ouvrir `http://127.0.0.1:8000`.
+
+### Avec Docker
+
+```bash
+docker compose up -d --build
+docker compose exec web composer install
+docker compose exec web php artisan migrate --seed
+```
 
 ---
 
 ## 🗄️ Gestion de la Base de Données
 
-Voici les commandes essentielles pour gérer la base de données :
-
 -   **Mettre à jour la structure (Migrations)** :
     ```bash
-    php bin/console doctrine:migrations:migrate
+    php artisan migrate
     ```
--   **Charger les données de test (Fixtures)** :
-    Attention : Cela vide les tables existantes !
+-   **Charger les données (Seeders)** — types et Pokémon importés depuis la [PokéAPI](https://pokeapi.co), puis Team Rocket, dresseurs, arènes et équipes :
     ```bash
-    php bin/console doctrine:fixtures:load
+    php artisan db:seed
     ```
+-   **Tout réinitialiser puis recharger** (équivalent de l'ancien `app:load:all`) — attention, cela vide toutes les tables :
+    ```bash
+    php artisan app:load-all
+    ```
+
+L'import complet des 1025 Pokémon prend du temps. Pour un import rapide en développement, limitez-le dans `.env` :
+```env
+POKEMON_SEED_LIMIT=151
+```
 
 ---
 
 ## 👑 Administration (Back-Office)
 
-L'administration est gérée via **EasyAdmin**.
-
--   **URL** : `/admin` (ex: `http://127.0.0.1:8000/admin`)
+-   **URL** : `/admin` (ex : `http://127.0.0.1:8000/admin`)
 -   **Accès** : Gère les entités suivantes :
-    -   **Dresseurs** : Créer, modifier, supprimer des dresseurs.
-        -   *Nouveau* : Possibilité d'ajouter des Teams directement depuis la fiche Dresseur.
-    -   **Teams** : Gérer les équipes et leur composition (Pokémon).
-    -   **Arènes** : Gérer les arènes et les champions associés.
+    -   **Dresseurs** : Créer, modifier, supprimer des dresseurs, avec ajout/suppression de Teams directement depuis la fiche Dresseur.
+    -   **Teams** : Gérer les équipes et leur composition (Pokémon, avec recherche).
+    -   **Arènes** : Gérer les arènes, leur champion et leur badge (image).
+    -   **Organisations** : Gérer les organisations et leur logo.
+    -   **Pokémon** : Consulter et corriger les Pokémon importés.
+
+Les images envoyées sont enregistrées dans `public/images/` (badges dans `public/images/Badges/`).
+
+> ⚠️ Comme dans la version Symfony, l'administration n'est pas protégée par une authentification.
+
+---
+
+## 🧭 Organisation du code
+
+| Symfony (avant)                        | Laravel (maintenant)                                  |
+|----------------------------------------|-------------------------------------------------------|
+| `src/Entity/*`                         | `app/Models/*` (Eloquent)                             |
+| `src/Repository/*` (findBySearchQuery…) | scopes Eloquent (`Pokemon::filter()`, `::search()`…) |
+| `src/Controller/*`                     | `app/Http/Controllers/*`                              |
+| `src/Controller/Admin/*` (EasyAdmin)   | `app/Http/Controllers/Admin/*` + `resources/views/admin/*` |
+| `templates/*.html.twig`                | `resources/views/*.blade.php`                         |
+| `src/DataFixtures/*`                   | `database/seeders/*`                                  |
+| `migrations/*` (Doctrine)              | `database/migrations/*`                               |
+| `assets/styles/app.css`                | `public/css/app.css`                                  |
+
+## ✅ Tests
+
+```bash
+php artisan test
+```
