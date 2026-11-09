@@ -4,6 +4,7 @@
 return [
     'array' => 'Le champ :attribute doit être une liste.',
     'different' => 'Les champs :attribute et :other doivent être différents.',
+    'enum' => 'La valeur sélectionnée pour :attribute est invalide.',
     'exists' => 'La valeur sélectionnée pour :attribute est invalide.',
     'image' => 'Le champ :attribute doit être une image.',
     'integer' => 'Le champ :attribute doit être un nombre entier.',

@@ -6,6 +6,16 @@
     <x-page-hero theme="dresseur" title="Les Dresseurs" subtitle="Découvrez les dresseurs, champions et maîtres de région !" />
 
     <div class="container my-5">
+        <nav class="d-flex justify-content-center gap-2 mb-4" aria-label="Filtrer par camp">
+            @foreach ([null => ['Tous', 'fas fa-users'], 'heros' => ['Héros', 'fas fa-star'], 'antagonistes' => ['Antagonistes', 'fas fa-skull']] as $valeur => [$libelle, $icone])
+                <a href="{{ route('dresseur.index', array_filter(['camp' => $valeur])) }}"
+                   @class(['btn rounded-pill px-4 fw-bold', 'btn-dark' => $camp === ($valeur ?: null), 'btn-outline-dark' => $camp !== ($valeur ?: null)])
+                   @if ($camp === ($valeur ?: null)) aria-current="page" @endif>
+                    <i class="{{ $icone }} me-1"></i> {{ $libelle }}
+                </a>
+            @endforeach
+        </nav>
+
         <div class="row g-4 justify-content-center">
             @forelse ($dresseurs as $dresseur)
                 <x-dresseur-card :dresseur="$dresseur">
