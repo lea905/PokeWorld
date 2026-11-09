@@ -98,7 +98,7 @@
                                                 <div class="card-body">
                                                     <span class="badge bg-secondary mb-1">Pokémon N°{{ $p->numero_pokedex }}</span>
                                                     <h5 class="card-title fw-bold">{{ $p->nom }}</h5>
-                                                    <a href="{{ route('pokedex.show', ['nom' => $p->nom]) }}" class="btn btn-sm btn-outline-danger mt-2">Détails</a>
+                                                    <a href="{{ route('pokedex.show', $p) }}" class="btn btn-sm btn-outline-danger mt-2">Détails</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -170,7 +170,7 @@
                                             <img src="{{ $p->image_principale }}" class="img-fluid mx-auto mb-3" style="max-height: 120px; object-fit: contain;" alt="{{ $p->nom }}">
                                             <span class="text-muted small">N°{{ $p->numero_pokedex }}</span>
                                             <h5 class="fw-bold mb-3">{{ $p->nom }}</h5>
-                                            <a href="{{ route('pokedex.show', ['nom' => $p->nom]) }}" class="btn btn-outline-danger w-100">Fiche Pokédex</a>
+                                            <a href="{{ route('pokedex.show', $p) }}" class="btn btn-outline-danger w-100">Fiche Pokédex</a>
                                         </div>
                                     </div>
                                 @endforeach
