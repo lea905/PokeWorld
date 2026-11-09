@@ -28,10 +28,17 @@ class Type extends Model
         return $this->hasMany(TypeRelation::class, 'idTypeDefenseur');
     }
 
-    /** Types valides (sans le type "???"), triés par nom. */
+    /**
+     * Types utilisés par au moins un Pokémon, triés par nom.
+     * Exclut les types techniques de la PokéAPI ("???", "Stellaire") qui ne donneraient aucun résultat.
+     */
     public function scopeValid(Builder $query): Builder
     {
-        return $query->where('nom', '!=', '???')->orderBy('nom');
+        return $query
+            ->where(fn (Builder $q) => $q
+                ->whereExists(fn ($sub) => $sub->from('pokemon')->whereColumn('pokemon.type1', 'type.id'))
+                ->orWhereExists(fn ($sub) => $sub->from('pokemon')->whereColumn('pokemon.type2', 'type.id')))
+            ->orderBy('nom');
     }
 
     /** Suffixe CSS des classes text-bg-* / bg-type-* ("Ténèbres" => "tenebres"). */

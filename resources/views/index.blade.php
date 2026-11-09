@@ -16,10 +16,10 @@
             </form>
 
             <div class="quick-tags">
-                <a href="{{ route('pokedex.index') }}" class="quick-tag">#Pikachu</a>
-                <a href="{{ route('arene.index') }}" class="quick-tag">#BadgeRoche</a>
+                <a href="{{ route('search', ['q' => 'Pikachu']) }}" class="quick-tag">#Pikachu</a>
+                <a href="{{ route('search', ['q' => 'Argenta']) }}" class="quick-tag">#BadgeRoche</a>
                 <a href="{{ route('dresseur.index') }}" class="quick-tag">#TopDresseurs</a>
-                <a href="{{ route('pokedex.index') }}" class="quick-tag">#TypeSpectre</a>
+                <a href="{{ route('pokedex.index', ['type' => 'Spectre']) }}" class="quick-tag">#TypeSpectre</a>
             </div>
         </div>
     </header>
@@ -64,15 +64,15 @@
                     </div>
                 </a>
             </div>
-            <!-- Types -->
+            <!-- Organisations -->
             <div class="col-md-6 col-lg-3">
-                <a href="#" class="text-decoration-none text-dark">
+                <a href="{{ route('organisation.index') }}" class="text-decoration-none text-dark">
                     <div class="card pokenav-card text-center p-4">
                         <div class="icon-container color-type">
-                            <i class="bi bi-grid-3x3-gap-fill"></i>
+                            <i class="bi bi-incognito"></i>
                         </div>
-                        <h4 class="fw-bold">Table des Types</h4>
-                        <p class="text-muted small">Outil stratégique pour voir les faiblesses.</p>
+                        <h4 class="fw-bold">Les Organisations</h4>
+                        <p class="text-muted small">Team Rocket et autres équipes maléfiques.</p>
                     </div>
                 </a>
             </div>

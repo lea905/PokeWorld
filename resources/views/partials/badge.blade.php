@@ -5,8 +5,6 @@
 @php($size = $size ?? 'sm')
 @if ($arene->badge_est_image)
     <img src="{{ asset('images/Badges/'.$arene->badge) }}" alt="Badge" class="img-fluid {{ $imgClass ?? '' }}" style="{{ $imgStyle }}">
-@elseif ($arene->image_badge)
-    <img src="{{ asset($arene->image_badge) }}" alt="Badge" class="img-fluid {{ $imgClass ?? '' }}" style="{{ $imgStyle }}">
 @elseif ($size === 'lg')
     <div class="position-relative d-flex align-items-center justify-content-center shadow-lg mx-auto mb-4"
          style="width: 140px; height: 140px; background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%); border-radius: 30px; transform: rotate(45deg); border: 8px solid #fef3c7;">
