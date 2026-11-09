@@ -62,6 +62,6 @@ class TeamController extends Controller
     private function save(TeamRequest $request, Team $team): void
     {
         $team->fill($request->safe()->except('pokemons'))->save();
-        $team->pokemons()->sync($request->validated('pokemons', []));
+        $team->syncPokemons($request->validated('pokemons', []));
     }
 }

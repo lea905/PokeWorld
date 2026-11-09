@@ -64,7 +64,7 @@ class Dresseur extends Model
 
             $team->nom = $teamData['nom'];
             $team->save();
-            $team->pokemons()->sync($teamData['pokemons'] ?? []);
+            $team->syncPokemons($teamData['pokemons'] ?? []);
 
             $keptIds[] = $team->id;
         }

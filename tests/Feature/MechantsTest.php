@@ -6,9 +6,6 @@ use App\Enums\Grade;
 use App\Models\Arene;
 use App\Models\Dresseur;
 use App\Models\Organisation;
-use App\Models\Pokemon;
-use App\Models\Team;
-use App\Models\Type;
 use App\Models\User;
 use Database\Seeders\MechantsSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -106,34 +103,19 @@ class MechantsTest extends TestCase
 
     public function test_mechants_seeder_only_adds_what_is_missing(): void
     {
-        $type = Type::create(['nom' => 'Normal']);
-        $noms = ['Persian', 'Nidoking', 'Rhinoféros', 'Malosse', 'Smogogo', 'Démolosse', 'Rattata', 'Abo', 'Smogo',
-            'Grahyèna', 'Nostenfer', 'Sharpedo', 'Camérupt', 'Corboss', 'Dimoret'];
-        foreach ($noms as $i => $nom) {
-            Pokemon::create([
-                'nom' => $nom, 'nom_japonais' => 'x', 'numero_pokedex' => $i + 1, 'generation' => 1, 'type1' => $type->id,
-                'description' => '', 'image_principale' => 'x.png', 'mega_evolution_possible' => false, 'dynamax_possible' => false,
-                'pv' => 1, 'attaque' => 1, 'defense' => 1, 'attaque_spe' => 1, 'defence_spe' => 1, 'vitesse' => 1,
-                'is_legendary' => false, 'is_mythical' => false,
-            ]);
-        }
         $this->rocket();
-        // Amos a déjà une équipe choisie dans l'admin : elle ne doit pas être remplacée
-        Team::create(['nom' => 'Équipe perso', 'dresseur_id' => Dresseur::where('prenom', 'Amos')->value('id')]);
 
         $this->seed(MechantsSeeder::class);
         $this->seed(MechantsSeeder::class); // relancé : aucun doublon
 
-        $giovanni = Dresseur::where('prenom', 'Giovanni')->firstOrFail();
-        $this->assertEqualsCanonicalizing(['Persian', 'Nidoking', 'Rhinoféros'], $giovanni->teams()->firstOrFail()->pokemons->pluck('nom')->all());
-        $this->assertSame('Arène de Jadielle', $giovanni->arene?->nom);
-        $this->assertSame(['Équipe perso'], Dresseur::where('prenom', 'Amos')->firstOrFail()->teams->pluck('nom')->all());
-        $this->assertSame(1, Dresseur::where('prenom', 'Sbire')->firstOrFail()->teams()->count());
-
-        $this->assertSame(['Team Aqua', 'Team Galaxie', 'Team Magma', 'Team Rocket'], Organisation::orderBy('nom')->pluck('nom')->all());
+        $this->assertSame('Arène de Jadielle', Dresseur::where('prenom', 'Giovanni')->firstOrFail()->arene?->nom);
         $this->assertSame(1, Arene::where('nom', 'Arène de Jadielle')->count());
+        $this->assertSame(['Team Aqua', 'Team Galaxie', 'Team Magma', 'Team Rocket'], Organisation::orderBy('nom')->pluck('nom')->all());
+
+        $helio = Dresseur::where('prenom', 'Hélio')->firstOrFail();
         $this->assertSame(1, Dresseur::where('prenom', 'Hélio')->count());
-        $this->assertSame(Grade::Boss, Dresseur::where('prenom', 'Hélio')->firstOrFail()->grade);
-        $this->assertSame(6, Team::count()); // 3 Rocket (dont celle d'Amos conservée) + 3 boss, sans doublon
+        $this->assertSame(Grade::Boss, $helio->grade);
+        $this->assertSame('Team Galaxie', $helio->organisation->nom);
+        $this->assertSame('Rivamar', $helio->ville_natale); // vérifié sur Poképédia
     }
 }

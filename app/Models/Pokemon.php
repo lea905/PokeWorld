@@ -59,7 +59,8 @@ class Pokemon extends Model
     /** @return BelongsToMany<Team, $this> */
     public function teams(): BelongsToMany
     {
-        return $this->belongsToMany(Team::class, 'team_pokemon', 'pokemon_id', 'team_id');
+        return $this->belongsToMany(Team::class, 'team_pokemon', 'pokemon_id', 'team_id')
+            ->withPivot(['niveau', 'position']);
     }
 
     /** Premier Pokémon de la famille d'évolution. */
