@@ -30,10 +30,8 @@
                     <h4 class="text-dark opacity-50 mb-4 ms-1">{{ $pokemon->nom_japonais }}</h4>
 
                     <div class="d-flex justify-content-center justify-content-lg-start gap-2">
-                        <span class="badge rounded-pill fs-6 px-4 py-2 glass-badge text-bg-{{ $pokemon->typePrincipal->css }}">{{ $pokemon->typePrincipal->nom }}</span>
-                        @if ($pokemon->typeSecondaire)
-                            <span class="badge rounded-pill fs-6 px-4 py-2 glass-badge text-bg-{{ $pokemon->typeSecondaire->css }}">{{ $pokemon->typeSecondaire->nom }}</span>
-                        @endif
+                        <x-type-badge :type="$pokemon->typePrincipal" class="fs-6 px-4 py-2 glass-badge" />
+                        <x-type-badge :type="$pokemon->typeSecondaire" class="fs-6 px-4 py-2 glass-badge" />
                     </div>
                 </div>
                 <div class="col-lg-7 text-center">
