@@ -4,11 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Admin\Concerns\HandlesImageUpload;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\DresseurRequest;
 use App\Models\Dresseur;
 use App\Models\Organisation;
 use App\Models\Pokemon;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
@@ -28,9 +28,11 @@ class DresseurController extends Controller
         return $this->form(new Dresseur(['est_mechant' => false]));
     }
 
-    public function store(Request $request): RedirectResponse
+    public function store(DresseurRequest $request): RedirectResponse
     {
-        return $this->save($request, new Dresseur(), 'Dresseur créé.');
+        $this->save($request, new Dresseur());
+
+        return redirect()->route('admin.dresseurs.index')->with('success', 'Dresseur créé.');
     }
 
     public function edit(Dresseur $dresseur): View
@@ -38,9 +40,11 @@ class DresseurController extends Controller
         return $this->form($dresseur->load('teams.pokemons'));
     }
 
-    public function update(Request $request, Dresseur $dresseur): RedirectResponse
+    public function update(DresseurRequest $request, Dresseur $dresseur): RedirectResponse
     {
-        return $this->save($request, $dresseur, 'Dresseur mis à jour.');
+        $this->save($request, $dresseur);
+
+        return redirect()->route('admin.dresseurs.index')->with('success', 'Dresseur mis à jour.');
     }
 
     public function destroy(Dresseur $dresseur): RedirectResponse
@@ -55,65 +59,18 @@ class DresseurController extends Controller
         return view('admin.dresseurs.form', [
             'dresseur' => $dresseur,
             'organisations' => Organisation::orderBy('nom')->get(),
-            'pokemons' => Pokemon::without(['typePrincipal', 'typeSecondaire'])
-                ->orderBy('numero_pokedex')
-                ->get(['id_pokemon', 'nom', 'numero_pokedex']),
+            'pokemons' => Pokemon::forSelect()->get(),
         ]);
     }
 
-    private function save(Request $request, Dresseur $dresseur, string $message): RedirectResponse
+    private function save(DresseurRequest $request, Dresseur $dresseur): void
     {
-        $data = $request->validate([
-            'nom' => ['nullable', 'string', 'max:255'],
-            'prenom' => ['required', 'string', 'max:255'],
-            'ville_natale' => ['required', 'string', 'max:255'],
-            'region' => ['required', 'string', 'max:255'],
-            'ambition' => ['required', 'string'],
-            'description' => ['required', 'string'],
-            'organisation_id' => ['nullable', 'exists:organisation,id'],
-            'grade' => ['nullable', 'string', 'max:255'],
-            'image' => ['nullable', 'image', 'max:4096'],
-            'teams' => ['array'],
-            'teams.*.id' => ['nullable', 'integer'],
-            'teams.*.nom' => ['required', 'string', 'max:255'],
-            'teams.*.pokemons' => ['array'],
-            'teams.*.pokemons.*' => ['integer', 'exists:pokemon,id_pokemon'],
-        ], [], [
-            'prenom' => 'prénom',
-            'ville_natale' => 'ville natale',
-            'region' => 'région',
-            'teams.*.nom' => "nom de l'équipe",
-        ]);
-
-        DB::transaction(function () use ($request, $dresseur, $data) {
-            $dresseur->fill(collect($data)->except(['image', 'teams'])->all());
-            $dresseur->est_mechant = $request->boolean('est_mechant');
+        DB::transaction(function () use ($request, $dresseur) {
+            $dresseur->fill($request->dresseurData());
             $dresseur->image = $this->handleImage($request, 'image', 'images', $dresseur->image);
             $dresseur->save();
 
-            $this->syncTeams($dresseur, $data['teams'] ?? []);
+            $dresseur->syncTeams($request->teams());
         });
-
-        return redirect()->route('admin.dresseurs.index')->with('success', $message);
-    }
-
-    /** Crée / met à jour les équipes envoyées et supprime celles retirées du formulaire. */
-    private function syncTeams(Dresseur $dresseur, array $teams): void
-    {
-        $keptIds = [];
-
-        foreach ($teams as $teamData) {
-            $team = isset($teamData['id'])
-                ? $dresseur->teams()->findOrFail($teamData['id'])
-                : $dresseur->teams()->make();
-
-            $team->nom = $teamData['nom'];
-            $team->save();
-            $team->pokemons()->sync($teamData['pokemons'] ?? []);
-
-            $keptIds[] = $team->id;
-        }
-
-        $dresseur->teams()->whereNotIn('id', $keptIds)->delete();
     }
 }
