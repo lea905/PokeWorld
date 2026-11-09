@@ -8,12 +8,18 @@ use App\Models\Organisation;
 use App\Models\Pokemon;
 use App\Models\Team;
 use App\Models\Type;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class PokeWorldTest extends TestCase
 {
     use RefreshDatabase;
+
+    private function actingAsAdmin(): void
+    {
+        $this->actingAs(User::factory()->admin()->create());
+    }
 
     private function seedWorld(): array
     {
@@ -82,6 +88,8 @@ class PokeWorldTest extends TestCase
 
     public function test_admin_pages_render(): void
     {
+        $this->actingAsAdmin();
+
         $world = $this->seedWorld();
 
         foreach (['/admin', '/admin/dresseurs', '/admin/teams', '/admin/arenes', '/admin/organisations', '/admin/pokemons',
@@ -95,6 +103,8 @@ class PokeWorldTest extends TestCase
 
     public function test_admin_updates_dresseur_and_syncs_teams(): void
     {
+        $this->actingAsAdmin();
+
         $world = $this->seedWorld();
         $pierre = $world['pierre'];
 
@@ -122,6 +132,8 @@ class PokeWorldTest extends TestCase
 
     public function test_admin_validation_errors_are_in_french(): void
     {
+        $this->actingAsAdmin();
+
         $this->post('/admin/organisations', [])->assertSessionHasErrors([
             'nom' => 'Le champ nom est obligatoire.',
         ]);
