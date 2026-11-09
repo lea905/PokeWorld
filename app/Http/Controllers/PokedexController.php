@@ -4,11 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\Pokemon;
 use App\Models\Type;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class PokedexController extends Controller
 {
+    /** Nombre de Pokémon affichés par page. */
+    private const PER_PAGE = 48;
+
     public function index(Request $request, ?int $generation = null): View
     {
         $type = $request->query('type');
@@ -22,7 +26,7 @@ class PokedexController extends Controller
             'is_legendary' => $isLegendary,
             'is_mythical' => $isMythical,
             'evolution_stage' => $evolutionStage,
-        ])->get();
+        ])->paginate(self::PER_PAGE)->withQueryString();
 
         return view('pokedex.index', [
             'pokemons' => $pokemons,
@@ -35,12 +39,19 @@ class PokedexController extends Controller
         ]);
     }
 
-    public function show(string $nom): View
+    /** Fiche d'un Pokémon, trouvée par son numéro de Pokédex (route model binding). */
+    public function show(Pokemon $pokemon): View
+    {
+        return view('pokedex.show', ['pokemon' => $pokemon]);
+    }
+
+    /** Compatibilité avec les anciennes URL par nom. */
+    public function redirectFromName(string $nom): RedirectResponse
     {
         $pokemon = Pokemon::where('nom', $nom)->first();
 
         abort_unless($pokemon, 404, "Ce Pokémon n'existe pas.");
 
-        return view('pokedex.show', ['pokemon' => $pokemon]);
+        return redirect()->route('pokedex.show', $pokemon, 301);
     }
 }
