@@ -64,6 +64,12 @@
             </div>
         </div>
 
+        @if ($pokemons->total() > 0)
+            <p class="text-muted small mb-3">
+                {{ $pokemons->total() }} Pokémon — affichage de {{ $pokemons->firstItem() }} à {{ $pokemons->lastItem() }}
+            </p>
+        @endif
+
         <div class="row">
             @forelse ($pokemons as $pokemon)
                 <div class="col-12 col-md-6 col-lg-3 mb-4">
@@ -77,7 +83,7 @@
                                     <span class="badge rounded-pill text-bg-{{ $pokemon->typeSecondaire->css }}">{{ $pokemon->typeSecondaire->nom }}</span>
                                 @endif
                             </div>
-                            <a href="{{ route('pokedex.show', ['nom' => $pokemon->nom]) }}" class="btn btn-primary w-100 stretched-link">Détails</a>
+                            <a href="{{ route('pokedex.show', $pokemon) }}" class="btn btn-primary w-100 stretched-link">Détails</a>
                         </div>
                     </div>
                 </div>
@@ -87,6 +93,10 @@
                 </div>
             @endforelse
         </div>
+
+        <nav class="d-flex justify-content-center my-4" aria-label="Pages du Pokédex">
+            {{ $pokemons->onEachSide(1)->links() }}
+        </nav>
     </div>
 </div>
 @endsection
