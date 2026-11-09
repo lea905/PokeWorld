@@ -13,14 +13,7 @@
                      class="img-fluid mb-3"
                      style="max-height: {{ $isCurrent ? '130px' : '110px' }}; object-fit: contain;">
                 <div class="fw-bold fs-5">{{ $p->nom }}</div>
-                @if ($p->typePrincipal)
-                    <div class="mt-2 text-center d-flex justify-content-center">
-                        <span style="width:12px; height:12px; display:inline-block; border-radius:50%;" class="text-bg-{{ $p->typePrincipal->css }}"></span>
-                        @if ($p->typeSecondaire)
-                            <span style="width:12px; height:12px; display:inline-block; border-radius:50%; margin-left:4px;" class="text-bg-{{ $p->typeSecondaire->css }}"></span>
-                        @endif
-                    </div>
-                @endif
+                <x-pokemon-types :pokemon="$p" />
             </a>
         </div>
     </div>
