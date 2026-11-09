@@ -19,18 +19,21 @@ class Arene extends Model
 
     protected $fillable = ['slug', 'nom', 'region', 'lieu', 'badge', 'image_badge', 'idChampion'];
 
+    /** @return BelongsTo<Dresseur, $this> */
     public function champion(): BelongsTo
     {
         return $this->belongsTo(Dresseur::class, 'idChampion');
     }
 
     /** Vrai si le champ "badge" contient un nom de fichier image (public/images/Badges). */
+    /** @return Attribute<bool, never> */
     protected function badgeEstImage(): Attribute
     {
         return Attribute::get(fn () => $this->badge && Str::contains($this->badge, ['.webp', '.png', '.jpg']));
     }
 
     /** "roche.webp" => "Roche". */
+    /** @return Attribute<string|null, never> */
     protected function badgeLibelle(): Attribute
     {
         return Attribute::get(fn () => $this->badge ? Str::ucfirst(Str::lower(Str::before($this->badge, '.'))) : null);

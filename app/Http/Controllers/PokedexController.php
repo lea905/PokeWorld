@@ -48,9 +48,7 @@ class PokedexController extends Controller
     /** Compatibilité avec les anciennes URL par nom. */
     public function redirectFromName(string $nom): RedirectResponse
     {
-        $pokemon = Pokemon::where('nom', $nom)->first();
-
-        abort_unless($pokemon, 404, "Ce Pokémon n'existe pas.");
+        $pokemon = Pokemon::where('nom', $nom)->firstOrFail(); // 404 si introuvable
 
         return redirect()->route('pokedex.show', $pokemon, 301);
     }

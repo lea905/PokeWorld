@@ -14,11 +14,13 @@ class Team extends Model
 
     protected $fillable = ['nom', 'dresseur_id'];
 
+    /** @return BelongsTo<Dresseur, $this> */
     public function dresseur(): BelongsTo
     {
         return $this->belongsTo(Dresseur::class, 'dresseur_id');
     }
 
+    /** @return BelongsToMany<Pokemon, $this> */
     public function pokemons(): BelongsToMany
     {
         return $this->belongsToMany(Pokemon::class, 'team_pokemon', 'team_id', 'pokemon_id');

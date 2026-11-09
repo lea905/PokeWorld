@@ -18,9 +18,7 @@ class DresseurController extends Controller
     {
         $dresseur = Dresseur::with(['teams.pokemons', 'arene', 'organisation'])
             ->where('slug', $slug)
-            ->first();
-
-        abort_unless($dresseur, 404, 'Dresseur non trouvé');
+            ->firstOrFail(); // 404 si introuvable
 
         return view('dresseur.show', ['dresseur' => $dresseur]);
     }

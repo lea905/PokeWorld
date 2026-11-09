@@ -22,12 +22,12 @@ class OrganisationController extends Controller
 
     public function create(): View
     {
-        return view('admin.organisations.form', ['organisation' => new Organisation()]);
+        return view('admin.organisations.form', ['organisation' => new Organisation]);
     }
 
     public function store(OrganisationRequest $request): RedirectResponse
     {
-        $this->save($request, new Organisation());
+        $this->save($request, new Organisation);
 
         return redirect()->route('admin.organisations.index')->with('success', 'Organisation créée.');
     }
