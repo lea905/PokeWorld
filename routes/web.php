@@ -19,7 +19,11 @@ Route::get('/', HomeController::class)->name('home');
 
 Route::get('/recherche', SearchController::class)->name('search');
 
-Route::get('/pokedex/show/{nom}', [PokedexController::class, 'show'])->name('pokedex.show');
+Route::get('/pokedex/pokemon/{pokemon:numero_pokedex}', [PokedexController::class, 'show'])
+    ->whereNumber('pokemon')
+    ->name('pokedex.show');
+// Anciennes URL par nom (/pokedex/show/Pikachu) : redirection permanente vers l'URL par numéro
+Route::get('/pokedex/show/{nom}', [PokedexController::class, 'redirectFromName']);
 Route::get('/pokedex/{generation?}', [PokedexController::class, 'index'])
     ->whereNumber('generation')
     ->name('pokedex.index');

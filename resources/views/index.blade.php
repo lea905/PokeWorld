@@ -89,7 +89,7 @@
                         <img src="{{ $pokemonDuJour->image_principale }}" alt="{{ $pokemonDuJour->nom }}" class="img-fluid rounded mb-3" style="max-height: 150px; object-fit: contain;">
                         <h4 class="fw-bold">{{ $pokemonDuJour->nom }} N°{{ $pokemonDuJour->numero_pokedex }}</h4>
                         <p class="small text-muted mb-3">{{ mb_substr($pokemonDuJour->description, 0, 100) }}...</p>
-                        <a href="{{ route('pokedex.show', ['nom' => $pokemonDuJour->nom]) }}" class="btn btn-pokedex w-100">Voir la fiche</a>
+                        <a href="{{ route('pokedex.show', $pokemonDuJour) }}" class="btn btn-pokedex w-100">Voir la fiche</a>
                     @else
                         <p class="text-muted">Aucun Pokémon sauvage n'a été aperçu aujourd'hui.</p>
                     @endif
@@ -121,7 +121,7 @@
                     <h6 class="fw-bold border-bottom pb-2">Nouveaux Pokémon</h6>
                     <ul class="list-unstyled">
                         @forelse ($pokemons as $p)
-                            <li class="mb-2"><a href="{{ route('pokedex.show', ['nom' => $p->nom]) }}" class="text-decoration-none text-dark"><i class="bi bi-caret-right-fill color-pokedex"></i> {{ $p->nom }} (N°{{ $p->numero_pokedex }})</a></li>
+                            <li class="mb-2"><a href="{{ route('pokedex.show', $p) }}" class="text-decoration-none text-dark"><i class="bi bi-caret-right-fill color-pokedex"></i> {{ $p->nom }} (N°{{ $p->numero_pokedex }})</a></li>
                         @empty
                             <li class="text-muted small">Aucun nouveau Pokémon.</li>
                         @endforelse
