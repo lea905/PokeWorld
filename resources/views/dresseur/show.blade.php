@@ -33,6 +33,9 @@
                         @if ($dresseur->est_mechant)
                             <span class="badge bg-danger text-white rounded-pill px-3 py-2 shadow-sm"><i class="fas fa-skull me-1"></i> Antagoniste</span>
                         @endif
+                        @if ($dresseur->grade)
+                            <span class="badge bg-dark text-white rounded-pill px-3 py-2 shadow-sm border border-danger"><i class="fas fa-star text-danger me-1"></i> {{ $dresseur->grade->value }}</span>
+                        @endif
                         <span class="badge bg-secondary rounded-pill px-3 py-2 shadow-sm"><i class="fas fa-paw me-1"></i> {{ $dresseur->teams->count() }} Équipes</span>
                     </div>
 
