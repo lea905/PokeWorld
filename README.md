@@ -130,13 +130,3 @@ tests/Feature/               Tests fonctionnels
 | `composer check` | Enchaîne les trois commandes précédentes et `composer audit`. |
 
 Le dépôt n'a pas d'intégration continue : `composer check` doit passer avant chaque pull request.
-
-## Contribution
-
-- Les branches partent de `develop` : `feature/<TICKET>-description` pour une fonctionnalité, `fix/<TICKET>-description` pour une correction.
-- Les messages de commit suivent le format `type(scope): sujet`, suivi d'une ligne vide et d'une description.
-- Chaque branche est intégrée à `develop` par une pull request. `main` contient la dernière version stable.
-
-## Historique
-
-La première version de PokeWorld reposait sur Symfony (Doctrine, Twig, EasyAdmin). Le projet a été migré vers Laravel 13 et Blade en conservant le même schéma de base de données : une base créée par l'ancienne version reste compatible.
