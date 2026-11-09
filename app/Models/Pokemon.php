@@ -32,26 +32,31 @@ class Pokemon extends Model
      * Les colonnes s'appellent "type1" et "type2" : les relations portent donc
      * un autre nom pour ne pas entrer en conflit avec les attributs.
      */
+    /** @return BelongsTo<Type, $this> */
     public function typePrincipal(): BelongsTo
     {
         return $this->belongsTo(Type::class, 'type1');
     }
 
+    /** @return BelongsTo<Type, $this> */
     public function typeSecondaire(): BelongsTo
     {
         return $this->belongsTo(Type::class, 'type2');
     }
 
+    /** @return BelongsTo<Pokemon, $this> */
     public function evolutionPrecedente(): BelongsTo
     {
         return $this->belongsTo(self::class, 'idEvolutionPrecedente', 'id_pokemon');
     }
 
+    /** @return HasMany<Pokemon, $this> */
     public function evolutionsSuivantes(): HasMany
     {
         return $this->hasMany(self::class, 'idEvolutionPrecedente', 'id_pokemon');
     }
 
+    /** @return BelongsToMany<Team, $this> */
     public function teams(): BelongsToMany
     {
         return $this->belongsToMany(Team::class, 'team_pokemon', 'pokemon_id', 'team_id');

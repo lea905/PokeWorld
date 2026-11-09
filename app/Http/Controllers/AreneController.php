@@ -16,9 +16,7 @@ class AreneController extends Controller
 
     public function show(string $slug): View
     {
-        $arene = Arene::with('champion.teams.pokemons')->where('slug', $slug)->first();
-
-        abort_unless($arene, 404, 'Arène non trouvée');
+        $arene = Arene::with('champion.teams.pokemons')->where('slug', $slug)->firstOrFail(); // 404 si introuvable
 
         return view('arene.show', ['arene' => $arene]);
     }

@@ -16,9 +16,7 @@ class OrganisationController extends Controller
 
     public function show(string $slug): View
     {
-        $organisation = Organisation::with('dresseurs')->where('slug', $slug)->first();
-
-        abort_unless($organisation, 404, 'Organisation non trouvée');
+        $organisation = Organisation::with('dresseurs')->where('slug', $slug)->firstOrFail(); // 404 si introuvable
 
         return view('organisation.show', ['organisation' => $organisation]);
     }

@@ -30,7 +30,7 @@ class DresseurController extends Controller
 
     public function store(DresseurRequest $request): RedirectResponse
     {
-        $this->save($request, new Dresseur());
+        $this->save($request, new Dresseur);
 
         return redirect()->route('admin.dresseurs.index')->with('success', 'Dresseur créé.');
     }

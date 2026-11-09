@@ -16,11 +16,13 @@ class Type extends Model
 
     protected $fillable = ['nom'];
 
+    /** @return HasMany<TypeRelation, $this> */
     public function relationsEnAttaque(): HasMany
     {
         return $this->hasMany(TypeRelation::class, 'idTypeAttaquant');
     }
 
+    /** @return HasMany<TypeRelation, $this> */
     public function relationsEnDefense(): HasMany
     {
         return $this->hasMany(TypeRelation::class, 'idTypeDefenseur');
@@ -33,6 +35,7 @@ class Type extends Model
     }
 
     /** Suffixe CSS des classes text-bg-* / bg-type-* ("Ténèbres" => "tenebres"). */
+    /** @return Attribute<lowercase-string, never> */
     protected function css(): Attribute
     {
         return Attribute::get(fn () => Str::lower(Str::ascii((string) $this->nom)));
