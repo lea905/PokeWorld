@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin;
 use App\Http\Controllers\AreneController;
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\DresseurController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OrganisationController;
@@ -34,15 +35,29 @@ Route::get('/organisation/{slug}', [OrganisationController::class, 'show'])->nam
 
 /*
 |--------------------------------------------------------------------------
-| Administration (remplace EasyAdmin)
+| Connexion
 |--------------------------------------------------------------------------
 */
-Route::get('/admin', Admin\DashboardController::class)->name('admin');
+Route::middleware('guest')->group(function () {
+    Route::get('/connexion', [LoginController::class, 'create'])->name('login');
+    Route::post('/connexion', [LoginController::class, 'store']);
+});
 
-Route::prefix('admin')->name('admin.')->group(function () {
-    Route::resource('dresseurs', Admin\DresseurController::class)->except('show');
-    Route::resource('teams', Admin\TeamController::class)->except('show');
-    Route::resource('arenes', Admin\AreneController::class)->except('show');
-    Route::resource('organisations', Admin\OrganisationController::class)->except('show');
-    Route::resource('pokemons', Admin\PokemonController::class)->only(['index', 'edit', 'update']);
+Route::post('/deconnexion', [LoginController::class, 'destroy'])->middleware('auth')->name('logout');
+
+/*
+|--------------------------------------------------------------------------
+| Administration : connexion obligatoire + droit administrateur
+|--------------------------------------------------------------------------
+*/
+Route::middleware(['auth', 'can:access-admin'])->group(function () {
+    Route::get('/admin', Admin\DashboardController::class)->name('admin');
+
+    Route::prefix('admin')->name('admin.')->group(function () {
+        Route::resource('dresseurs', Admin\DresseurController::class)->except('show');
+        Route::resource('teams', Admin\TeamController::class)->except('show');
+        Route::resource('arenes', Admin\AreneController::class)->except('show');
+        Route::resource('organisations', Admin\OrganisationController::class)->except('show');
+        Route::resource('pokemons', Admin\PokemonController::class)->only(['index', 'edit', 'update']);
+    });
 });

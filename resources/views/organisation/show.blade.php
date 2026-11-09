@@ -11,7 +11,7 @@
             @endif
             <h1 class="display-3 fw-bold text-white mb-3" style="text-shadow: 0 4px 15px rgba(0,0,0,0.5);">{{ $organisation->nom }}</h1>
             <div class="lead text-white opacity-90 mx-auto" style="max-width: 800px; font-size: 1.25rem;">
-                {!! $organisation->but !!}
+                @html($organisation->but)
             </div>
         </div>
     </div>

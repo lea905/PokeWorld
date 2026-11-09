@@ -83,7 +83,13 @@ POKEMON_SEED_LIMIT=151
 ## 👑 Administration (Back-Office)
 
 -   **URL** : `/admin` (ex : `http://127.0.0.1:8000/admin`)
--   **Accès** : Gère les entités suivantes :
+-   **Accès** : réservé aux comptes **administrateurs**. Un visiteur est redirigé vers `/connexion`, et un utilisateur connecté sans droit administrateur reçoit une erreur 403. Les tentatives de connexion sont limitées à 5 par minute.
+-   **Créer un compte administrateur** (le mot de passe est demandé de façon masquée, 12 caractères minimum) :
+    ```bash
+    php artisan app:create-admin ton.email@exemple.fr
+    ```
+    Avec Docker : `docker compose exec web php artisan app:create-admin ton.email@exemple.fr`.
+-   **Contenu géré** :
     -   **Dresseurs** : Créer, modifier, supprimer des dresseurs, avec ajout/suppression de Teams directement depuis la fiche Dresseur.
     -   **Teams** : Gérer les équipes et leur composition (Pokémon, avec recherche).
     -   **Arènes** : Gérer les arènes, leur champion et leur badge (image).
@@ -92,7 +98,7 @@ POKEMON_SEED_LIMIT=151
 
 Les images envoyées sont enregistrées dans `public/images/` (badges dans `public/images/Badges/`).
 
-> ⚠️ Comme dans la version Symfony, l'administration n'est pas protégée par une authentification.
+Les textes riches (description, ambition, but) acceptent un HTML simple (`<p>`, `<b>`, `<i>`, `<ul>`, liens…). Ils sont nettoyés à l'affichage avec la directive Blade `@html(...)` (`App\Support\SafeHtml`) : scripts, attributs `on*` et liens `javascript:` sont supprimés.
 
 ---
 
