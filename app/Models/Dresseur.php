@@ -40,6 +40,31 @@ class Dresseur extends Model
         return $this->belongsTo(Organisation::class, 'organisation_id');
     }
 
+    /**
+     * Crée / met à jour les équipes données et supprime celles qui n'y figurent plus
+     * (équivalent de l'orphanRemoval Doctrine).
+     *
+     * @param  array<int, array{id?: int|null, nom: string, pokemons?: array<int>}>  $teams
+     */
+    public function syncTeams(array $teams): void
+    {
+        $keptIds = [];
+
+        foreach ($teams as $teamData) {
+            $team = ! empty($teamData['id'])
+                ? $this->teams()->findOrFail($teamData['id'])
+                : $this->teams()->make();
+
+            $team->nom = $teamData['nom'];
+            $team->save();
+            $team->pokemons()->sync($teamData['pokemons'] ?? []);
+
+            $keptIds[] = $team->id;
+        }
+
+        $this->teams()->whereNotIn('id', $keptIds)->delete();
+    }
+
     /** "Prénom Nom" (équivalent du __toString de l'entité). */
     protected function nomComplet(): Attribute
     {

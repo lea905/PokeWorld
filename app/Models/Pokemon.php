@@ -89,6 +89,14 @@ class Pokemon extends Model
             ->orderBy('numero_pokedex');
     }
 
+    /** Colonnes minimales pour les listes déroulantes de l'admin (sans charger les types). */
+    public function scopeForSelect(Builder $query): Builder
+    {
+        return $query->without(['typePrincipal', 'typeSecondaire'])
+            ->orderBy('numero_pokedex')
+            ->select(['id_pokemon', 'nom', 'numero_pokedex']);
+    }
+
     public function scopeSearch(Builder $query, string $term): Builder
     {
         return $query
