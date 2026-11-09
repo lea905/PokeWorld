@@ -72,21 +72,7 @@
 
         <div class="row">
             @forelse ($pokemons as $pokemon)
-                <div class="col-12 col-md-6 col-lg-3 mb-4">
-                    <div class="card h-100 shadow-sm hover-shadow transition">
-                        <div class="card-body text-center">
-                            <img src="{{ $pokemon->image_principale }}" class="img-fluid mb-3" style="max-height: 150px; object-fit: contain;" alt="{{ $pokemon->nom }}" loading="lazy">
-                            <h5 class="card-title fw-bold">{{ $pokemon->nom }}</h5>
-                            <div class="d-flex justify-content-center gap-2 mb-3">
-                                <span class="badge rounded-pill text-bg-{{ $pokemon->typePrincipal->css }}">{{ $pokemon->typePrincipal->nom }}</span>
-                                @if ($pokemon->typeSecondaire)
-                                    <span class="badge rounded-pill text-bg-{{ $pokemon->typeSecondaire->css }}">{{ $pokemon->typeSecondaire->nom }}</span>
-                                @endif
-                            </div>
-                            <a href="{{ route('pokedex.show', $pokemon) }}" class="btn btn-primary w-100 stretched-link">Détails</a>
-                        </div>
-                    </div>
-                </div>
+                <x-pokemon-card :pokemon="$pokemon" />
             @empty
                 <div class="col-12">
                     <div class="alert alert-info text-center">Aucun Pokémon trouvé.</div>

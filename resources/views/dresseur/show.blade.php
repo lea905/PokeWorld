@@ -3,17 +3,7 @@
 @section('title', $dresseur->nom_complet.' - Pokédex')
 
 @section('body')
-    <!-- Hero Section -->
-    <div class="hero-pokemon"
-         style="background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%); min-height: 280px; padding: 2rem; border-radius: 0 0 2rem 2rem; margin-top: -1.5rem;">
-        <div class="container position-relative z-1">
-            <a href="{{ route('dresseur.index') }}"
-               class="btn btn-light rounded-pill px-4 mb-4 shadow-sm text-decoration-none fw-bold"
-               style="opacity: 0.9;">
-                &larr; Retour aux Dresseurs
-            </a>
-        </div>
-    </div>
+    <x-back-hero theme="dresseur" :href="route('dresseur.index')">Retour aux Dresseurs</x-back-hero>
 
     <div class="container mb-5" style="margin-top: -140px; position: relative; z-index: 10;">
         <div class="row g-4">
@@ -92,7 +82,7 @@
                                 <i class="fas fa-bookmark me-2"></i> {{ $team->nom }}</h4>
                             <div class="row g-3">
                                 @forelse ($team->pokemons as $pokemon)
-                                    @include('partials.team-pokemon-card', ['pokemon' => $pokemon])
+                                    <x-pokemon-mini-card :pokemon="$pokemon" />
                                 @empty
                                     <div class="col-12">
                                         <p class="text-muted fst-italic">Équipe vide.</p>

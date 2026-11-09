@@ -3,14 +3,7 @@
 @section('title', $arene->nom.' - Pokédex')
 
 @section('body')
-    <!-- Hero Section -->
-    <div class="hero-pokemon" style="background: linear-gradient(135deg, #b45309 0%, #f59e0b 100%); min-height: 280px; padding: 2rem; border-radius: 0 0 2rem 2rem; margin-top: -1.5rem;">
-        <div class="container position-relative z-1">
-            <a href="{{ route('arene.index') }}" class="btn btn-light rounded-pill px-4 mb-4 shadow-sm text-decoration-none fw-bold" style="opacity: 0.9;">
-                &larr; Retour aux Arènes
-            </a>
-        </div>
-    </div>
+    <x-back-hero theme="arene" :href="route('arene.index')">Retour aux Arènes</x-back-hero>
 
     <div class="container mb-5" style="margin-top: -140px; position: relative; z-index: 10;">
 
@@ -93,7 +86,7 @@
                         <h4 class="h5 fw-bold mb-4 text-primary d-inline-block border-2 border-bottom border-primary pb-1"><i class="fas fa-bookmark me-2"></i> {{ $team->nom }}</h4>
                         <div class="row g-3">
                             @forelse ($team->pokemons as $pokemon)
-                                @include('partials.team-pokemon-card', ['pokemon' => $pokemon, 'col' => 'col-6 col-md-4 col-lg-3'])
+                                <x-pokemon-mini-card :pokemon="$pokemon" class="col-6 col-md-4 col-lg-3" />
                             @empty
                                 <div class="col-12">
                                     <p class="text-muted fst-italic">Cette équipe est vide pour le moment.</p>
