@@ -23,7 +23,22 @@ class Team extends Model
     /** @return BelongsToMany<Pokemon, $this> */
     public function pokemons(): BelongsToMany
     {
-        return $this->belongsToMany(Pokemon::class, 'team_pokemon', 'team_id', 'pokemon_id');
+        return $this->belongsToMany(Pokemon::class, 'team_pokemon', 'team_id', 'pokemon_id')
+            ->withPivot(['id', 'niveau', 'position'])
+            ->orderByPivot('position');
+    }
+
+    /**
+     * Remplace la composition par les Pokémon donnés, dans cet ordre.
+     * Les niveaux déjà enregistrés pour les Pokémon conservés sont gardés.
+     *
+     * @param  array<int, int|string>  $pokemonIds
+     */
+    public function syncPokemons(array $pokemonIds): void
+    {
+        $this->pokemons()->sync(
+            collect($pokemonIds)->values()->mapWithKeys(fn ($id, $index) => [(int) $id => ['position' => $index + 1]])->all()
+        );
     }
 
     public function __toString(): string
