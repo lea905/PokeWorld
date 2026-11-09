@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\PokemonRequest;
 use App\Models\Pokemon;
 use App\Models\Type;
 use Illuminate\Http\RedirectResponse;
@@ -16,7 +17,7 @@ class PokemonController extends Controller
 {
     public function index(Request $request): View
     {
-        $search = trim((string) $request->query('q', ''));
+        $search = trim($request->string('q'));
 
         return view('admin.pokemons.index', [
             'search' => $search,
@@ -35,22 +36,9 @@ class PokemonController extends Controller
         ]);
     }
 
-    public function update(Request $request, Pokemon $pokemon): RedirectResponse
+    public function update(PokemonRequest $request, Pokemon $pokemon): RedirectResponse
     {
-        $data = $request->validate([
-            'nom' => ['required', 'string', 'max:255'],
-            'numero_pokedex' => ['required', 'integer', 'min:1'],
-            'type1' => ['required', 'exists:type,id'],
-            'type2' => ['nullable', 'exists:type,id', 'different:type1'],
-            'image_principale' => ['required', 'string', 'max:255'],
-        ], [], [
-            'numero_pokedex' => 'numéro de Pokédex',
-            'type1' => 'type 1',
-            'type2' => 'type 2',
-            'image_principale' => 'image',
-        ]);
-
-        $pokemon->update($data);
+        $pokemon->update($request->validated());
 
         return redirect()->route('admin.pokemons.index')->with('success', 'Pokémon mis à jour.');
     }

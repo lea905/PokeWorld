@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Admin\Concerns\HandlesImageUpload;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\OrganisationRequest;
 use App\Models\Organisation;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class OrganisationController extends Controller
@@ -25,9 +25,11 @@ class OrganisationController extends Controller
         return view('admin.organisations.form', ['organisation' => new Organisation()]);
     }
 
-    public function store(Request $request): RedirectResponse
+    public function store(OrganisationRequest $request): RedirectResponse
     {
-        return $this->save($request, new Organisation(), 'Organisation créée.');
+        $this->save($request, new Organisation());
+
+        return redirect()->route('admin.organisations.index')->with('success', 'Organisation créée.');
     }
 
     public function edit(Organisation $organisation): View
@@ -35,9 +37,11 @@ class OrganisationController extends Controller
         return view('admin.organisations.form', ['organisation' => $organisation]);
     }
 
-    public function update(Request $request, Organisation $organisation): RedirectResponse
+    public function update(OrganisationRequest $request, Organisation $organisation): RedirectResponse
     {
-        return $this->save($request, $organisation, 'Organisation mise à jour.');
+        $this->save($request, $organisation);
+
+        return redirect()->route('admin.organisations.index')->with('success', 'Organisation mise à jour.');
     }
 
     public function destroy(Organisation $organisation): RedirectResponse
@@ -47,18 +51,10 @@ class OrganisationController extends Controller
         return redirect()->route('admin.organisations.index')->with('success', 'Organisation supprimée.');
     }
 
-    private function save(Request $request, Organisation $organisation, string $message): RedirectResponse
+    private function save(OrganisationRequest $request, Organisation $organisation): void
     {
-        $data = $request->validate([
-            'nom' => ['required', 'string', 'max:255'],
-            'but' => ['required', 'string'],
-            'image' => ['nullable', 'image', 'max:4096'],
-        ]);
-
-        $organisation->fill(collect($data)->except('image')->all());
+        $organisation->fill($request->safe()->except('image'));
         $organisation->image = $this->handleImage($request, 'image', 'images', $organisation->image);
         $organisation->save();
-
-        return redirect()->route('admin.organisations.index')->with('success', $message);
     }
 }
