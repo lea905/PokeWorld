@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\TeamRequest;
 use App\Models\Dresseur;
 use App\Models\Pokemon;
 use App\Models\Team;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class TeamController extends Controller
@@ -24,9 +24,11 @@ class TeamController extends Controller
         return $this->form(new Team());
     }
 
-    public function store(Request $request): RedirectResponse
+    public function store(TeamRequest $request): RedirectResponse
     {
-        return $this->save($request, new Team(), 'Équipe créée.');
+        $this->save($request, new Team());
+
+        return redirect()->route('admin.teams.index')->with('success', 'Équipe créée.');
     }
 
     public function edit(Team $team): View
@@ -34,9 +36,11 @@ class TeamController extends Controller
         return $this->form($team->load('pokemons'));
     }
 
-    public function update(Request $request, Team $team): RedirectResponse
+    public function update(TeamRequest $request, Team $team): RedirectResponse
     {
-        return $this->save($request, $team, 'Équipe mise à jour.');
+        $this->save($request, $team);
+
+        return redirect()->route('admin.teams.index')->with('success', 'Équipe mise à jour.');
     }
 
     public function destroy(Team $team): RedirectResponse
@@ -51,24 +55,13 @@ class TeamController extends Controller
         return view('admin.teams.form', [
             'team' => $team,
             'dresseurs' => Dresseur::orderBy('prenom')->get(),
-            'pokemons' => Pokemon::without(['typePrincipal', 'typeSecondaire'])
-                ->orderBy('numero_pokedex')
-                ->get(['id_pokemon', 'nom', 'numero_pokedex']),
+            'pokemons' => Pokemon::forSelect()->get(),
         ]);
     }
 
-    private function save(Request $request, Team $team, string $message): RedirectResponse
+    private function save(TeamRequest $request, Team $team): void
     {
-        $data = $request->validate([
-            'nom' => ['required', 'string', 'max:255'],
-            'dresseur_id' => ['nullable', 'exists:dresseur,id'],
-            'pokemons' => ['array'],
-            'pokemons.*' => ['integer', 'exists:pokemon,id_pokemon'],
-        ]);
-
-        $team->fill($data)->save();
-        $team->pokemons()->sync($data['pokemons'] ?? []);
-
-        return redirect()->route('admin.teams.index')->with('success', $message);
+        $team->fill($request->safe()->except('pokemons'))->save();
+        $team->pokemons()->sync($request->validated('pokemons', []));
     }
 }
