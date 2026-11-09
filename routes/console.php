@@ -17,3 +17,44 @@ Artisan::command('app:load-all', function () {
     $this->call('migrate:fresh', ['--seed' => true, '--force' => true]);
     $this->info('Tous les imports ont été exécutés avec succès.');
 })->purpose('Réinitialise la base et charge toutes les données (PokéAPI + monde PokeWorld)');
+
+// Crée (ou promeut) un compte administrateur pour accéder au back-office.
+Artisan::command('app:create-admin {email : Email du compte}', function (string $email) {
+    $validator = \Illuminate\Support\Facades\Validator::make(['email' => $email], ['email' => ['required', 'email']]);
+    if ($validator->fails()) {
+        $this->error('Email invalide.');
+
+        return 1;
+    }
+
+    $user = \App\Models\User::firstOrNew(['email' => $email]);
+
+    if (! $user->exists) {
+        $user->name = $this->ask('Nom affiché', \Illuminate\Support\Str::before($email, '@'));
+    }
+
+    if (! $user->exists || $this->confirm('Ce compte existe déjà. Changer son mot de passe ?', false)) {
+        $password = $this->secret('Mot de passe (12 caractères minimum)');
+
+        if (mb_strlen((string) $password) < 12) {
+            $this->error('Mot de passe trop court.');
+
+            return 1;
+        }
+
+        if ($password !== $this->secret('Confirmez le mot de passe')) {
+            $this->error('Les mots de passe ne correspondent pas.');
+
+            return 1;
+        }
+
+        $user->password = $password; // haché automatiquement (cast "hashed")
+    }
+
+    $user->is_admin = true;
+    $user->save();
+
+    $this->info("Administrateur prêt : {$user->email}");
+
+    return 0;
+})->purpose('Crée un compte administrateur pour le back-office');
