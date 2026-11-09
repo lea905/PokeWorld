@@ -1,0 +1,12 @@
+includes:
+    - vendor/larastan/larastan/extension.neon
+
+parameters:
+    # Dossiers analysés par Larastan (analyse statique de PHPStan adaptée à Laravel)
+    paths:
+        - app
+        - database/seeders
+        - routes
+
+    # Niveau 0 (le plus souple) à 10 (le plus strict) : 5 est un bon compromis pour démarrer
+    level: 5

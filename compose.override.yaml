@@ -1,12 +1,17 @@
 
 services:
-###> doctrine/doctrine-bundle ###
+  web:
+    ports:
+      - "8000:80"
+    volumes:
+      - .:/var/www/html
+      - /var/www/html/vendor
+
   database:
     ports:
-      - "5432"
-###< doctrine/doctrine-bundle ###
+      # Port fixe pour que Laravel (lancé hors Docker) puisse se connecter sur 127.0.0.1:3306
+      - "3306:3306"
 
-###> symfony/mailer ###
   mailer:
     image: axllent/mailpit
     ports:
@@ -15,4 +20,3 @@ services:
     environment:
       MP_SMTP_AUTH_ACCEPT_ANY: 1
       MP_SMTP_AUTH_ALLOW_INSECURE: 1
-###< symfony/mailer ###

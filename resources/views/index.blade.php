@@ -1,0 +1,143 @@
+@extends('layouts.base')
+
+@section('title', "Accueil - Le Guide de l'Expert Dresseur")
+
+@section('body')
+<div class="container-fluid px-0">
+    <!-- Section 1 : Hero Header -->
+    <header class="hero-header d-flex flex-column justify-content-center align-items-center text-center mx-3 mt-3">
+        <div class="hero-overlay"></div>
+        <div class="hero-content w-100">
+            <h1 class="display-4 fw-bold mb-4">Le Guide de l'Expert Dresseur</h1>
+            <p class="lead mb-4">Retrouvez toutes les informations sur les Pokémon, Dresseurs et Arènes.</p>
+
+            <form action="{{ route('search') }}" method="GET" class="w-100 d-flex justify-content-center">
+                <input type="text" name="q" class="form-control search-bar-giant" placeholder="Que cherchez-vous aujourd'hui, Dresseur ?" aria-label="Recherche" required>
+            </form>
+
+            <div class="quick-tags">
+                <a href="{{ route('search', ['q' => 'Pikachu']) }}" class="quick-tag">#Pikachu</a>
+                <a href="{{ route('search', ['q' => 'Argenta']) }}" class="quick-tag">#BadgeRoche</a>
+                <a href="{{ route('dresseur.index') }}" class="quick-tag">#TopDresseurs</a>
+                <a href="{{ route('pokedex.index', ['type' => 'Spectre']) }}" class="quick-tag">#TypeSpectre</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container mt-5">
+        <!-- Section 2 : Navigation Rapide -->
+        <h2 class="section-title text-center d-block">L'Encyclopédie</h2>
+        <div class="row g-4 mt-2 justify-content-center">
+            <!-- Pokédex -->
+            <div class="col-md-6 col-lg-3">
+                <a href="{{ route('pokedex.index') }}" class="text-decoration-none text-dark">
+                    <div class="card pokenav-card text-center p-4">
+                        <div class="icon-container color-pokedex">
+                            <i class="bi bi-record-circle-fill"></i>
+                        </div>
+                        <h4 class="fw-bold">Le Pokédex</h4>
+                        <p class="text-muted small">Tous les Pokémon par ID, Type ou Région.</p>
+                    </div>
+                </a>
+            </div>
+            <!-- Dresseurs -->
+            <div class="col-md-6 col-lg-3">
+                <a href="{{ route('dresseur.index') }}" class="text-decoration-none text-dark">
+                    <div class="card pokenav-card text-center p-4">
+                        <div class="icon-container color-center">
+                            <i class="bi bi-person-badge-fill"></i>
+                        </div>
+                        <h4 class="fw-bold">Annuaire Dresseurs</h4>
+                        <p class="text-muted small">Champions d'Arène, Conseil 4 et Rivaux.</p>
+                    </div>
+                </a>
+            </div>
+            <!-- Arènes -->
+            <div class="col-md-6 col-lg-3">
+                <a href="{{ route('arene.index') }}" class="text-decoration-none text-dark">
+                    <div class="card pokenav-card text-center p-4">
+                        <div class="icon-container color-badge">
+                            <i class="bi bi-shield-fill-check"></i>
+                        </div>
+                        <h4 class="fw-bold">Le Guide des Arènes</h4>
+                        <p class="text-muted small">Localisation, Badges et Teams à battre.</p>
+                    </div>
+                </a>
+            </div>
+            <!-- Organisations -->
+            <div class="col-md-6 col-lg-3">
+                <a href="{{ route('organisation.index') }}" class="text-decoration-none text-dark">
+                    <div class="card pokenav-card text-center p-4">
+                        <div class="icon-container color-type">
+                            <i class="bi bi-incognito"></i>
+                        </div>
+                        <h4 class="fw-bold">Les Organisations</h4>
+                        <p class="text-muted small">Team Rocket et autres équipes maléfiques.</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <!-- Section 3 : Aujourd'hui dans le monde Pokémon -->
+        <h2 class="section-title text-center d-block mt-5 pt-4">Aujourd'hui dans le monde Pokémon</h2>
+        <div class="row g-4 mt-2 mb-5">
+            <!-- Pokémon Sauvage du Jour -->
+            <div class="col-md-4">
+                <div class="daily-card h-100">
+                    <h5 class="fw-bold color-pokedex mb-3"><i class="bi bi-star-fill text-warning"></i> Pokémon Sauvage du Jour</h5>
+                    @if ($pokemonDuJour)
+                        <img src="{{ $pokemonDuJour->image_principale }}" alt="{{ $pokemonDuJour->nom }}" class="img-fluid rounded mb-3" style="max-height: 150px; object-fit: contain;">
+                        <h4 class="fw-bold">{{ $pokemonDuJour->nom }} N°{{ $pokemonDuJour->numero_pokedex }}</h4>
+                        <p class="small text-muted mb-3">{{ mb_substr($pokemonDuJour->description, 0, 100) }}...</p>
+                        <a href="{{ route('pokedex.show', $pokemonDuJour) }}" class="btn btn-pokedex w-100">Voir la fiche</a>
+                    @else
+                        <p class="text-muted">Aucun Pokémon sauvage n'a été aperçu aujourd'hui.</p>
+                    @endif
+                </div>
+            </div>
+
+            <!-- Challenge d'Arène -->
+            <div class="col-md-4">
+                <div class="daily-card h-100">
+                    <h5 class="fw-bold color-badge mb-3"><i class="bi bi-shield-shaded"></i> Le Challenge d'Arène</h5>
+                    @if ($areneDuJour)
+                        @if ($areneDuJour->badge_est_image)
+                            <img src="{{ asset('images/Badges/'.$areneDuJour->badge) }}" alt="Badge {{ $areneDuJour->nom }}" class="img-fluid rounded mb-3" style="max-height: 100px; object-fit: contain;">
+                        @endif
+                        <h4 class="fw-bold">{{ $areneDuJour->nom }}</h4>
+                        <p class="small text-muted mb-3">L'Arène de {{ $areneDuJour->lieu }} ouvre ses portes. Êtes-vous prêt ?</p>
+                        <a href="{{ route('arene.show', ['slug' => $areneDuJour->slug]) }}" class="btn btn-outline-dark w-100">Affronter l'Arène</a>
+                    @else
+                        <p class="text-muted">Aucune Arène n'est ouverte aujourd'hui.</p>
+                    @endif
+                </div>
+            </div>
+
+            <!-- News / Derniers Ajouts -->
+            <div class="col-md-4">
+                <div class="daily-card text-start h-100 overflow-hidden">
+                    <h5 class="fw-bold color-center mb-3 text-center"><i class="bi bi-newspaper"></i> Dernières Découvertes</h5>
+
+                    <h6 class="fw-bold border-bottom pb-2">Nouveaux Pokémon</h6>
+                    <ul class="list-unstyled">
+                        @forelse ($pokemons as $p)
+                            <li class="mb-2"><a href="{{ route('pokedex.show', $p) }}" class="text-decoration-none text-dark"><i class="bi bi-caret-right-fill color-pokedex"></i> {{ $p->nom }} (N°{{ $p->numero_pokedex }})</a></li>
+                        @empty
+                            <li class="text-muted small">Aucun nouveau Pokémon.</li>
+                        @endforelse
+                    </ul>
+
+                    <h6 class="fw-bold border-bottom pb-2 mt-3">Nouveaux Dresseurs</h6>
+                    <ul class="list-unstyled">
+                        @forelse ($dresseurs as $d)
+                            <li class="mb-2"><a href="{{ route('dresseur.show', ['slug' => $d->slug]) }}" class="text-decoration-none text-dark"><i class="bi bi-caret-right-fill color-center"></i> {{ $d->nom }} {{ $d->prenom }}</a></li>
+                        @empty
+                            <li class="text-muted small">Aucun nouveau Dresseur.</li>
+                        @endforelse
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection
