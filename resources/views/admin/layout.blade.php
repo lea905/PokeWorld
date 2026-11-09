@@ -42,7 +42,16 @@
             @endforeach
         </nav>
 
-        <a href="{{ route('home') }}" class="nav-link mt-auto"><i class="fas fa-arrow-left fa-fw me-2"></i> Voir le site</a>
+        <div class="mt-auto">
+            <a href="{{ route('home') }}" class="nav-link"><i class="fas fa-arrow-left fa-fw me-2"></i> Voir le site</a>
+            <div class="admin-user px-3 pt-3 mt-2">
+                <div class="small text-truncate" title="{{ auth()->user()->email }}"><i class="fas fa-user-circle me-1"></i> {{ auth()->user()->name }}</div>
+                <form action="{{ route('logout') }}" method="POST" class="mt-2">
+                    @csrf
+                    <button type="submit" class="btn btn-sm btn-outline-light w-100"><i class="fas fa-sign-out-alt me-1"></i> Se déconnecter</button>
+                </form>
+            </div>
+        </div>
     </aside>
 
     <main class="admin-main flex-grow-1 p-4 p-lg-5">

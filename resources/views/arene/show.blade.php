@@ -62,7 +62,7 @@
                             <div class="flex-grow-1 text-center text-sm-start">
                                 <h3 class="mb-2 text-dark fw-bold">{{ $champion->nom }} {{ $champion->prenom }}</h3>
                                 <div class="text-secondary small mb-3" style="line-height: 1.6; max-height: 4.8em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;">
-                                    {!! $champion->description !!}
+                                    @html($champion->description)
                                 </div>
                                 <a href="{{ route('dresseur.show', ['slug' => $champion->slug]) }}" class="btn btn-outline-primary rounded-pill px-4 fw-bold">Défier le champion <i class="fas fa-arrow-right ms-2"></i></a>
                             </div>
