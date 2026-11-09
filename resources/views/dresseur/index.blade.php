@@ -3,56 +3,27 @@
 @section('title', 'Dresseurs - Pokédex')
 
 @section('body')
-    <!-- Hero Header -->
-    <div class="hero-pokemon" style="background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%); min-height: 250px; padding: 3rem 0; border-radius: 0 0 2rem 2rem; margin-top: -1.5rem;">
-        <div class="container position-relative z-1 hero-content text-center">
-            <h1 class="display-4 fw-bold text-white mb-2" style="text-shadow: 0 2px 10px rgba(0,0,0,0.3);">Les Dresseurs</h1>
-            <p class="lead text-white opacity-75">Découvrez les dresseurs, champions et maîtres de région !</p>
-        </div>
-    </div>
+    <x-page-hero theme="dresseur" title="Les Dresseurs" subtitle="Découvrez les dresseurs, champions et maîtres de région !" />
 
     <div class="container my-5">
         <div class="row g-4 justify-content-center">
             @forelse ($dresseurs as $dresseur)
-                <div class="col-12 col-sm-6 col-lg-3">
-                    <a href="{{ route('dresseur.show', ['slug' => $dresseur->slug]) }}" class="text-decoration-none h-100 d-block">
-                        <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden bg-white"
-                             style="transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;"
-                             onmouseover="this.style.transform='translateY(-10px)'; this.style.boxShadow='0 20px 40px rgba(0,0,0,0.1)';"
-                             onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 6px rgba(0,0,0,0.05)';">
-                            <div class="position-relative">
-                                <img src="{{ asset('images/'.($dresseur->image ?: 'placeholder.png')) }}" class="card-img-top object-fit-cover" alt="{{ $dresseur->image ? $dresseur->nom : 'Image inconnue' }}" style="height: 220px; border-bottom: 1px solid rgba(0,0,0,0.05);">
-
-                                @if ($dresseur->arene)
-                                    <span class="position-absolute top-0 end-0 m-3 badge rounded-pill bg-warning text-dark shadow-sm px-3 py-2 fw-bold" style="backdrop-filter: blur(5px); background: rgba(255, 193, 7, 0.9) !important;">
-                                        <i class="fas fa-trophy me-1"></i> Champion
-                                    </span>
-                                @endif
-                                @if ($dresseur->est_mechant)
-                                    <span class="position-absolute top-0 start-0 m-3 badge rounded-pill bg-danger text-white shadow-sm px-3 py-2 fw-bold" style="backdrop-filter: blur(5px); background: rgba(220, 53, 69, 0.9) !important;">
-                                        <i class="fas fa-skull me-1"></i> Antagoniste
-                                    </span>
-                                @endif
-                            </div>
-
-                            <div class="card-body text-center p-4">
-                                <h5 class="card-title fw-bold {{ $dresseur->est_mechant ? 'text-danger' : 'text-dark' }} mb-1">{{ $dresseur->nom }} {{ $dresseur->prenom }}</h5>
-                                <p class="text-danger small mb-3 fw-bold">
-                                    <i class="fas fa-map-marker-alt"></i> {{ $dresseur->ville_natale }}
-                                </p>
-                                <p class="card-text text-secondary small text-truncate">{{ strip_tags($dresseur->description) }}</p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
+                <x-dresseur-card :dresseur="$dresseur">
+                    <x-slot:badges>
+                        @if ($dresseur->arene)
+                            <span class="position-absolute top-0 end-0 m-3 badge rounded-pill bg-warning text-dark shadow-sm px-3 py-2 fw-bold badge-blur">
+                                <i class="fas fa-trophy me-1"></i> Champion
+                            </span>
+                        @endif
+                        @if ($dresseur->est_mechant)
+                            <span class="position-absolute top-0 start-0 m-3 badge rounded-pill bg-danger text-white shadow-sm px-3 py-2 fw-bold badge-blur">
+                                <i class="fas fa-skull me-1"></i> Antagoniste
+                            </span>
+                        @endif
+                    </x-slot:badges>
+                </x-dresseur-card>
             @empty
-                <div class="col-12 text-center my-5">
-                    <div class="p-5 bg-white shadow-sm rounded-4 d-inline-block">
-                        <i class="fas fa-user-slash text-muted mb-3" style="font-size: 4rem; opacity: 0.5;"></i>
-                        <h4 class="text-muted fw-bold">Aucun dresseur trouvé.</h4>
-                        <p class="text-muted mb-0">Revenez plus tard !</p>
-                    </div>
-                </div>
+                <x-empty-state icon="fas fa-user-slash" title="Aucun dresseur trouvé.">Revenez plus tard !</x-empty-state>
             @endforelse
         </div>
     </div>
