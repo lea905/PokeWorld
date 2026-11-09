@@ -584,3 +584,71 @@ th {
 .evolution-card:hover img {
     transform: scale(1.1);
 }
+/* ------------------------------------------------------------------
+   Composants Blade (resources/views/components)
+   ------------------------------------------------------------------ */
+
+/* Cartes qui se soulèvent au survol (remplace les onmouseover en ligne) */
+.card-lift {
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
+}
+
+.card-lift:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1) !important;
+}
+
+.card-lift-sm {
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.2s ease;
+}
+
+.card-lift-sm:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Bandeau en haut des pages de liste et de détail */
+.page-hero {
+    min-height: 250px;
+    padding: 3rem 0;
+    border-radius: 0 0 2rem 2rem;
+    margin-top: -1.5rem;
+}
+
+.page-hero-title {
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.hero-dresseur { background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%); }
+.hero-arene { background: linear-gradient(135deg, #b45309 0%, #f59e0b 100%); }
+.hero-organisation { background: linear-gradient(135deg, #1f2937 0%, #dc2626 100%); }
+.hero-organisation-dark { background: linear-gradient(135deg, #111827 0%, #991b1b 100%); }
+
+/* Pastille de couleur d'un type */
+.type-dot {
+    width: 12px;
+    height: 12px;
+    display: inline-block;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.type-dot + .type-dot {
+    margin-left: 4px;
+}
+
+/* Image de carte de dresseur */
+.dresseur-card-img {
+    height: 220px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.badge-blur {
+    backdrop-filter: blur(5px);
+}
+
+/* Bloc "aucun résultat" */
+.empty-state-icon {
+    font-size: 4rem;
+    opacity: 0.4;
+}

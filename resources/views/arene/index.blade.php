@@ -3,22 +3,13 @@
 @section('title', 'Les Arènes - Pokédex')
 
 @section('body')
-    <!-- Hero Header -->
-    <div class="hero-pokemon" style="background: linear-gradient(135deg, #b45309 0%, #f59e0b 100%); min-height: 250px; padding: 3rem 0; border-radius: 0 0 2rem 2rem; margin-top: -1.5rem;">
-        <div class="container position-relative z-1 hero-content text-center">
-            <h1 class="display-4 fw-bold text-white mb-2" style="text-shadow: 0 2px 10px rgba(0,0,0,0.3);"><i class="fas fa-landmark me-2"></i> La Ligue Pokémon</h1>
-            <p class="lead text-white opacity-75">Défiez les champions d'arène et collectez tous les badges !</p>
-        </div>
-    </div>
+    <x-page-hero theme="arene" icon="fas fa-landmark" title="La Ligue Pokémon" subtitle="Défiez les champions d'arène et collectez tous les badges !" />
 
     <div class="container my-5">
         <div class="row g-4 justify-content-center">
             @forelse ($arenes as $arene)
                 <div class="col-12 col-md-6 col-lg-4">
-                    <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden position-relative bg-white arene-card"
-                         style="transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;"
-                         onmouseover="this.style.transform='translateY(-10px)'; this.style.boxShadow='0 20px 40px rgba(0,0,0,0.1)';"
-                         onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 6px rgba(0,0,0,0.05)';">
+                    <div class="card card-lift h-100 border-0 shadow-sm rounded-4 overflow-hidden position-relative bg-white arene-card">
 
                         <!-- Background décoratif abstrait -->
                         <div class="position-absolute top-0 start-0 w-100 h-100 opacity-25" style="background: linear-gradient(to bottom right, #fef3c7, transparent); z-index: 0;"></div>
@@ -69,13 +60,7 @@
                     </div>
                 </div>
             @empty
-                <div class="col-12 text-center my-5">
-                    <div class="p-5 bg-white shadow-sm rounded-4 d-inline-block">
-                        <i class="fas fa-dungeon text-muted mb-3" style="font-size: 4rem; opacity: 0.3;"></i>
-                        <h4 class="text-muted fw-bold">Aucune arène n'a été construite pour le moment.</h4>
-                        <p class="text-muted mb-0">Revenez plus tard !</p>
-                    </div>
-                </div>
+                <x-empty-state icon="fas fa-dungeon" title="Aucune arène n'a été construite pour le moment.">Revenez plus tard !</x-empty-state>
             @endforelse
         </div>
     </div>
