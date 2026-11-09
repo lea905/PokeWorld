@@ -2,8 +2,6 @@
 
 @section('title', $dresseur->nom_complet.' - Pokédex')
 
-@php($balisesAutorisees = '<p><br><b><strong><i><em><u><ul><ol><li><a>')
-
 @section('body')
     <!-- Hero Section -->
     <div class="hero-pokemon"
@@ -50,14 +48,14 @@
 
                     <div class="text-start mt-4">
                         <h5 class="fw-bold text-dark opacity-75 mb-3 border-bottom pb-2">À propos</h5>
-                        <div class="text-secondary" style="line-height: 1.7;">{!! strip_tags($dresseur->description, $balisesAutorisees) !!}</div>
+                        <div class="text-secondary" style="line-height: 1.7;">@html($dresseur->description)</div>
                     </div>
 
                     @if ($dresseur->ambition)
                         <div class="text-start mt-4">
                             <h5 class="fw-bold text-dark opacity-75 mb-3 border-bottom pb-2">Ambition</h5>
                             <blockquote class="blockquote fs-6 font-italic text-secondary border-start border-4 border-primary ps-3 bg-light p-3 rounded-end">
-                                {!! strip_tags($dresseur->ambition, $balisesAutorisees) !!}
+                                @html($dresseur->ambition)
                             </blockquote>
                         </div>
                     @endif
