@@ -25,16 +25,19 @@ class Dresseur extends Model
 
     protected $casts = ['est_mechant' => 'boolean'];
 
+    /** @return HasMany<Team, $this> */
     public function teams(): HasMany
     {
         return $this->hasMany(Team::class, 'dresseur_id');
     }
 
+    /** @return HasOne<Arene, $this> */
     public function arene(): HasOne
     {
         return $this->hasOne(Arene::class, 'idChampion');
     }
 
+    /** @return BelongsTo<Organisation, $this> */
     public function organisation(): BelongsTo
     {
         return $this->belongsTo(Organisation::class, 'organisation_id');
@@ -66,6 +69,7 @@ class Dresseur extends Model
     }
 
     /** "Prénom Nom" (équivalent du __toString de l'entité). */
+    /** @return Attribute<string, never> */
     protected function nomComplet(): Attribute
     {
         return Attribute::get(fn () => trim(($this->prenom ?? '').' '.($this->nom ?? '')));

@@ -15,11 +15,13 @@ class TypeRelation extends Model
 
     protected $casts = ['efficacite' => 'float'];
 
+    /** @return BelongsTo<Type, $this> */
     public function typeAttaquant(): BelongsTo
     {
         return $this->belongsTo(Type::class, 'idTypeAttaquant');
     }
 
+    /** @return BelongsTo<Type, $this> */
     public function typeDefenseur(): BelongsTo
     {
         return $this->belongsTo(Type::class, 'idTypeDefenseur');

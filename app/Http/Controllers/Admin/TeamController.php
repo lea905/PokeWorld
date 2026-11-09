@@ -21,12 +21,12 @@ class TeamController extends Controller
 
     public function create(): View
     {
-        return $this->form(new Team());
+        return $this->form(new Team);
     }
 
     public function store(TeamRequest $request): RedirectResponse
     {
-        $this->save($request, new Team());
+        $this->save($request, new Team);
 
         return redirect()->route('admin.teams.index')->with('success', 'Équipe créée.');
     }

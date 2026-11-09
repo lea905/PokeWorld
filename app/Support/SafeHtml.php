@@ -27,7 +27,7 @@ class SafeHtml
     private static function sanitizer(): HtmlSanitizer
     {
         return self::$sanitizer ??= new HtmlSanitizer(
-            (new HtmlSanitizerConfig())
+            (new HtmlSanitizerConfig)
                 ->allowElement('p')
                 ->allowElement('br')
                 ->allowElement('b')

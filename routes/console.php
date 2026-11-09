@@ -1,7 +1,10 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
@@ -20,17 +23,17 @@ Artisan::command('app:load-all', function () {
 
 // Crée (ou promeut) un compte administrateur pour accéder au back-office.
 Artisan::command('app:create-admin {email : Email du compte}', function (string $email) {
-    $validator = \Illuminate\Support\Facades\Validator::make(['email' => $email], ['email' => ['required', 'email']]);
+    $validator = Validator::make(['email' => $email], ['email' => ['required', 'email']]);
     if ($validator->fails()) {
         $this->error('Email invalide.');
 
         return 1;
     }
 
-    $user = \App\Models\User::firstOrNew(['email' => $email]);
+    $user = User::firstOrNew(['email' => $email]);
 
     if (! $user->exists) {
-        $user->name = $this->ask('Nom affiché', \Illuminate\Support\Str::before($email, '@'));
+        $user->name = $this->ask('Nom affiché', Str::before($email, '@'));
     }
 
     if (! $user->exists || $this->confirm('Ce compte existe déjà. Changer son mot de passe ?', false)) {

@@ -115,8 +115,13 @@ Les textes riches (description, ambition, but) acceptent un HTML simple (`<p>`, 
 | `migrations/*` (Doctrine)              | `database/migrations/*`                               |
 | `assets/styles/app.css`                | `public/css/app.css`                                  |
 
-## ✅ Tests
+## ✅ Qualité du code
 
-```bash
-php artisan test
-```
+| Commande | Ce qu'elle fait |
+|---|---|
+| `composer test` | Lance les tests (PHPUnit, base SQLite en mémoire) |
+| `composer lint` | Vérifie la mise en forme du code (Pint) ; `vendor/bin/pint` la corrige |
+| `composer analyse` | Analyse statique (Larastan, niveau 5, voir `phpstan.neon`) |
+| `composer check` | Tout ce qui précède + `composer audit` (failles connues dans les dépendances) |
+
+Lancez `composer check` avant chaque pull request : il n'y a pas d'intégration continue sur GitHub.
