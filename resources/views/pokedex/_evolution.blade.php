@@ -7,7 +7,7 @@
             <h6 class="{{ $isCurrent ? 'text-primary fw-bold' : 'text-muted' }} text-uppercase small mb-3">
                 {{ $isCurrent ? 'Actuel' : ($p->idEvolutionPrecedente ? 'Évolution' : 'Base') }}
             </h6>
-            <a href="{{ route('pokedex.show', ['nom' => $p->nom]) }}" class="text-decoration-none text-dark d-block">
+            <a href="{{ route('pokedex.show', $p) }}" class="text-decoration-none text-dark d-block">
                 <img src="{{ $p->image_principale }}"
                      alt="{{ $p->nom }}"
                      class="img-fluid mb-3"
