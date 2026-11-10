@@ -81,20 +81,7 @@
                     <i class="fas fa-th-large me-2 text-primary"></i> Les Équipes du Champion
                 </h3>
 
-                @foreach ($arene->champion->teams as $team)
-                    <div class="mb-5">
-                        <h4 class="h5 fw-bold mb-4 text-primary d-inline-block border-2 border-bottom border-primary pb-1"><i class="fas fa-bookmark me-2"></i> {{ $team->nom }}</h4>
-                        <div class="row g-3">
-                            @forelse ($team->pokemons as $pokemon)
-                                <x-pokemon-mini-card :pokemon="$pokemon" class="col-6 col-md-4 col-lg-3" />
-                            @empty
-                                <div class="col-12">
-                                    <p class="text-muted fst-italic">Cette équipe est vide pour le moment.</p>
-                                </div>
-                            @endforelse
-                        </div>
-                    </div>
-                @endforeach
+                <x-equipes-par-jeu :teams="$arene->champion->teams" id="equipes-champion" col="col-6 col-md-4 col-lg-3" />
             </div>
         @endif
 

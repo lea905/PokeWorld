@@ -23,7 +23,12 @@
                     @forelse ($teams as $team)
                         <tr>
                             <td class="text-muted">{{ $team->id }}</td>
-                            <td class="fw-semibold">{{ $team->nom }}</td>
+                            <td>
+                                <span class="fw-semibold">{{ $team->nom }}</span>
+                                @if ($team->jeux?->isNotEmpty())
+                                    <div class="small text-muted">{{ $team->jeux->map->label()->join(', ') }}</div>
+                                @endif
+                            </td>
                             <td>{{ $team->dresseur?->nom_complet ?? '—' }}</td>
                             <td>
                                 @foreach ($team->pokemons as $pokemon)
