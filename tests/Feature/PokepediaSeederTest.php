@@ -121,7 +121,8 @@ class PokepediaSeederTest extends TestCase
 
         $this->get('/dresseur/ondine')
             ->assertOk()
-            ->assertSee("Arène d'Azuria — Pokémon Or HeartGold et Argent SoulSilver")
+            ->assertSee('Or HeartGold et Argent SoulSilver') // onglet du jeu
+            ->assertSee("Arène d'Azuria")
             ->assertSeeInOrder(['Akwakwak', 'Niv. 49', 'Staross', 'Niv. 54']);
     }
 }

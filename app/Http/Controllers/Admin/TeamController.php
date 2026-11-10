@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\Jeu;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\TeamRequest;
 use App\Models\Dresseur;
@@ -61,7 +62,11 @@ class TeamController extends Controller
 
     private function save(TeamRequest $request, Team $team): void
     {
-        $team->fill($request->safe()->except('pokemons'))->save();
+        $team->fill($request->safe()->except(['pokemons', 'jeux']));
+        // Jeux rangés dans l'ordre de sortie ; aucun jeu coché = null (« Autres équipes »)
+        $jeux = collect($request->validated('jeux', []))->map(fn ($valeur) => Jeu::from($valeur))->sortBy(fn (Jeu $jeu) => $jeu->ordre())->values();
+        $team->jeux = $jeux->isEmpty() ? null : $jeux;
+        $team->save();
         $team->syncPokemons($request->validated('pokemons', []));
     }
 }

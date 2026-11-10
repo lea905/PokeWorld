@@ -25,6 +25,25 @@
                     </select>
                 </div>
 
+                @php($jeuxCoches = old('jeux', $team->jeux?->map->value->all() ?? []))
+                <fieldset class="mb-3">
+                    <legend class="form-label fw-semibold fs-6">Jeux <small class="text-muted">(onglets de la fiche du dresseur ; aucun = « Autres équipes »)</small></legend>
+                    <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-1">
+                        @foreach (\App\Enums\Jeu::cases() as $jeu)
+                            <div class="col">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="jeux[]" value="{{ $jeu->value }}" id="jeu-{{ $jeu->value }}"
+                                           @checked(in_array($jeu->value, $jeuxCoches, true))>
+                                    <label class="form-check-label" for="jeu-{{ $jeu->value }}">{{ $jeu->label() }}</label>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                    @error('jeux.*')
+                        <div class="text-danger small mt-1">{{ $message }}</div>
+                    @enderror
+                </fieldset>
+
                 <div class="mb-3">
                     <label for="pokemons" class="form-label fw-semibold">Pokémon <small class="text-muted">(6 max recommandés)</small></label>
                     <select id="pokemons" name="pokemons[]" multiple class="form-select js-autocomplete" placeholder="Rechercher un Pokémon…">

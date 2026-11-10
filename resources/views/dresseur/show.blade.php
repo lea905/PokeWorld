@@ -77,27 +77,15 @@
                         <i class="fas fa-th-large me-2 text-primary"></i> Ses Équipes Pokémon
                     </h3>
 
-                    @forelse ($dresseur->teams as $team)
-                        <div class="mb-5">
-                            <h4 class="h5 fw-bold mb-4 text-primary d-inline-block border-2 border-bottom border-primary pb-1">
-                                <i class="fas fa-bookmark me-2"></i> {{ $team->nom }}</h4>
-                            <div class="row g-3">
-                                @forelse ($team->pokemons as $pokemon)
-                                    <x-pokemon-mini-card :pokemon="$pokemon" />
-                                @empty
-                                    <div class="col-12">
-                                        <p class="text-muted fst-italic">Équipe vide.</p>
-                                    </div>
-                                @endforelse
-                            </div>
-                        </div>
-                    @empty
+                    @if ($dresseur->teams->isNotEmpty())
+                        <x-equipes-par-jeu :teams="$dresseur->teams" id="equipes-dresseur" />
+                    @else
                         <div class="alert bg-light border-0 shadow-sm rounded-4 py-5 text-center">
                             <i class="fas fa-ghost text-muted mb-3" style="font-size: 4rem; opacity: 0.2;"></i>
                             <h5 class="text-muted fw-bold">Aucune équipe</h5>
                             <p class="text-muted mb-0">Ce dresseur n'a pas encore composé d'équipe Pokémon.</p>
                         </div>
-                    @endforelse
+                    @endif
 
                     @if ($dresseur->organisation)
                         <div class="glass-panel p-4 bg-dark text-white shadow-sm border-0 mt-4 position-relative overflow-hidden" style="border-radius: 1rem;">
