@@ -79,6 +79,20 @@ class Dresseur extends Model
         return Attribute::get(fn () => trim(($this->prenom ?? '').' '.($this->nom ?? '')));
     }
 
+    /**
+     * Thème visuel de la vitrine (fond de l'artwork) : l'antagoniste prime sur le champion.
+     *
+     * @return Attribute<string, never>
+     */
+    protected function themeVisuel(): Attribute
+    {
+        return Attribute::get(fn () => match (true) {
+            $this->est_mechant => 'mechant',
+            $this->arene !== null => 'champion',
+            default => 'heros',
+        });
+    }
+
     protected function slugSource(): string
     {
         return $this->prenom.' '.$this->nom;
