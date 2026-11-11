@@ -5,8 +5,6 @@ namespace Database\Seeders;
 use App\Models\Arene;
 use App\Models\Dresseur;
 use App\Models\Map;
-use App\Models\Pokemon;
-use App\Models\Team;
 use Illuminate\Database\Seeder;
 
 class WorldSeeder extends Seeder
@@ -71,21 +69,6 @@ class WorldSeeder extends Seeder
             'idChampion' => $ondine->id,
         ]);
 
-        // --- TEAMS (dépendent des Pokémon importés par PokemonSeeder) ---
-        $this->createTeam('Équipe de Sacha', $sacha, ['Pikachu', 'Dracaufeu']);
-        $this->createTeam('Équipe de Pierre', $pierre, ['Racaillou', 'Onix']);
-        $this->createTeam("Équipe d'Ondine", $ondine, ['Stari', 'Staross']);
-    }
-
-    private function createTeam(string $nom, Dresseur $dresseur, array $nomsPokemon): void
-    {
-        $pokemons = Pokemon::whereIn('nom', $nomsPokemon)->pluck('id_pokemon');
-
-        if ($pokemons->count() !== count($nomsPokemon)) {
-            return; // Pokémon absents de la base : on ne crée pas l'équipe
-        }
-
-        $team = Team::firstOrCreate(['nom' => $nom, 'dresseur_id' => $dresseur->id]);
-        $team->pokemons()->syncWithoutDetaching($pokemons);
+        // Les équipes (vérifiées sur Poképédia) sont créées par PokepediaSeeder.
     }
 }

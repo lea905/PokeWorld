@@ -10,18 +10,7 @@
 
             <div class="col-lg-4 align-items-start">
                 <div class="glass-panel p-4 p-md-5 bg-white shadow-sm border-0 text-center position-relative mb-4">
-                    <div class="position-relative d-inline-block mb-3">
-                        @if ($dresseur->image)
-                            <img src="{{ asset('images/'.$dresseur->image) }}"
-                                 class="rounded-circle img-thumbnail shadow-lg" alt="{{ $dresseur->nom }}"
-                                 style="width: 200px; height: 200px; object-fit: cover; border-width: 5px; border-color: white;">
-                        @else
-                            <div class="rounded-circle bg-light d-flex align-items-center justify-content-center mx-auto shadow-lg"
-                                 style="width: 200px; height: 200px; border: 5px solid white;">
-                                <i class="fas fa-user text-muted opacity-50" style="font-size: 5rem;"></i>
-                            </div>
-                        @endif
-                    </div>
+                    <x-dresseur-vitrine :dresseur="$dresseur" class="dresseur-vitrine--fiche mb-4" eager />
 
                     <h2 class="fw-bold mb-1 {{ $dresseur->est_mechant ? 'text-danger' : 'text-dark' }}">{{ $dresseur->nom }} {{ $dresseur->prenom }}</h2>
                     <p class="text-secondary fw-bold mb-4"><i class="fas fa-map-marker-alt me-1 text-danger"></i> {{ $dresseur->ville_natale }}, {{ $dresseur->region }}</p>
@@ -32,6 +21,9 @@
                         @endif
                         @if ($dresseur->est_mechant)
                             <span class="badge bg-danger text-white rounded-pill px-3 py-2 shadow-sm"><i class="fas fa-skull me-1"></i> Antagoniste</span>
+                        @endif
+                        @if ($dresseur->grade)
+                            <span class="badge bg-dark text-white rounded-pill px-3 py-2 shadow-sm border border-danger"><i class="fas fa-star text-danger me-1"></i> {{ $dresseur->grade->value }}</span>
                         @endif
                         <span class="badge bg-secondary rounded-pill px-3 py-2 shadow-sm"><i class="fas fa-paw me-1"></i> {{ $dresseur->teams->count() }} Équipes</span>
                     </div>
@@ -74,27 +66,15 @@
                         <i class="fas fa-th-large me-2 text-primary"></i> Ses Équipes Pokémon
                     </h3>
 
-                    @forelse ($dresseur->teams as $team)
-                        <div class="mb-5">
-                            <h4 class="h5 fw-bold mb-4 text-primary d-inline-block border-2 border-bottom border-primary pb-1">
-                                <i class="fas fa-bookmark me-2"></i> {{ $team->nom }}</h4>
-                            <div class="row g-3">
-                                @forelse ($team->pokemons as $pokemon)
-                                    <x-pokemon-mini-card :pokemon="$pokemon" />
-                                @empty
-                                    <div class="col-12">
-                                        <p class="text-muted fst-italic">Équipe vide.</p>
-                                    </div>
-                                @endforelse
-                            </div>
-                        </div>
-                    @empty
+                    @if ($dresseur->teams->isNotEmpty())
+                        <x-equipes-par-jeu :teams="$dresseur->teams" id="equipes-dresseur" />
+                    @else
                         <div class="alert bg-light border-0 shadow-sm rounded-4 py-5 text-center">
                             <i class="fas fa-ghost text-muted mb-3" style="font-size: 4rem; opacity: 0.2;"></i>
                             <h5 class="text-muted fw-bold">Aucune équipe</h5>
                             <p class="text-muted mb-0">Ce dresseur n'a pas encore composé d'équipe Pokémon.</p>
                         </div>
-                    @endforelse
+                    @endif
 
                     @if ($dresseur->organisation)
                         <div class="glass-panel p-4 bg-dark text-white shadow-sm border-0 mt-4 position-relative overflow-hidden" style="border-radius: 1rem;">

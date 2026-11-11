@@ -59,7 +59,18 @@
                             </select>
                         </div>
 
-                        <x-admin.input name="grade" label="Grade" :value="$dresseur->grade" help="Ex : Boss, Admin, Sbire" />
+                        <div class="mb-3">
+                            <label for="grade" class="form-label fw-semibold">Grade dans l'organisation</label>
+                            <select id="grade" name="grade" class="form-select @error('grade') is-invalid @enderror">
+                                <option value="">— Aucun —</option>
+                                @foreach (\App\Enums\Grade::ordered() as $grade)
+                                    <option value="{{ $grade->value }}" @selected(old('grade', $dresseur->grade?->value) === $grade->value)>{{ $grade->value }}</option>
+                                @endforeach
+                            </select>
+                            @error('grade')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
                     </div>
                 </div>
             </div>

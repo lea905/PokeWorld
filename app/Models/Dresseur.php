@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\Grade;
 use App\Models\Concerns\HasSlug;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -23,7 +24,10 @@ class Dresseur extends Model
         'description', 'image', 'est_mechant', 'organisation_id', 'grade',
     ];
 
-    protected $casts = ['est_mechant' => 'boolean'];
+    protected $casts = [
+        'est_mechant' => 'boolean',
+        'grade' => Grade::class,
+    ];
 
     /** @return HasMany<Team, $this> */
     public function teams(): HasMany
@@ -60,7 +64,7 @@ class Dresseur extends Model
 
             $team->nom = $teamData['nom'];
             $team->save();
-            $team->pokemons()->sync($teamData['pokemons'] ?? []);
+            $team->syncPokemons($teamData['pokemons'] ?? []);
 
             $keptIds[] = $team->id;
         }
@@ -75,19 +79,55 @@ class Dresseur extends Model
         return Attribute::get(fn () => trim(($this->prenom ?? '').' '.($this->nom ?? '')));
     }
 
+    /**
+     * Thème visuel de la vitrine (fond de l'artwork) : l'antagoniste prime sur le champion.
+     *
+     * @return Attribute<string, never>
+     */
+    protected function themeVisuel(): Attribute
+    {
+        return Attribute::get(fn () => match (true) {
+            $this->est_mechant => 'mechant',
+            $this->arene !== null => 'champion',
+            default => 'heros',
+        });
+    }
+
     protected function slugSource(): string
     {
         return $this->prenom.' '.$this->nom;
     }
 
+    /** Recherche par nom, prénom, ville, région ou nom de l'organisation. */
     public function scopeSearch(Builder $query, string $term): Builder
     {
         return $query
             ->where(fn ($q) => $q->where('nom', 'like', "%{$term}%")
                 ->orWhere('prenom', 'like', "%{$term}%")
                 ->orWhere('ville_natale', 'like', "%{$term}%")
-                ->orWhere('region', 'like', "%{$term}%"))
-            ->orderBy('nom');
+                ->orWhere('region', 'like', "%{$term}%")
+                ->orWhereHas('organisation', fn ($o) => $o->where('nom', 'like', "%{$term}%")))
+            ->orderBy('prenom');
+    }
+
+    /** Filtre par camp : "heros", "antagonistes", ou tous si null. */
+    public function scopeCamp(Builder $query, ?string $camp): Builder
+    {
+        return match ($camp) {
+            'heros' => $query->where('est_mechant', false),
+            'antagonistes' => $query->where('est_mechant', true),
+            default => $query,
+        };
+    }
+
+    /** Trie par grade (Boss en premier), les membres sans grade à la fin. */
+    public function scopeOrderByGrade(Builder $query): Builder
+    {
+        $rangs = collect(Grade::cases())
+            ->map(fn (Grade $grade) => "WHEN '{$grade->value}' THEN {$grade->rang()}")
+            ->implode(' ');
+
+        return $query->orderByRaw("CASE grade {$rangs} ELSE 99 END")->orderBy('prenom');
     }
 
     public function __toString(): string

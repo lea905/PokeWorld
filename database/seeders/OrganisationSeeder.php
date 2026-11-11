@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\Grade;
 use App\Models\Dresseur;
 use App\Models\Organisation;
 use Illuminate\Database\Seeder;
@@ -23,7 +24,7 @@ class OrganisationSeeder extends Seeder
                 'region' => 'Kanto',
                 'ambition' => 'Créer le Pokémon le plus puissant (Mewtwo) et diriger le monde.',
                 'description' => "Le Boss redoutable de la Team Rocket et Champion d'arène.",
-                'grade' => 'Boss',
+                'grade' => Grade::Boss,
             ],
             [
                 'prenom' => 'Amos',
@@ -32,7 +33,7 @@ class OrganisationSeeder extends Seeder
                 'region' => 'Johto',
                 'ambition' => 'Faire revenir Giovanni et restaurer la gloire de la Team Rocket.',
                 'description' => "L'un des Commandants les plus fidèles de la Team Rocket.",
-                'grade' => 'Admin',
+                'grade' => Grade::Commandant,
             ],
             [
                 'prenom' => 'Sbire H',
@@ -41,19 +42,18 @@ class OrganisationSeeder extends Seeder
                 'region' => 'Kanto',
                 'ambition' => 'Servir Giovanni et voler des Pokémon.',
                 'description' => 'Un sbire classique de la Team Rocket, prêt à tout.',
-                'grade' => 'Sbire',
+                'grade' => Grade::Sbire,
             ],
         ];
 
         foreach ($membres as $membre) {
             $dresseur = Dresseur::firstOrNew(['prenom' => $membre['prenom']]);
 
+            // Un membre déjà présent (éventuellement modifié dans l'admin) n'est pas écrasé
             if (! $dresseur->exists) {
                 $dresseur->fill($membre + ['est_mechant' => true, 'organisation_id' => $teamRocket->id]);
+                $dresseur->save();
             }
-
-            $dresseur->grade = $membre['grade'];
-            $dresseur->save();
         }
     }
 }

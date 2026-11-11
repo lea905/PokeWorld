@@ -43,13 +43,13 @@
         </div>
 
         @if ($query)
-            @php($totalResults = $pokemons->count() + $dresseurs->count() + $arenes->count())
+            @php($totalResults = $pokemons->count() + $dresseurs->count() + $arenes->count() + $organisations->count())
 
             @if ($totalResults === 0)
                 <div class="alert alert-warning text-center p-5 rounded-4 shadow-sm border-0">
                     <i class="bi bi-emoji-frown display-4 d-block mb-3 text-warning"></i>
                     <h3 class="fw-bold">Aucun résultat trouvé</h3>
-                    <p>Nous n'avons trouvé aucun Pokémon, Dresseur ou Arène correspondant à votre recherche.</p>
+                    <p>Nous n'avons trouvé aucun Pokémon, Dresseur, Arène ou Organisation correspondant à votre recherche.</p>
                     <a href="{{ route('home') }}" class="btn btn-primary mt-3">Retour à l'accueil</a>
                 </div>
             @else
@@ -77,6 +77,13 @@
                         <li class="nav-item" role="presentation">
                             <button class="nav-link rounded-pill px-4" id="arene-tab" data-bs-toggle="pill" data-bs-target="#arene" type="button" role="tab" aria-selected="false">
                                 <i class="bi bi-shield-shaded"></i> Arènes ({{ $arenes->count() }})
+                            </button>
+                        </li>
+                    @endif
+                    @if ($organisations->isNotEmpty())
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link rounded-pill px-4" id="organisation-tab" data-bs-toggle="pill" data-bs-target="#organisation" type="button" role="tab" aria-selected="false">
+                                <i class="bi bi-incognito"></i> Organisations ({{ $organisations->count() }})
                             </button>
                         </li>
                     @endif
@@ -121,9 +128,9 @@
                                             </div>
                                             <div class="col-8">
                                                 <div class="card-body">
-                                                    <span class="badge bg-primary mb-1">Dresseur</span>
+                                                    <span class="badge {{ $d->est_mechant ? 'bg-danger' : 'bg-primary' }} mb-1">{{ $d->est_mechant ? 'Antagoniste' : 'Dresseur' }}</span>
                                                     <h5 class="card-title fw-bold">{{ $d->prenom }} {{ $d->nom }}</h5>
-                                                    <p class="card-text small text-muted text-truncate">{{ $d->ville_natale }}</p>
+                                                    <p class="card-text small text-muted text-truncate">{{ $d->organisation ? $d->organisation->nom.' · ' : '' }}{{ $d->ville_natale }}</p>
                                                     <a href="{{ route('dresseur.show', ['slug' => $d->slug]) }}" class="btn btn-sm btn-outline-primary mt-1">Détails</a>
                                                 </div>
                                             </div>
@@ -156,6 +163,10 @@
                                         </div>
                                     </div>
                                 </div>
+                            @endforeach
+
+                            @foreach ($organisations as $o)
+                                <x-organisation-search-card :organisation="$o" />
                             @endforeach
                         </div>
                     </div>
@@ -221,6 +232,17 @@
                                             <a href="{{ route('arene.show', ['slug' => $a->slug]) }}" class="btn btn-outline-warning w-100">Défier l'Arène</a>
                                         </div>
                                     </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    @endif
+
+                    {{-- ONGLET ORGANISATION --}}
+                    @if ($organisations->isNotEmpty())
+                        <div class="tab-pane fade" id="organisation" role="tabpanel" tabindex="0">
+                            <div class="row g-4">
+                                @foreach ($organisations as $o)
+                                    <x-organisation-search-card :organisation="$o" />
                                 @endforeach
                             </div>
                         </div>

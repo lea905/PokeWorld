@@ -1,127 +1,132 @@
-# PokeWorld 🌍⚡
+# PokeWorld
 
-Bienvenue sur **PokeWorld**, une application **Laravel** (vues **Blade**) pour gérer un univers de Pokémon, Dresseurs, Arènes, Organisations et Teams via une interface d'administration complète.
+Encyclopédie web de l'univers Pokémon : Pokédex complet, dresseurs, arènes et organisations, avec un back-office pour gérer le contenu.
 
-> Le projet était à l'origine écrit avec Symfony (Doctrine, Twig, EasyAdmin). Il a été migré vers Laravel 13 :
-> Doctrine → Eloquent, Twig → Blade, fixtures → seeders, EasyAdmin → back-office Blade maison.
-> Le schéma de base de données est **identique** : une base créée par l'ancienne version reste utilisable.
+Les données des 1025 Pokémon (statistiques, types, évolutions) sont importées depuis la [PokéAPI](https://pokeapi.co).
 
-## 🚀 Fonctionnalités Principales
+## Fonctionnalités
 
--   **Pokédex** : Consultation des Pokémon, filtres (génération, type, stade d'évolution, légendaires, fabuleux), statistiques et famille d'évolution.
--   **Dresseurs** : Profils de dresseurs (Nom, Région, Ville natale, Ambition, Description, Antagoniste, Grade).
--   **Teams** : Un dresseur peut avoir plusieurs équipes. Chaque équipe peut contenir plusieurs Pokémon (max 6 recommandé).
--   **Arènes** et **Organisations** (Team Rocket…).
--   **Recherche** globale sur les Pokémon, Dresseurs et Arènes (`/recherche?q=...`).
--   **Admin Interface** : un back-office (`/admin`) pour gérer tout le contenu sans toucher au code.
+**Site public**
 
----
+- Pokédex paginé, filtrable par génération, type, stade d'évolution et statut (légendaire, fabuleux).
+- Fiche détaillée de chaque Pokémon : statistiques de base, types et famille d'évolution.
+- Annuaire des dresseurs, avec leurs équipes, leur arène et leur organisation.
+- Liste des arènes avec leur champion et leur badge.
+- Organisations (Team Rocket…) et leurs membres.
+- Recherche globale sur les Pokémon, les dresseurs et les arènes.
 
-## 🛠️ Installation et Configuration
+**Back-office** (`/admin`)
 
-Prérequis : PHP ≥ 8.4 (extensions `pdo_mysql`, `intl`, `mbstring`, `fileinfo`), Composer et MySQL/MariaDB.
+- Gestion des dresseurs et de leurs équipes, des arènes, des organisations et des Pokémon.
+- Accès réservé aux comptes administrateurs.
 
-1.  **Cloner le projet**
-2.  **Installer les dépendances et créer le fichier `.env`**
-    ```bash
-    composer install
-    cp .env.example .env
-    php artisan key:generate
-    ```
-3.  **Configurer la Base de Données** dans `.env` :
-    ```env
-    DB_CONNECTION=mysql
-    DB_HOST=127.0.0.1
-    DB_PORT=3306
-    DB_DATABASE=pokeworld
-    DB_USERNAME=root
-    DB_PASSWORD=root
-    ```
-4.  **Créer les tables**
-    ```bash
-    php artisan migrate
-    ```
-    Les tables PokeWorld déjà présentes (base issue de la version Symfony) sont conservées telles quelles.
-5.  **Lancer le serveur**
-    ```bash
-    php artisan serve
-    ```
-    Puis ouvrir `http://127.0.0.1:8000`.
+## Stack technique
 
-### Avec Docker
+| Composant | Technologie |
+|---|---|
+| Langage | PHP 8.4 ou plus |
+| Framework | Laravel 13 |
+| Vues | Blade, Bootstrap 5 |
+| Base de données | MariaDB / MySQL (SQLite en mémoire pour les tests) |
+| Qualité | PHPUnit, Pint, Larastan |
+| Environnement | Docker Compose (Apache, MariaDB, Mailpit) |
+
+## Démarrage rapide avec Docker
 
 ```bash
+cp .env.example .env
 docker compose up -d --build
 docker compose exec web composer install
+docker compose exec web php artisan key:generate
 docker compose exec web php artisan migrate --seed
+docker compose exec web php artisan app:create-admin votre.email@exemple.fr
 ```
 
----
+Le site est alors disponible sur <http://localhost:8000> et le back-office sur <http://localhost:8000/admin>.
 
-## 🗄️ Gestion de la Base de Données
+L'import complet des Pokémon depuis la PokéAPI prend plusieurs minutes. Pour un environnement de développement, il peut être limité dans `.env` (par exemple aux 151 premiers) :
 
--   **Mettre à jour la structure (Migrations)** :
-    ```bash
-    php artisan migrate
-    ```
--   **Charger les données (Seeders)** — types et Pokémon importés depuis la [PokéAPI](https://pokeapi.co), puis Team Rocket, dresseurs, arènes et équipes :
-    ```bash
-    php artisan db:seed
-    ```
--   **Tout réinitialiser puis recharger** (équivalent de l'ancien `app:load:all`) — attention, cela vide toutes les tables :
-    ```bash
-    php artisan app:load-all
-    ```
-
-L'import complet des 1025 Pokémon prend du temps. Pour un import rapide en développement, limitez-le dans `.env` :
 ```env
 POKEMON_SEED_LIMIT=151
 ```
 
----
+## Installation sans Docker
 
-## 👑 Administration (Back-Office)
+Prérequis : PHP 8.4 ou plus avec les extensions `pdo_mysql`, `intl`, `mbstring` et `fileinfo`, Composer, et un serveur MariaDB ou MySQL.
 
--   **URL** : `/admin` (ex : `http://127.0.0.1:8000/admin`)
--   **Accès** : réservé aux comptes **administrateurs**. Un visiteur est redirigé vers `/connexion`, et un utilisateur connecté sans droit administrateur reçoit une erreur 403. Les tentatives de connexion sont limitées à 5 par minute.
--   **Créer un compte administrateur** (le mot de passe est demandé de façon masquée, 12 caractères minimum) :
-    ```bash
-    php artisan app:create-admin ton.email@exemple.fr
-    ```
-    Avec Docker : `docker compose exec web php artisan app:create-admin ton.email@exemple.fr`.
--   **Contenu géré** :
-    -   **Dresseurs** : Créer, modifier, supprimer des dresseurs, avec ajout/suppression de Teams directement depuis la fiche Dresseur.
-    -   **Teams** : Gérer les équipes et leur composition (Pokémon, avec recherche).
-    -   **Arènes** : Gérer les arènes, leur champion et leur badge (image).
-    -   **Organisations** : Gérer les organisations et leur logo.
-    -   **Pokémon** : Consulter et corriger les Pokémon importés.
+```bash
+composer install
+cp .env.example .env
+php artisan key:generate
+```
 
-Les images envoyées sont enregistrées dans `public/images/` (badges dans `public/images/Badges/`).
+Renseigner ensuite la connexion à la base dans `.env`. Les valeurs par défaut correspondent à la base fournie par Docker :
 
-Les textes riches (description, ambition, but) acceptent un HTML simple (`<p>`, `<b>`, `<i>`, `<ul>`, liens…). Ils sont nettoyés à l'affichage avec la directive Blade `@html(...)` (`App\Support\SafeHtml`) : scripts, attributs `on*` et liens `javascript:` sont supprimés.
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=app
+DB_USERNAME=app
+DB_PASSWORD="!ChangeMe!"
+```
 
----
+Puis créer les tables, importer les données et lancer le serveur :
 
-## 🧭 Organisation du code
+```bash
+php artisan migrate --seed
+php artisan app:create-admin votre.email@exemple.fr
+php artisan serve
+```
 
-| Symfony (avant)                        | Laravel (maintenant)                                  |
-|----------------------------------------|-------------------------------------------------------|
-| `src/Entity/*`                         | `app/Models/*` (Eloquent)                             |
-| `src/Repository/*` (findBySearchQuery…) | scopes Eloquent (`Pokemon::filter()`, `::search()`…) |
-| `src/Controller/*`                     | `app/Http/Controllers/*`                              |
-| `src/Controller/Admin/*` (EasyAdmin)   | `app/Http/Controllers/Admin/*` + `resources/views/admin/*` |
-| `templates/*.html.twig`                | `resources/views/*.blade.php`                         |
-| `src/DataFixtures/*`                   | `database/seeders/*`                                  |
-| `migrations/*` (Doctrine)              | `database/migrations/*`                               |
-| `assets/styles/app.css`                | `public/css/app.css`                                  |
+## Données
 
-## ✅ Qualité du code
-
-| Commande | Ce qu'elle fait |
+| Commande | Effet |
 |---|---|
-| `composer test` | Lance les tests (PHPUnit, base SQLite en mémoire) |
-| `composer lint` | Vérifie la mise en forme du code (Pint) ; `vendor/bin/pint` la corrige |
-| `composer analyse` | Analyse statique (Larastan, niveau 5, voir `phpstan.neon`) |
-| `composer check` | Tout ce qui précède + `composer audit` (failles connues dans les dépendances) |
+| `php artisan migrate` | Crée ou met à jour les tables. |
+| `php artisan db:seed` | Importe les types et les Pokémon depuis la PokéAPI, puis les organisations, dresseurs, arènes et équipes. |
+| `php artisan app:load-all` | Vide toutes les tables puis relance l'import complet. Irréversible. |
 
-Lancez `composer check` avant chaque pull request : il n'y a pas d'intégration continue sur GitHub.
+## Administration
+
+Le back-office est accessible sur `/admin` après connexion sur `/connexion`.
+
+- Seuls les comptes administrateurs y ont accès. Un utilisateur connecté sans ce droit reçoit une erreur 403.
+- Un compte administrateur se crée avec `php artisan app:create-admin <email>`. Le mot de passe est demandé de façon masquée (12 caractères minimum).
+- Les tentatives de connexion sont limitées à 5 par minute.
+- Les champs de texte riche (description, ambition, but) acceptent du HTML simple. Il est nettoyé à l'affichage : scripts, attributs d'événements et liens `javascript:` sont supprimés.
+- Les images envoyées sont enregistrées dans `public/images/`, et les badges d'arène dans `public/images/Badges/`.
+
+## Structure du projet
+
+```
+app/
+├── Http/Controllers/        Contrôleurs du site public
+│   ├── Admin/               Contrôleurs du back-office
+│   └── Auth/                Connexion et déconnexion
+├── Http/Requests/           Validation des formulaires (Form Requests)
+├── Models/                  Modèles Eloquent
+└── Support/SafeHtml.php     Nettoyage du HTML saisi dans le back-office
+database/
+├── migrations/              Schéma de la base
+└── seeders/                 Import des données (PokéAPI et données du jeu)
+resources/views/
+├── components/              Composants Blade réutilisables
+├── admin/                   Vues du back-office
+└── …                        Vues du site public
+routes/
+├── web.php                  Routes du site et du back-office
+└── console.php              Commandes app:load-all et app:create-admin
+tests/Feature/               Tests fonctionnels
+```
+
+## Qualité et tests
+
+| Commande | Effet |
+|---|---|
+| `composer test` | Lance les tests (PHPUnit, base SQLite en mémoire). |
+| `composer lint` | Vérifie la mise en forme du code avec Pint (`vendor/bin/pint` la corrige). |
+| `composer analyse` | Lance l'analyse statique avec Larastan (niveau 5, configuration dans `phpstan.neon`). |
+| `composer check` | Enchaîne les trois commandes précédentes et `composer audit`. |
+
+Le dépôt n'a pas d'intégration continue : `composer check` doit passer avant chaque pull request.

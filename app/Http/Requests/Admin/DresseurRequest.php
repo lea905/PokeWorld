@@ -2,6 +2,9 @@
 
 namespace App\Http\Requests\Admin;
 
+use App\Enums\Grade;
+use Illuminate\Validation\Rule;
+
 class DresseurRequest extends AdminRequest
 {
     public function rules(): array
@@ -15,7 +18,7 @@ class DresseurRequest extends AdminRequest
             'description' => ['required', 'string'],
             'est_mechant' => ['boolean'],
             'organisation_id' => ['nullable', 'exists:organisation,id'],
-            'grade' => ['nullable', 'string', 'max:255'],
+            'grade' => ['nullable', Rule::enum(Grade::class)],
             'image' => ['nullable', 'image', 'max:4096'],
             'teams' => ['array'],
             'teams.*.id' => ['nullable', 'integer'],
@@ -32,6 +35,7 @@ class DresseurRequest extends AdminRequest
             'ville_natale' => 'ville natale',
             'region' => 'région',
             'est_mechant' => 'antagoniste',
+            'grade' => 'grade',
             'teams.*.nom' => "nom de l'équipe",
         ];
     }

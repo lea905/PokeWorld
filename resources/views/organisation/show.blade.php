@@ -26,7 +26,7 @@
                     <x-slot:badges>
                         @if ($dresseur->grade)
                             <span class="position-absolute top-0 end-0 m-3 badge rounded-pill bg-dark text-white shadow-sm px-3 py-2 fw-bold badge-blur border border-danger">
-                                <i class="fas fa-star text-danger me-1"></i> {{ $dresseur->grade }}
+                                <i class="fas fa-star text-danger me-1"></i> {{ $dresseur->grade->value }}
                             </span>
                         @endif
                     </x-slot:badges>

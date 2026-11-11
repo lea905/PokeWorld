@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Arene;
 use App\Models\Dresseur;
+use App\Models\Organisation;
 use App\Models\Pokemon;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -20,8 +21,9 @@ class SearchController extends Controller
         return view('search.index', [
             'query' => $query,
             'pokemons' => $query !== '' ? Pokemon::search($query)->get() : $empty,
-            'dresseurs' => $query !== '' ? Dresseur::search($query)->get() : $empty,
+            'dresseurs' => $query !== '' ? Dresseur::with('organisation')->search($query)->get() : $empty,
             'arenes' => $query !== '' ? Arene::search($query)->get() : $empty,
+            'organisations' => $query !== '' ? Organisation::withCount('dresseurs')->search($query)->get() : $empty,
         ]);
     }
 }

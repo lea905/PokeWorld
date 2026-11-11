@@ -13,6 +13,8 @@ class DatabaseSeeder extends Seeder
             PokemonSeeder::class,
             OrganisationSeeder::class,
             WorldSeeder::class,
+            MechantsSeeder::class,
+            PokepediaSeeder::class,
         ]);
     }
 }

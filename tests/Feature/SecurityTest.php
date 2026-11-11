@@ -170,4 +170,48 @@ class SecurityTest extends TestCase
             $this->assertStringNotContainsString('alert(3)', $html);
         }
     }
+
+    /**
+     * Régression : les textes saisis avec l'ancien éditeur EasyAdmin (Trix) sont
+     * enveloppés dans des <div>. Ils doivent rester visibles après nettoyage.
+     */
+    public function test_texts_from_the_old_editor_are_still_displayed(): void
+    {
+        $rocket = Organisation::create([
+            'nom' => 'Team Rocket',
+            'but' => '<div>Voler les Pokémon rares et puissants pour dominer le monde.</div>',
+        ]);
+        $giovanni = $this->dresseur([
+            'prenom' => 'Giovanni',
+            'description' => "<div>Le Boss redoutable de la Team Rocket et Champion d'arène.</div>",
+            'ambition' => '<div>Créer le Pokémon le plus puissant (Mewtwo)<br>et diriger le monde.</div>',
+            'organisation_id' => $rocket->id,
+            'est_mechant' => true,
+        ]);
+
+        $this->get("/dresseur/{$giovanni->slug}")
+            ->assertOk()
+            ->assertSee('Le Boss redoutable de la Team Rocket', false)
+            ->assertSee('Créer le Pokémon le plus puissant (Mewtwo)', false)
+            ->assertSee('Voler les Pokémon rares', false);
+
+        $this->get('/organisation/team-rocket')
+            ->assertOk()
+            ->assertSee('<div>Voler les Pokémon rares et puissants pour dominer le monde.</div>', false);
+    }
+
+    public function test_unknown_layout_tags_are_removed_but_their_text_is_kept(): void
+    {
+        $organisation = Organisation::create([
+            'nom' => 'Team Aqua',
+            'but' => '<section><span style="color:red">Étendre</span> les océans</section><iframe src="https://evil.test"></iframe>',
+        ]);
+
+        $html = $this->get("/organisation/{$organisation->slug}")->assertOk()->getContent();
+
+        $this->assertStringContainsString('Étendre les océans', $html);
+        $this->assertStringNotContainsString('<span style', $html);
+        $this->assertStringNotContainsString('<iframe', $html);
+        $this->assertStringNotContainsString('evil.test', $html);
+    }
 }
