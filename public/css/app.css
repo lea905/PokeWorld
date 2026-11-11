@@ -637,10 +637,79 @@ th {
     margin-left: 4px;
 }
 
-/* Image de carte de dresseur */
-.dresseur-card-img {
-    height: 220px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+/* Vitrine de dresseur : artwork entier sur fond coloré selon le camp + Poké Ball en filigrane */
+.dresseur-vitrine {
+    --vitrine-fond: linear-gradient(160deg, #60a5fa 0%, #1d4ed8 100%);
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    background:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cg fill='none' stroke='white' stroke-opacity='.2' stroke-width='6'%3E%3Ccircle cx='50' cy='50' r='45'/%3E%3Cpath d='M5 50h30M65 50h30'/%3E%3Ccircle cx='50' cy='50' r='15'/%3E%3C/g%3E%3Ccircle cx='50' cy='50' r='6' fill='white' fill-opacity='.2'/%3E%3C/svg%3E")
+            no-repeat right -15% top -25% / 75%,
+        var(--vitrine-fond);
+}
+
+.dresseur-vitrine--champion {
+    --vitrine-fond: linear-gradient(160deg, #fcd34d 0%, #ea580c 100%);
+}
+
+.dresseur-vitrine--mechant {
+    --vitrine-fond: linear-gradient(160deg, #b91c1c 0%, #111827 100%);
+}
+
+.dresseur-vitrine-img {
+    position: relative;
+    max-width: 100%;
+    object-fit: contain;
+    object-position: bottom;
+    /* L'ombre suit la silhouette de l'artwork transparent */
+    filter: drop-shadow(0 10px 12px rgba(0, 0, 0, 0.35));
+    transform-origin: bottom center;
+    transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.dresseur-vitrine-vide {
+    align-self: center;
+    font-size: 5rem;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+/* Variante carte (listes) */
+.dresseur-vitrine--carte {
+    height: 240px;
+    padding-top: 1rem;
+    overflow: hidden;
+}
+
+.dresseur-vitrine--carte .dresseur-vitrine-img {
+    height: 100%;
+}
+
+.card-lift:hover .dresseur-vitrine-img {
+    transform: translateY(-6px) scale(1.06);
+}
+
+/* Variante fiche : le personnage dépasse du haut du cadre */
+.dresseur-vitrine--fiche {
+    height: 280px;
+    margin-top: 2.5rem;
+    border-radius: 1.25rem;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+}
+
+.dresseur-vitrine--fiche .dresseur-vitrine-img {
+    height: 120%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .dresseur-vitrine-img {
+        transition: none;
+    }
+
+    .card-lift:hover .dresseur-vitrine-img {
+        transform: none;
+    }
 }
 
 .badge-blur {

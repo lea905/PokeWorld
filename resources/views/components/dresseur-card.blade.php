@@ -10,11 +10,9 @@
 <div class="col-12 col-sm-6 col-lg-3">
     <a href="{{ route('dresseur.show', ['slug' => $dresseur->slug]) }}" class="text-decoration-none h-100 d-block">
         <div class="card card-lift h-100 border-0 shadow-sm rounded-4 overflow-hidden bg-white">
-            <div class="position-relative">
-                <img src="{{ asset('images/'.($dresseur->image ?: 'placeholder.png')) }}" class="card-img-top object-fit-cover dresseur-card-img"
-                     alt="{{ $dresseur->image ? $dresseur->nom_complet : 'Image inconnue' }}" loading="lazy">
+            <x-dresseur-vitrine :dresseur="$dresseur" class="dresseur-vitrine--carte">
                 {{ $badges ?? '' }}
-            </div>
+            </x-dresseur-vitrine>
 
             <div class="card-body text-center p-4">
                 <h5 class="card-title fw-bold mb-1 {{ $titleClass ?? ($dresseur->est_mechant ? 'text-danger' : 'text-dark') }}">{{ $dresseur->nom }} {{ $dresseur->prenom }}</h5>

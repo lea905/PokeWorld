@@ -20,16 +20,18 @@
             @forelse ($dresseurs as $dresseur)
                 <x-dresseur-card :dresseur="$dresseur">
                     <x-slot:badges>
-                        @if ($dresseur->arene)
-                            <span class="position-absolute top-0 end-0 m-3 badge rounded-pill bg-warning text-dark shadow-sm px-3 py-2 fw-bold badge-blur">
-                                <i class="fas fa-trophy me-1"></i> Champion
-                            </span>
-                        @endif
-                        @if ($dresseur->est_mechant)
-                            <span class="position-absolute top-0 start-0 m-3 badge rounded-pill bg-danger text-white shadow-sm px-3 py-2 fw-bold badge-blur">
-                                <i class="fas fa-skull me-1"></i> Antagoniste
-                            </span>
-                        @endif
+                        <div class="position-absolute top-0 start-0 end-0 m-3 d-flex flex-wrap gap-2">
+                            @if ($dresseur->est_mechant)
+                                <span class="badge rounded-pill bg-danger text-white shadow-sm px-3 py-2 fw-bold badge-blur">
+                                    <i class="fas fa-skull me-1"></i> Antagoniste
+                                </span>
+                            @endif
+                            @if ($dresseur->arene)
+                                <span class="badge rounded-pill bg-warning text-dark shadow-sm px-3 py-2 fw-bold badge-blur ms-auto">
+                                    <i class="fas fa-trophy me-1"></i> Champion
+                                </span>
+                            @endif
+                        </div>
                     </x-slot:badges>
                 </x-dresseur-card>
             @empty

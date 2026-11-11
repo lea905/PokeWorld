@@ -10,18 +10,7 @@
 
             <div class="col-lg-4 align-items-start">
                 <div class="glass-panel p-4 p-md-5 bg-white shadow-sm border-0 text-center position-relative mb-4">
-                    <div class="position-relative d-inline-block mb-3">
-                        @if ($dresseur->image)
-                            <img src="{{ asset('images/'.$dresseur->image) }}"
-                                 class="rounded-circle img-thumbnail shadow-lg" alt="{{ $dresseur->nom }}"
-                                 style="width: 200px; height: 200px; object-fit: cover; border-width: 5px; border-color: white;">
-                        @else
-                            <div class="rounded-circle bg-light d-flex align-items-center justify-content-center mx-auto shadow-lg"
-                                 style="width: 200px; height: 200px; border: 5px solid white;">
-                                <i class="fas fa-user text-muted opacity-50" style="font-size: 5rem;"></i>
-                            </div>
-                        @endif
-                    </div>
+                    <x-dresseur-vitrine :dresseur="$dresseur" class="dresseur-vitrine--fiche mb-4" eager />
 
                     <h2 class="fw-bold mb-1 {{ $dresseur->est_mechant ? 'text-danger' : 'text-dark' }}">{{ $dresseur->nom }} {{ $dresseur->prenom }}</h2>
                     <p class="text-secondary fw-bold mb-4"><i class="fas fa-map-marker-alt me-1 text-danger"></i> {{ $dresseur->ville_natale }}, {{ $dresseur->region }}</p>
